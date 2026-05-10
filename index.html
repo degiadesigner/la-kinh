@@ -23,39 +23,14 @@
     
     body {
       font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text);
-      padding: env(safe-area-inset-top) 20px 80px 20px; overflow-x: hidden; width: 100vw;
+      padding: env(safe-area-inset-top) 20px 20px 80px; overflow-x: hidden; width: 100vw;
     }
 
-    /* MÀN HÌNH KHỞI ĐỘNG (SPLASH SCREEN) ĐẲNG CẤP */
-    #sensor-overlay {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(5, 5, 5, 0.98); z-index: 9999;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      backdrop-filter: blur(10px); cursor: pointer;
-      transition: opacity 0.5s ease;
-    }
-    .pulse-ring {
-      width: 80px; height: 80px; border-radius: 50%;
-      border: 2px solid var(--gold);
-      animation: pulsate 2s infinite ease-out;
-      display: flex; justify-content: center; align-items: center; margin-bottom: 30px;
-    }
-    .pulse-ring::before { content: ''; width: 40px; height: 40px; background: var(--gold); border-radius: 50%; }
-    @keyframes pulsate {
-      0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
-      70% { transform: scale(1.5); box-shadow: 0 0 0 20px rgba(212, 175, 55, 0); }
-      100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
-    }
-    .overlay-text { color: var(--gold); font-size: 16px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; animation: blink 1.5s infinite; text-align: center; padding: 0 20px;}
-    .overlay-sub { color: #666; font-size: 11px; margin-top: 10px; letter-spacing: 1px;}
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-
-    /* Giao diện chính */
-    .header { margin: 30px 0 25px; text-align: center; }
+    .header { margin: 20px 0; text-align: center; }
     h1 { font-size: 26px; font-weight: 800; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 5px; }
     .subtitle { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 3px; font-weight: 600;}
 
-    .input-section { background: var(--card); padding: 22px; border-radius: 20px; border: 1px solid var(--border); margin-bottom: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); width: 100%; }
+    .input-section { background: var(--card); padding: 22px; border-radius: 20px; border: 1px solid var(--border); margin-bottom: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); width: 100%; max-width: 500px; margin-left: auto; margin-right: auto;}
     .row { display: flex; gap: 15px; margin-bottom: 15px; width: 100%; }
     input, select { flex: 1; width: 100%; min-width: 0; background: #000; border: 1px solid var(--border); color: #fff; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: 600; outline: none; text-align: center; font-family: 'Inter', sans-serif; }
     
@@ -66,12 +41,22 @@
     #degree-info { font-size: 46px; font-weight: 800; text-align: center; color: #fff; font-variant-numeric: tabular-nums; }
     #direction-text { font-size: 18px; color: var(--gold); text-align: center; font-weight: 700; margin-top: 5px; letter-spacing: 1px; }
 
-    #compass-wrapper { position: relative; width: 85vw; max-width: 340px; height: 85vw; max-height: 340px; margin: 10px auto 40px; }
-    #compass-container { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--gold); padding: 5px; box-sizing: border-box; box-shadow: 0 0 40px rgba(212, 175, 55, 0.15), inset 0 0 20px rgba(0,0,0,0.8); background: #000; position: relative; overflow: hidden; }
-    #compass-face { width: 100%; height: 100%; border-radius: 50%; background: url('lakinh.png') no-repeat center; background-size: cover; transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: absolute; top: 0; left: 0; filter: brightness(1.1) contrast(1.1); }
+    /* Căn chỉnh lại để La bàn luôn tròn tuyệt đối */
+    #compass-wrapper { position: relative; width: 85vw; max-width: 350px; aspect-ratio: 1/1; margin: 10px auto 40px; }
+    #compass-container { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--gold); padding: 4px; box-sizing: border-box; box-shadow: 0 0 40px rgba(212, 175, 55, 0.15), inset 0 0 20px rgba(0,0,0,0.8); background: #000; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center;}
+    
+    #compass-face { 
+      width: 100%; height: 100%; border-radius: 50%; 
+      background: url('lakinh.png') no-repeat center center; 
+      background-size: contain; /* Ép hình không bị lẹm viền */
+      transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+      position: absolute; top: 0; left: 0; 
+      filter: brightness(1.05) contrast(1.1); 
+    }
+    
     #pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-bottom: 50px solid var(--bad); z-index: 10; filter: drop-shadow(0 0 10px rgba(231,76,60,0.9)); }
 
-    #result-panel { display: none; margin-top: 20px; animation: slideUp 0.6s ease; padding-bottom: 40px;}
+    #result-panel { display: none; margin-top: 20px; animation: slideUp 0.6s ease; width: 100%; max-width: 500px; margin-left: auto; margin-right: auto;}
     .card-result { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 22px; margin-bottom: 20px; width: 100%; }
     .title-badge { font-size: 12px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-weight: 800; margin-bottom: 15px; display: block; text-align: center; }
     .profile-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid var(--border); padding-bottom: 18px; }
@@ -95,12 +80,6 @@
 </head>
 <body>
 
-  <div id="sensor-overlay">
-    <div class="pulse-ring"></div>
-    <div class="overlay-text">Chạm màn hình để<br>đồng bộ từ trường</div>
-    <div class="overlay-sub">La Bàn Pro - Kiến Trúc Thanh Hòa</div>
-  </div>
-
   <div class="header">
     <div class="subtitle">Architectural Feng Shui Master</div>
     <h1>LA BÀN PRO</h1>
@@ -108,7 +87,7 @@
 
   <div class="input-section">
     <div class="row">
-      <input type="number" id="birthYear" placeholder="Năm sinh (Âm lịch)" pattern="\d*" value="1991">
+      <input type="number" id="birthYear" placeholder="Năm sinh" pattern="\d*" value="1991">
       <select id="gender">
         <option value="nam">Nam giới</option>
         <option value="nu">Nữ giới</option>
@@ -119,7 +98,7 @@
 
   <div class="compass-status-area">
     <div id="degree-info">--°</div>
-    <div id="direction-text">Đang đồng bộ...</div>
+    <div id="direction-text">Chạm màn hình để kết nối...</div>
   </div>
 
   <div id="compass-wrapper">
@@ -151,6 +130,7 @@
       9: { name: "Ly (Hỏa)", element: "🔥", type: "Đông Tứ Mệnh", good: {"Đông":"Sinh Khí", "Đông Nam":"Thiên Y", "Bắc":"Diên Niên", "Nam":"Phục Vị"}, bad: {"Tây Bắc":"Tuyệt Mệnh", "Tây":"Ngũ Quỷ", "Tây Nam":"Lục Sát", "Đông Bắc":"Họa Hại"} }
     };
     const napAmList = [ "Hải Trung Kim", "Lư Trung Hỏa", "Đại Lâm Mộc", "Lộ Bàng Thổ", "Kiếm Phong Kim", "Sơn Đầu Hỏa", "Giản Hạ Thủy", "Thành Đầu Thổ", "Bạch Lạp Kim", "Dương Liễu Mộc", "Tuyền Trung Thủy", "Ốc Thượng Thổ", "Tích Lịch Hỏa", "Tùng Bách Mộc", "Trường Lưu Thủy", "Sa Trung Kim", "Sơn Hạ Hỏa", "Bình Địa Mộc", "Bích Thượng Thổ", "Kim Bạch Kim", "Phúc Đăng Hỏa", "Thiên Hà Thủy", "Đại Trạch Thổ", "Thoa Xuyến Kim", "Tang Đố Mộc", "Đại Khê Thủy", "Sa Trung Thổ", "Thiên Thượng Hỏa", "Thạch Lựu Mộc", "Đại Hải Thủy" ];
+    
     function getNapAm(year) { if(year < 1924) return "Không xác định"; return napAmList[Math.floor((year - 1924) / 2) % 30]; }
     function getColors(menhString) {
       if(menhString.includes("Kim")) return { good: ["Vàng", "Nâu đất", "Trắng", "Xám"], bad: ["Đỏ", "Hồng", "Tím"] };
@@ -184,11 +164,11 @@
       setTimeout(() => { panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
     }
 
-    /* --- LOGIC KÍCH HOẠT MÀN HÌNH CHỜ (SPLASH SCREEN) VÀ LA KINH --- */
-    const overlay = document.getElementById('sensor-overlay');
+    /* --- LOGIC KÍCH HOẠT ẨN LA KINH --- */
     const compassFace = document.getElementById('compass-face');
     const degreeInfo = document.getElementById('degree-info');
     const directionText = document.getElementById('direction-text');
+    let isCompassActivated = false;
 
     function getDirectionName(deg) {
       if (deg >= 337.5 || deg < 22.5) return "Chính Bắc (Thủy)"; if (deg >= 22.5 && deg < 67.5) return "Đông Bắc (Thổ)";
@@ -198,25 +178,24 @@
       return "";
     }
 
-    // Khi người dùng chạm vào màn hình đen "Đồng bộ từ trường"
-    overlay.addEventListener('click', function() {
+    function activateCompass() {
+      if (isCompassActivated) return;
       if (typeof DeviceOrientationEvent.requestPermission === 'function') {
         DeviceOrientationEvent.requestPermission().then(state => {
           if (state === 'granted') {
             window.addEventListener('deviceorientation', handleOrientation);
-            hideOverlay();
-          } else { alert('Vui lòng cấp quyền La Bàn để sử dụng.'); hideOverlay(); }
+            isCompassActivated = true;
+          }
         }).catch(console.error);
       } else {
         window.addEventListener('deviceorientationabsolute', handleOrientation);
-        hideOverlay();
+        isCompassActivated = true;
       }
-    });
-
-    function hideOverlay() {
-      overlay.style.opacity = '0';
-      setTimeout(() => { overlay.style.display = 'none'; }, 500);
     }
+
+    // Bất kỳ cú chạm tay nào vào màn hình đều tự động kích hoạt la bàn trong im lặng
+    document.body.addEventListener('touchstart', activateCompass, { once: true });
+    document.body.addEventListener('click', activateCompass, { once: true });
 
     function handleOrientation(e) {
       let h = e.webkitCompassHeading; 
