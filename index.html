@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>La Kinh Bát Trạch Cao Cấp</title>
+  <title>La Bàn Phong Thủy Pro</title>
   <style>
     :root {
       --gold: #d4af37;
@@ -23,6 +23,7 @@
       margin: 0;
       padding: env(safe-area-inset-top) 20px 40px;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
     .header { margin: 30px 0; text-align: center; }
     h1 { 
@@ -66,6 +67,7 @@
       font-size: 16px;
       box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
     }
+    .btn-main:active { transform: scale(0.98); }
 
     /* Compass Area */
     #compass-container {
@@ -73,14 +75,21 @@
       width: 320px;
       height: 320px;
       margin: 40px auto;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
+      overflow: hidden; /* Đảm bảo mặt la bàn không tràn */
     }
-    #compass {
+    #compass-face {
       width: 100%;
       height: 100%;
-      border-radius: 50%;
-      background: url('lakinh.png') no-repeat center;`
-      background-size: contain;
-      transition: transform 0.15s cubic-bezier(0.1, 0, 0.1, 1);
+      /* THAY LINK ẢNH DƯỚI ĐÂY BẰNG ẢNH MẶT LA KINH MỚI, CHẤT LƯỢNG CAO, KHÔNG BỊ CẮT */
+      background: url('lakinh_full.png') no-repeat center;
+      background-size: cover; /* Sử dụng cover để đảm bảo hiển thị hết */
+      transition: transform 0.05s linear; /* Xoay mượt */
+      position: absolute;
+      top: 0;
+      left: 0;
     }
     #pointer {
       position: absolute;
@@ -109,12 +118,16 @@
       padding-bottom: 10px;
       margin-bottom: 15px;
     }
-    .grid-dirs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .grid-dirs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
     .dir-item { background: #1c1c1e; padding: 12px; border-radius: 12px; }
     .dir-label { font-size: 12px; opacity: 0.6; margin-bottom: 4px; display: block; }
     .dir-val { font-weight: 600; font-size: 14px; }
     .good-text { color: var(--good); }
     .bad-text { color: var(--bad); }
+
+    /* Style mới cho màu sắc */
+    .grid-colors { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 8px; }
+    .color-item { background: #1c1c1e; padding: 10px; border-radius: 10px; font-weight: 600; font-size: 13px; text-align: center; }
 
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
@@ -123,7 +136,7 @@
 
   <div class="header">
     <div class="subtitle">World-Class Mastery</div>
-    <h1>LA KINH PHONG THỦY</h1>
+    <h1>LA BÀN PHONG THỦY PRO</h1>
   </div>
 
   <div class="input-section">
@@ -142,29 +155,26 @@
   <div id="degree-info">--°</div>
   <div id="compass-container">
     <div id="pointer"></div>
-    <div id="compass"></div>
+    <div id="compass-face"></div>
   </div>
 
   <div id="result-panel">
     <div class="cung-title" id="cung-name">Mệnh Cung: ...</div>
     
-    <p style="font-size: 13px; opacity: 0.8; margin-bottom: 10px;">BỐN HƯỚNG CÁT (TỐT):</p>
-    <div class="grid-dirs" id="good-dirs"></div>
-
-    <p style="font-size: 13px; opacity: 0.8; margin-top: 20px; margin-bottom: 10px;">BỐN HƯỚNG HUNG (XẤU):</p>
-    <div class="grid-dirs" id="bad-dirs"></div>
+    <div id="good-dirs-container"></div>
+    <div id="bad-dirs-container"></div>
   </div>
 
   <script>
     const dataBatTrach = {
-      1: { name: "Khảm (Thủy) - Đông Tứ Mệnh", good: ["Bắc (Phục Vị)", "Đông (Thiên Y)", "Đông Nam (Sinh Khí)", "Nam (Diên Niên)"], bad: ["Tây Bắc (Lục Sát)", "Đông Bắc (Ngũ Quỷ)", "Tây (Họa Hại)", "Tây Nam (Tuyệt Mệnh)"] },
-      2: { name: "Khôn (Thổ) - Tây Tứ Mệnh", good: ["Tây Nam (Phục Vị)", "Tây Bắc (Diên Niên)", "Tây (Thiên Y)", "Đông Bắc (Sinh Khí)"], bad: ["Bắc (Tuyệt Mệnh)", "Nam (Lục Sát)", "Đông (Họa Hại)", "Đông Nam (Ngũ Quỷ)"] },
-      3: { name: "Chấn (Mộc) - Đông Tứ Mệnh", good: ["Đông (Phục Vị)", "Nam (Sinh Khí)", "Bắc (Thiên Y)", "Đông Nam (Diên Niên)"], bad: ["Tây (Tuyệt Mệnh)", "Tây Bắc (Ngũ Quỷ)", "Đông Bắc (Lục Sát)", "Tây Nam (Họa Hại)"] },
-      4: { name: "Tốn (Mộc) - Đông Tứ Mệnh", good: ["Đông Nam (Phục Vị)", "Nam (Thiên Y)", "Đông (Diên Niên)", "Bắc (Sinh Khí)"], bad: ["Đông Bắc (Tuyệt Mệnh)", "Tây Nam (Ngũ Quỷ)", "Tây (Lục Sát)", "Tây Bắc (Họa Hại)"] },
-      6: { name: "Càn (Kim) - Tây Tứ Mệnh", good: ["Tây Bắc (Phục Vị)", "Tây Nam (Diên Niên)", "Đông Bắc (Thiên Y)", "Tây (Sinh Khí)"], bad: ["Nam (Tuyệt Mệnh)", "Đông (Ngũ Quỷ)", "Bắc (Lục Sát)", "Đông Nam (Họa Hại)"] },
-      7: { name: "Đoài (Kim) - Tây Tứ Mệnh", good: ["Tây (Phục Vị)", "Tây Bắc (Sinh Khí)", "Tây Nam (Thiên Y)", "Đông Bắc (Diên Niên)"], bad: ["Đông (Tuyệt Mệnh)", "Nam (Ngũ Quỷ)", "Đông Nam (Lục Sát)", "Bắc (Họa Hại)"] },
-      8: { name: "Cấn (Thổ) - Tây Tứ Mệnh", good: ["Đông Bắc (Phục Vị)", "Tây Nam (Sinh Khí)", "Tây Bắc (Thiên Y)", "Tây (Diên Niên)"], bad: ["Đông Nam (Tuyệt Mệnh)", "Bắc (Ngũ Quỷ)", "Đông (Lục Sát)", "Nam (Họa Hại)"] },
-      9: { name: "Ly (Hỏa) - Đông Tứ Mệnh", good: ["Nam (Phục Vị)", "Bắc (Diên Niên)", "Đông (Sinh Khí)", "Đông Nam (Thiên Y)"], bad: ["Tây Bắc (Tuyệt Mệnh)", "Tây (Ngũ Quỷ)", "Tây Nam (Lục Sát)", "Đông Bắc (Họa Hại)"] }
+      1: { name: "Khảm (Thủy) - Đông Tứ Mệnh", good: ["Bắc (Phục Vị)", "Đông (Thiên Y)", "Đông Nam (Sinh Khí)", "Nam (Diên Niên)"], bad: ["Tây Bắc (Lục Sát)", "Đông Bắc (Ngũ Quỷ)", "Tây (Họa Hại)", "Tây Nam (Tuyệt Mệnh)"], colorsGood: ["Đen", "Xanh dương", "Trắng", "Xám"], colorsBad: ["Vàng", "Nâu", "Xanh lá cây"] },
+      2: { name: "Khôn (Thổ) - Tây Tứ Mệnh", good: ["Tây Nam (Phục Vị)", "Tây Bắc (Diên Niên)", "Tây (Thiên Y)", "Đông Bắc (Sinh Khí)"], bad: ["Bắc (Tuyệt Mệnh)", "Nam (Lục Sát)", "Đông (Họa Hại)", "Đông Nam (Ngũ Quỷ)"], colorsGood: ["Vàng", "Nâu", "Đỏ", "Hồng", "Tím"], colorsBad: ["Xanh lá cây", "Đen", "Xanh dương"] },
+      3: { name: "Chấn (Mộc) - Đông Tứ Mệnh", good: ["Đông (Phục Vị)", "Nam (Sinh Khí)", "Bắc (Thiên Y)", "Đông Nam (Diên Niên)"], bad: ["Tây (Tuyệt Mệnh)", "Tây Bắc (Ngũ Quỷ)", "Đông Bắc (Lục Sát)", "Tây Nam (Họa Hại)"], colorsGood: ["Xanh lá cây", "Đen", "Xanh dương"], colorsBad: ["Trắng", "Xám", "Đỏ", "Hồng", "Tím"] },
+      4: { name: "Tốn (Mộc) - Đông Tứ Mệnh", good: ["Đông Nam (Phục Vị)", "Nam (Thiên Y)", "Đông (Diên Niên)", "Bắc (Sinh Khí)"], bad: ["Đông Bắc (Tuyệt Mệnh)", "Tây Nam (Ngũ Quỷ)", "Tây (Lục Sát)", "Tây Bắc (Họa Hại)"], colorsGood: ["Xanh lá cây", "Đen", "Xanh dương"], colorsBad: ["Trắng", "Xám", "Đỏ", "Hồng", "Tím"] },
+      6: { name: "Càn (Kim) - Tây Tứ Mệnh", good: ["Tây Bắc (Phục Vị)", "Tây Nam (Diên Niên)", "Đông Bắc (Thiên Y)", "Tây (Sinh Khí)"], bad: ["Nam (Tuyệt Mệnh)", "Đông (Ngũ Quỷ)", "Bắc (Lục Sát)", "Đông Nam (Họa Hại)"], colorsGood: ["Trắng", "Xám", "Vàng", "Nâu"], colorsBad: ["Đỏ", "Hồng", "Tím", "Xanh lá cây"] },
+      7: { name: "Đoài (Kim) - Tây Tứ Mệnh", good: ["Tây (Phục Vị)", "Tây Bắc (Sinh Khí)", "Tây Nam (Thiên Y)", "Đông Bắc (Diên Niên)"], bad: ["Đông (Tuyệt Mệnh)", "Nam (Ngũ Quỷ)", "Đông Nam (Lục Sát)", "Bắc (Họa Hại)"], colorsGood: ["Trắng", "Xám", "Vàng", "Nâu"], colorsBad: ["Đỏ", "Hồng", "Tím", "Xanh lá cây"] },
+      8: { name: "Cấn (Thổ) - Tây Tứ Mệnh", good: ["Đông Bắc (Phục Vị)", "Tây Nam (Sinh Khí)", "Tây Bắc (Thiên Y)", "Tây (Diên Niên)"], bad: ["Đông Nam (Tuyệt Mệnh)", "Bắc (Ngũ Quỷ)", "Đông (Lục Sát)", "Nam (Họa Hại)"], colorsGood: ["Vàng", "Nâu", "Đỏ", "Hồng", "Tím"], colorsBad: ["Xanh lá cây", "Đen", "Xanh dương"] },
+      9: { name: "Ly (Hỏa) - Đông Tứ Mệnh", good: ["Nam (Phục Vị)", "Bắc (Diên Niên)", "Đông (Sinh Khí)", "Đông Nam (Thiên Y)"], bad: ["Tây Bắc (Tuyệt Mệnh)", "Tây (Ngũ Quỷ)", "Tây Nam (Lục Sát)", "Đông Bắc (Họa Hại)"], colorsGood: ["Đỏ", "Hồng", "Tím", "Xanh lá cây"], colorsBad: ["Đen", "Xanh dương", "Trắng", "Xám"] }
     };
 
     function expertAnalysis() {
@@ -185,45 +195,102 @@
       if (kua === 5) kua = (gender === 'nam') ? 2 : 8;
 
       const profile = dataBatTrach[kua];
-      document.getElementById('cung-name').innerText = "Mệnh Cung: " + profile.name;
       
-      const renderDirs = (targetId, list, isGood) => {
+      // Cập nhật giao diện kết quả và hàm `expertAnalysis` để hiển thị màu sắc
+      const renderColors = (targetId, list, isGood) => {
         const container = document.getElementById(targetId);
-        container.innerHTML = "";
-        const labels = isGood ? ["Sinh Khí", "Thiên Y", "Diên Niên", "Phục Vị"] : ["Tuyệt Mệnh", "Ngũ Quỷ", "Lục Sát", "Họa Hại"];
-        list.forEach((val, i) => {
-          container.innerHTML += `<div class="dir-item">
-            <span class="dir-label">${labels[i]}</span>
-            <span class="dir-val ${isGood ? 'good-text' : 'bad-text'}">${val}</span>
-          </div>`;
+        const labels = isGood ? "Màu sắc Hợp (Tốt)" : "Màu sắc Kỵ (Xấu)";
+        container.innerHTML += `<p style="font-size: 13px; opacity: 0.8; margin-top: 15px; margin-bottom: 5px;">${labels}:</p>`;
+        const colorGrid = document.createElement("div");
+        colorGrid.className = "grid-colors";
+        list.forEach(val => {
+          colorGrid.innerHTML += `<div class="color-item ${isGood ? 'good-text' : 'bad-text'}">${val}</div>`;
         });
+        container.appendChild(colorGrid);
       };
 
-      renderDirs('good-dirs', profile.good, true);
-      renderDirs('bad-dirs', profile.bad, false);
+      // Thêm phần màu sắc vào phần kết quả
+      document.getElementById('cung-name').innerText = "Mệnh Cung: " + profile.name;
+      
+      const goodDirsContainer = document.getElementById('good-dirs-container');
+      const badDirsContainer = document.getElementById('bad-dirs-container');
+      goodDirsContainer.innerHTML = ""; // Xóa dữ liệu cũ
+      badDirsContainer.innerHTML = "";
+      
+      const renderDirs = (targetContainer, list, isGood) => {
+          targetContainer.innerHTML += `<p style="font-size: 13px; opacity: 0.8; margin-bottom: 10px;">${isGood ? 'BỐN HƯỚNG CÁT (TỐT)' : 'BỐN HƯỚNG HUNG (XẤU)'}:</p>`;
+          const dirGrid = document.createElement("div");
+          dirGrid.className = "grid-dirs";
+          const labels = isGood ? ["Sinh Khí", "Thiên Y", "Diên Niên", "Phục Vị"] : ["Tuyệt Mệnh", "Ngũ Quỷ", "Lục Sát", "Họa Hại"];
+          list.forEach((val, i) => {
+            dirGrid.innerHTML += `<div class="dir-item">
+              <span class="dir-label">${labels[i]}</span>
+              <span class="dir-val ${isGood ? 'good-text' : 'bad-text'}">${val}</span>
+            </div>`;
+          });
+          targetContainer.appendChild(dirGrid);
+      };
+
+      renderDirs(goodDirsContainer, profile.good, true);
+      renderDirs(badDirsContainer, profile.bad, false);
+      
+      renderColors(goodDirsContainer, profile.colorsGood, true);
+      renderColors(badDirsContainer, profile.colorsBad, false);
+      
       document.getElementById('result-panel').style.display = 'block';
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
-    // Compass Logic (iOS)
-    const compass = document.getElementById('compass');
+    // Compass Logic (iOS) với xoay mượt và phản hồi rung
+    const compassFace = document.getElementById('compass-face');
     const degreeInfo = document.getElementById('degree-info');
+    let currentHeading = 0;
+    let lastHeading = 0;
+    const smoothingFactor = 0.1; // Càng nhỏ càng mượt, nhưng chậm
+
+    // Thêm hàm rung nhẹ (Haptic feedback)
+    function vibrate() {
+      if ('vibrate' in navigator) {
+        navigator.vibrate([10]); // Rung nhẹ 10ms
+      }
+    }
+
     document.getElementById('btn-start').onclick = function() {
       if (typeof DeviceOrientationEvent.requestPermission === 'function') {
         DeviceOrientationEvent.requestPermission().then(state => {
           if (state === 'granted') {
-            window.addEventListener('deviceorientation', e => {
-              let h = e.webkitCompassHeading;
-              if (h) {
-                compass.style.transform = `rotate(${-h}deg)`;
-                degreeInfo.innerText = Math.round(h) + "°";
-              }
-            });
+            window.addEventListener('deviceorientation', handleOrientationEvent);
             this.style.display = 'none';
           }
         });
+      } else {
+          // Cho các trình duyệt/thiết bị cũ không yêu cầu quyền
+          window.addEventListener('deviceorientationabsolute', handleOrientationEvent);
+          this.style.display = 'none';
       }
     };
+
+    function handleOrientationEvent(e) {
+      let h = e.webkitCompassHeading;
+      if (h != null) {
+        currentHeading = h;
+        animateCompass();
+        vibrate(); // Rung khi la bàn di chuyển
+      }
+    }
+
+    function animateCompass() {
+      // Làm mịn giá trị hướng
+      let diff = currentHeading - lastHeading;
+      // Xử lý góc xoay qua 360/0
+      if (diff > 180) diff -= 360;
+      if (diff < -180) diff += 360;
+      
+      lastHeading = lastHeading + (diff * smoothingFactor);
+      
+      compassFace.style.transform = `rotate(${-lastHeading}deg)`;
+      degreeInfo.innerText = Math.round(lastHeading) + "°";
+    }
   </script>
 </body>
 </html>
