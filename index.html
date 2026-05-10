@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>La Kinh Bát Trạch Cao Cấp</title>
+  <style>
+    :root {
+      --gold: #d4af37;
+      --dark-gold: #aa8222;
+      --bg: #0a0a0a;
+      --card: #161618;
+      --text: #f5f5f7;
+      --good: #32d74b;
+      --bad: #ff453a;
+    }
+    body {
+      font-family: "SF Pro Display", -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: env(safe-area-inset-top) 20px 40px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .header { margin: 30px 0; text-align: center; }
+    h1 { 
+      font-size: 26px; 
+      font-weight: 700; 
+      letter-spacing: 2px; 
+      color: var(--gold);
+      text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+      margin-bottom: 5px;
+    }
+    .subtitle { font-size: 12px; opacity: 0.6; text-transform: uppercase; letter-spacing: 3px; }
+
+    /* Form Input */
+    .input-section {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 20px;
+      border: 1px solid #222;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      margin-bottom: 25px;
+    }
+    .row { display: flex; gap: 10px; margin-bottom: 15px; }
+    input, select {
+      flex: 1;
+      background: #000;
+      border: 1px solid #333;
+      color: #fff;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 16px;
+      outline: none;
+    }
+    .btn-main {
+      background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+      color: #000;
+      font-weight: 700;
+      padding: 16px;
+      border-radius: 12px;
+      border: none;
+      width: 100%;
+      font-size: 16px;
+      box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+    }
+
+    /* Compass Area */
+    #compass-container {
+      position: relative;
+      width: 320px;
+      height: 320px;
+      margin: 40px auto;
+    }
+    #compass {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: url('lakinh.png') no-repeat center;`
+      background-size: contain;
+      transition: transform 0.15s cubic-bezier(0.1, 0, 0.1, 1);
+    }
+    #pointer {
+      position: absolute;
+      top: -20px; left: 50%;
+      transform: translateX(-50%);
+      width: 4px; height: 40px;
+      background: var(--bad);
+      border-radius: 2px;
+      z-index: 10;
+      box-shadow: 0 0 15px rgba(255, 59, 48, 0.8);
+    }
+    #degree-info { font-size: 36px; font-weight: 800; text-align: center; margin-top: 10px; color: #fff;}
+
+    /* Result Panel */
+    #result-panel {
+      display: none;
+      margin-top: 30px;
+      animation: fadeIn 0.5s ease;
+      text-align: left;
+    }
+    .cung-title { 
+      font-size: 20px; 
+      color: var(--gold); 
+      font-weight: 700; 
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+    .grid-dirs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .dir-item { background: #1c1c1e; padding: 12px; border-radius: 12px; }
+    .dir-label { font-size: 12px; opacity: 0.6; margin-bottom: 4px; display: block; }
+    .dir-val { font-weight: 600; font-size: 14px; }
+    .good-text { color: var(--good); }
+    .bad-text { color: var(--bad); }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="subtitle">World-Class Mastery</div>
+    <h1>LA KINH PHONG THỦY</h1>
+  </div>
+
+  <div class="input-section">
+    <div class="row">
+      <input type="number" id="birthYear" placeholder="Năm sinh (Âm lịch)" pattern="\d*">
+      <select id="gender">
+        <option value="nam">Nam giới</option>
+        <option value="nu">Nữ giới</option>
+      </select>
+    </div>
+    <button class="btn-main" onclick="expertAnalysis()">PHÂN TÍCH ĐỊA LÝ</button>
+  </div>
+
+  <button id="btn-start" class="btn-main" style="background: #222; color: #fff; margin-bottom: 20px;">KÍCH HOẠT LA BÀN SỐ</button>
+
+  <div id="degree-info">--°</div>
+  <div id="compass-container">
+    <div id="pointer"></div>
+    <div id="compass"></div>
+  </div>
+
+  <div id="result-panel">
+    <div class="cung-title" id="cung-name">Mệnh Cung: ...</div>
+    
+    <p style="font-size: 13px; opacity: 0.8; margin-bottom: 10px;">BỐN HƯỚNG CÁT (TỐT):</p>
+    <div class="grid-dirs" id="good-dirs"></div>
+
+    <p style="font-size: 13px; opacity: 0.8; margin-top: 20px; margin-bottom: 10px;">BỐN HƯỚNG HUNG (XẤU):</p>
+    <div class="grid-dirs" id="bad-dirs"></div>
+  </div>
+
+  <script>
+    const dataBatTrach = {
+      1: { name: "Khảm (Thủy) - Đông Tứ Mệnh", good: ["Bắc (Phục Vị)", "Đông (Thiên Y)", "Đông Nam (Sinh Khí)", "Nam (Diên Niên)"], bad: ["Tây Bắc (Lục Sát)", "Đông Bắc (Ngũ Quỷ)", "Tây (Họa Hại)", "Tây Nam (Tuyệt Mệnh)"] },
+      2: { name: "Khôn (Thổ) - Tây Tứ Mệnh", good: ["Tây Nam (Phục Vị)", "Tây Bắc (Diên Niên)", "Tây (Thiên Y)", "Đông Bắc (Sinh Khí)"], bad: ["Bắc (Tuyệt Mệnh)", "Nam (Lục Sát)", "Đông (Họa Hại)", "Đông Nam (Ngũ Quỷ)"] },
+      3: { name: "Chấn (Mộc) - Đông Tứ Mệnh", good: ["Đông (Phục Vị)", "Nam (Sinh Khí)", "Bắc (Thiên Y)", "Đông Nam (Diên Niên)"], bad: ["Tây (Tuyệt Mệnh)", "Tây Bắc (Ngũ Quỷ)", "Đông Bắc (Lục Sát)", "Tây Nam (Họa Hại)"] },
+      4: { name: "Tốn (Mộc) - Đông Tứ Mệnh", good: ["Đông Nam (Phục Vị)", "Nam (Thiên Y)", "Đông (Diên Niên)", "Bắc (Sinh Khí)"], bad: ["Đông Bắc (Tuyệt Mệnh)", "Tây Nam (Ngũ Quỷ)", "Tây (Lục Sát)", "Tây Bắc (Họa Hại)"] },
+      6: { name: "Càn (Kim) - Tây Tứ Mệnh", good: ["Tây Bắc (Phục Vị)", "Tây Nam (Diên Niên)", "Đông Bắc (Thiên Y)", "Tây (Sinh Khí)"], bad: ["Nam (Tuyệt Mệnh)", "Đông (Ngũ Quỷ)", "Bắc (Lục Sát)", "Đông Nam (Họa Hại)"] },
+      7: { name: "Đoài (Kim) - Tây Tứ Mệnh", good: ["Tây (Phục Vị)", "Tây Bắc (Sinh Khí)", "Tây Nam (Thiên Y)", "Đông Bắc (Diên Niên)"], bad: ["Đông (Tuyệt Mệnh)", "Nam (Ngũ Quỷ)", "Đông Nam (Lục Sát)", "Bắc (Họa Hại)"] },
+      8: { name: "Cấn (Thổ) - Tây Tứ Mệnh", good: ["Đông Bắc (Phục Vị)", "Tây Nam (Sinh Khí)", "Tây Bắc (Thiên Y)", "Tây (Diên Niên)"], bad: ["Đông Nam (Tuyệt Mệnh)", "Bắc (Ngũ Quỷ)", "Đông (Lục Sát)", "Nam (Họa Hại)"] },
+      9: { name: "Ly (Hỏa) - Đông Tứ Mệnh", good: ["Nam (Phục Vị)", "Bắc (Diên Niên)", "Đông (Sinh Khí)", "Đông Nam (Thiên Y)"], bad: ["Tây Bắc (Tuyệt Mệnh)", "Tây (Ngũ Quỷ)", "Tây Nam (Lục Sát)", "Đông Bắc (Họa Hại)"] }
+    };
+
+    function expertAnalysis() {
+      const year = document.getElementById('birthYear').value;
+      const gender = document.getElementById('gender').value;
+      if (!year || year.length < 4) return;
+
+      let sum = 0;
+      String(year).split('').forEach(d => sum += parseInt(d));
+      while(sum > 9) {
+        let temp = 0;
+        String(sum).split('').forEach(d => temp += parseInt(d));
+        sum = temp;
+      }
+
+      let kua = (gender === 'nam') ? (11 - sum) : (4 + sum);
+      if (kua > 9) kua -= 9;
+      if (kua === 5) kua = (gender === 'nam') ? 2 : 8;
+
+      const profile = dataBatTrach[kua];
+      document.getElementById('cung-name').innerText = "Mệnh Cung: " + profile.name;
+      
+      const renderDirs = (targetId, list, isGood) => {
+        const container = document.getElementById(targetId);
+        container.innerHTML = "";
+        const labels = isGood ? ["Sinh Khí", "Thiên Y", "Diên Niên", "Phục Vị"] : ["Tuyệt Mệnh", "Ngũ Quỷ", "Lục Sát", "Họa Hại"];
+        list.forEach((val, i) => {
+          container.innerHTML += `<div class="dir-item">
+            <span class="dir-label">${labels[i]}</span>
+            <span class="dir-val ${isGood ? 'good-text' : 'bad-text'}">${val}</span>
+          </div>`;
+        });
+      };
+
+      renderDirs('good-dirs', profile.good, true);
+      renderDirs('bad-dirs', profile.bad, false);
+      document.getElementById('result-panel').style.display = 'block';
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    // Compass Logic (iOS)
+    const compass = document.getElementById('compass');
+    const degreeInfo = document.getElementById('degree-info');
+    document.getElementById('btn-start').onclick = function() {
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        DeviceOrientationEvent.requestPermission().then(state => {
+          if (state === 'granted') {
+            window.addEventListener('deviceorientation', e => {
+              let h = e.webkitCompassHeading;
+              if (h) {
+                compass.style.transform = `rotate(${-h}deg)`;
+                degreeInfo.innerText = Math.round(h) + "°";
+              }
+            });
+            this.style.display = 'none';
+          }
+        });
+      }
+    };
+  </script>
+</body>
+</html>
