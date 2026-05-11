@@ -8,226 +8,210 @@
   <title>La Bàn Pro</title>
   
   <link rel="apple-touch-icon" href="icon-app.png">
-  
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* RESET KHUNG TUYỆT ĐỐI */
+    /* 1. KHÓA KHUNG CHỐNG LỆCH TUYỆT ĐỐI */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --gold: #d4af37; --dark-gold: #aa8222; --bg: #050505; --card: #121212; --text: #e8e8e8; --good: #2ecc71; --bad: #e74c3c; --border: #2c2c31; }
     
-    /* Ép toàn bộ nội dung căn giữa 100% */
     body {
-      font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text);
-      display: flex; flex-direction: column; align-items: center; /* CÂN GIỮA TOÀN BỘ */
-      width: 100vw; min-height: 100vh; overflow-x: hidden;
-      padding-top: max(env(safe-area-inset-top), 20px);
-      padding-bottom: 90px; /* Chừa chỗ cho Footer */
-      padding-left: 20px; padding-right: 20px;
+      background-color: #050505; 
+      color: #e8e8e8; 
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      width: 100%;
+      overflow-x: hidden; /* Cấm trượt ngang */
     }
 
-    .main-container { width: 100%; max-width: 450px; display: flex; flex-direction: column; align-items: center; }
+    /* Chiếc hộp này khóa mọi thứ ở chính giữa màn hình */
+    .app-container {
+      max-width: 430px; /* Chiều rộng chuẩn của iPhone Max */
+      margin: 0 auto; /* Tự động căn giữa 2 bên */
+      padding: calc(env(safe-area-inset-top) + 20px) 20px 100px 20px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-    .header { margin: 15px 0 25px; text-align: center; width: 100%; }
-    h1 { font-size: 26px; font-weight: 800; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 5px; }
-    .subtitle { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 3px; font-weight: 600;}
+    /* 2. THẨM MỸ GIAO DIỆN */
+    .header { text-align: center; margin-bottom: 25px; width: 100%; }
+    h1 { color: #d4af37; font-size: 26px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
+    .subtitle { color: #888; font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; }
 
     /* Form Nhập Liệu */
-    .input-section { background: var(--card); padding: 22px; border-radius: 20px; border: 1px solid var(--border); margin-bottom: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); width: 100%; }
-    .row { display: flex; gap: 15px; margin-bottom: 15px; width: 100%; }
-    input, select { flex: 1; width: 100%; min-width: 0; background: #000; border: 1px solid var(--border); color: #fff; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: 600; outline: none; text-align: center; font-family: 'Inter', sans-serif; }
+    .input-box { background: #121212; border: 1px solid #2c2c31; border-radius: 20px; padding: 20px; width: 100%; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+    .flex-row { display: flex; gap: 15px; margin-bottom: 15px; width: 100%; }
+    .flex-row input, .flex-row select { flex: 1; width: 50%; background: #000; border: 1px solid #2c2c31; color: #fff; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: 600; text-align: center; outline: none; font-family: 'Inter', sans-serif; }
     
-    .btn-main { background: linear-gradient(135deg, var(--gold), var(--dark-gold)); color: #000; font-weight: 800; padding: 18px; border-radius: 12px; border: none; width: 100%; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Inter', sans-serif; cursor: pointer; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); }
-    .btn-main:active { transform: scale(0.98); }
-    
-    .btn-secondary { background: #111; color: var(--gold); border: 1px solid var(--gold); box-shadow: 0 0 15px rgba(212,175,55,0.3); margin-bottom: 20px;}
+    .btn-gold { background: linear-gradient(135deg, #d4af37, #aa8222); color: #000; border: none; border-radius: 12px; padding: 18px; width: 100%; font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; font-family: 'Inter', sans-serif; box-shadow: 0 5px 15px rgba(212,175,55,0.2); cursor: pointer; display: block; text-align: center;}
+    .btn-gold:active { transform: scale(0.98); }
+    .btn-outline { background: transparent; color: #d4af37; border: 1px solid #d4af37; box-shadow: none; margin-bottom: 15px;}
 
-    /* Khu vực La Bàn */
-    .compass-area { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 30px; }
-    
-    #compass-status { display: flex; flex-direction: column; align-items: center; width: 100%; min-height: 80px; margin-bottom: 15px;}
-    #degree-info { font-size: 46px; font-weight: 800; color: #fff; font-variant-numeric: tabular-nums; display: none; line-height: 1;}
-    #direction-text { font-size: 18px; color: var(--gold); font-weight: 700; margin-top: 8px; letter-spacing: 1px; display: none;}
+    /* 3. KHU VỰC LA BÀN CHUẨN XÁC */
+    .status-area { text-align: center; width: 100%; min-height: 85px; margin-bottom: 10px;}
+    .deg-text { font-size: 46px; font-weight: 800; color: #fff; display: none; line-height: 1; margin-bottom: 5px;}
+    .dir-text { font-size: 18px; font-weight: 700; color: #d4af37; letter-spacing: 1px; display: none; }
 
-    /* Trục La Bàn - Căn giữa tuyệt đối */
-    #compass-wrapper { position: relative; width: 85vw; max-width: 340px; aspect-ratio: 1/1; display: flex; justify-content: center; align-items: center; }
-    #compass-container { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--gold); padding: 5px; box-sizing: border-box; box-shadow: 0 0 40px rgba(212, 175, 55, 0.15), inset 0 0 20px rgba(0,0,0,0.8); background: #000; position: relative; overflow: hidden; }
+    /* Khung La Bàn: Ép tỷ lệ 1:1 vuông vức, không méo */
+    .compass-box { width: 100%; max-width: 340px; aspect-ratio: 1 / 1; position: relative; margin: 0 auto 30px; }
+    .compass-ring { width: 100%; height: 100%; border-radius: 50%; border: 3px solid #d4af37; padding: 5px; background: #000; position: relative; box-shadow: 0 0 30px rgba(212,175,55,0.15), inset 0 0 20px #000; }
     
-    #compass-face { 
-      width: 100%; height: 100%; border-radius: 50%; 
-      /* Đã thay link ảnh La Kinh quốc tế, cắt nền chuẩn, tâm chính xác 100% */
-      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Luopan.jpg/1024px-Luopan.jpg') no-repeat center center; 
-      background-size: cover; 
-      transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
-      position: absolute; top: 0; left: 0; 
-      filter: sepia(0.3) brightness(1.1) contrast(1.1); 
+    /* Mặt La Kinh: Neo tâm chống lắc lư */
+    .compass-face { 
+      width: 100%; height: 100%; border-radius: 50%;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Luopan.jpg/1024px-Luopan.jpg');
+      background-size: contain; /* Ép hình ảnh vừa khít vòng tròn */
+      background-position: center center;
+      background-repeat: no-repeat;
+      position: absolute; top: 0; left: 0;
+      transform-origin: center center; /* KHÓA TÂM: Chống lắc xéo khi xoay */
+      transition: transform 0.1s linear;
+      filter: sepia(0.2) brightness(1.1);
     }
     
-    #pointer { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-bottom: 45px solid var(--bad); z-index: 10; filter: drop-shadow(0 0 10px rgba(231,76,60,0.9)); }
+    /* Kim đỏ */
+    .pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 40px solid #e74c3c; z-index: 10; filter: drop-shadow(0 0 8px rgba(231,76,60,0.8)); }
 
-    /* Bảng Kết Quả */
-    #result-panel { display: none; margin-top: 10px; animation: slideUp 0.6s ease; width: 100%; }
-    .card-result { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 22px; margin-bottom: 20px; width: 100%; }
-    .title-badge { font-size: 12px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-weight: 800; margin-bottom: 15px; display: block; text-align: center; }
-    .profile-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid var(--border); padding-bottom: 18px; }
-    .cung-name-with-element { font-size: 20px; color: #fff; font-weight: 800; display: flex; align-items: center; gap: 8px; }
-    .element-icon { font-size: 18px; opacity: 0.9; }
-    .menh-name { font-size: 15px; color: var(--gold); font-weight: 600; }
-    .section-title { font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 15px; margin-top: 25px; }
-    .directions-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-    .dir-item { background: #000; padding: 15px; border-radius: 12px; border-left: 4px solid var(--good); }
-    .dir-item.bad { border-left-color: var(--bad); }
-    .dir-header { font-weight: 700; font-size: 15px; color: #fff; display: flex; justify-content: space-between; margin-bottom: 6px; }
-    .dir-desc { font-size: 14px; color: #aaa; line-height: 1.5; }
-    .color-section { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-    .color-dot { padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; background: #111; color: #fff; border: 1px solid #333;}
-    .colors-label { font-size: 14px; color: #888; margin-bottom: 8px; font-weight: 500;}
+    /* 4. KẾT QUẢ PHÂN TÍCH */
+    .result-box { display: none; background: #121212; border: 1px solid #2c2c31; border-radius: 20px; padding: 20px; width: 100%; margin-top: 10px; animation: fadeIn 0.5s ease; }
+    .badge { font-size: 12px; color: #d4af37; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; text-align: center; display: block; margin-bottom: 15px; }
+    .row-info { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2c2c31; padding-bottom: 15px; margin-bottom: 15px; }
+    .val-cung { font-size: 20px; font-weight: 800; color: #fff; }
+    .val-menh { font-size: 15px; font-weight: 600; color: #d4af37; }
+    
+    .sec-title { font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin: 20px 0 10px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .item-dir { background: #000; padding: 15px; border-radius: 12px; border-left: 4px solid #2ecc71; }
+    .item-dir.bad { border-left-color: #e74c3c; }
+    .item-head { display: flex; justify-content: space-between; font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 5px; }
+    .item-desc { font-size: 13px; color: #aaa; line-height: 1.4; }
+    
+    .color-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .color-tag { padding: 6px 12px; background: #000; border: 1px solid #333; border-radius: 20px; font-size: 12px; font-weight: 700; color: #fff; }
 
-    /* Footer */
-    .watermark-footer { position: fixed; bottom: 0; left: 0; width: 100vw; background-color: rgba(5, 5, 5, 0.98); color: #888; text-align: center; padding: 15px 10px; font-size: 11px; border-top: 1px solid var(--border); z-index: 990; letter-spacing: 2px; font-weight: 600; text-transform: uppercase; backdrop-filter: blur(10px); }
+    .watermark { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.95); text-align: center; padding: 15px 0; border-top: 1px solid #2c2c31; color: #888; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; z-index: 100; backdrop-filter: blur(10px); }
 
-    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
-  <div class="main-container">
+  <div class="app-container">
+    
     <div class="header">
-      <div class="subtitle">Architectural Feng Shui Master</div>
+      <div class="subtitle">Architectural Feng Shui</div>
       <h1>LA BÀN PRO</h1>
     </div>
 
-    <div class="input-section">
-      <div class="row">
-        <input type="number" id="birthYear" placeholder="Năm sinh" pattern="\d*" value="1991">
+    <div class="input-box">
+      <div class="flex-row">
+        <input type="number" id="birthYear" placeholder="Năm sinh" value="1991" pattern="\d*">
         <select id="gender">
           <option value="nam">Nam giới</option>
           <option value="nu">Nữ giới</option>
         </select>
       </div>
-      <button class="btn-main" onclick="runExpertAnalysis()">PHÂN TÍCH CHUYÊN SÂU</button>
+      <button class="btn-gold" onclick="runAnalysis()">PHÂN TÍCH CHUYÊN SÂU</button>
     </div>
 
-    <div class="compass-area">
-      <div id="compass-status">
-        <button id="btn-start" class="btn-main btn-secondary">KẾT NỐI LA KINH</button>
-        <div id="degree-info">--°</div>
-        <div id="direction-text"></div>
-      </div>
+    <div class="status-area">
+      <button id="btn-start" class="btn-gold btn-outline">KẾT NỐI LA KINH TỪ TÍNH</button>
+      <div id="deg" class="deg-text">--°</div>
+      <div id="dir" class="dir-text"></div>
+    </div>
 
-      <div id="compass-wrapper">
-        <div id="pointer"></div>
-        <div id="compass-container">
-          <div id="compass-face"></div>
-        </div>
+    <div class="compass-box">
+      <div class="pointer"></div>
+      <div class="compass-ring">
+        <div id="face" class="compass-face"></div>
       </div>
     </div>
 
-    <div id="result-panel"></div>
+    <div id="result" class="result-box"></div>
+
   </div>
 
-  <footer class="watermark-footer">
-    MinhTT - Kiến Trúc Thanh Hòa - 0987334004
-  </footer>
+  <div class="watermark">MinhTT - Kiến Trúc Thanh Hòa - 0987334004</div>
 
   <script>
-    const meanings = {
-      "Sinh Khí": "Tuyệt hảo cho Cửa chính. Thu hút tài lộc, thăng quan tiến chức.", "Thiên Y": "Tốt cho Phòng ngủ Master. Năng lượng chữa lành, sức khỏe dồi dào.", "Diên Niên": "Tốt cho Phòng khách/Bếp. Gia đạo hòa thuận, củng cố quan hệ.", "Phục Vị": "Tốt cho Phòng thờ/Làm việc. Bình yên, vững chãi, tốt cho thi cử và tinh thần.",
-      "Tuyệt Mệnh": "Đại hung. Tránh đặt cửa chính hay giường ngủ. Gây phá sản, bệnh tật.", "Ngũ Quỷ": "Hung. Gây tai họa, mất nguồn thu nhập, thị phi và cãi vã.", "Lục Sát": "Hung. Xáo trộn tình cảm, thù hận, dính dáng pháp luật.", "Họa Hại": "Hung. Không may mắn, dễ thất bại, mệt mỏi tinh thần."
-    };
-    const batTrachData = {
-      1: { name: "Khảm (Thủy)", element: "💧", type: "Đông Tứ Mệnh", good: {"Đông Nam":"Sinh Khí", "Đông":"Thiên Y", "Nam":"Diên Niên", "Bắc":"Phục Vị"}, bad: {"Tây Nam":"Tuyệt Mệnh", "Đông Bắc":"Ngũ Quỷ", "Tây Bắc":"Lục Sát", "Tây":"Họa Hại"} },
-      2: { name: "Khôn (Thổ)", element: "⛰️", type: "Tây Tứ Mệnh", good: {"Đông Bắc":"Sinh Khí", "Tây":"Thiên Y", "Tây Bắc":"Diên Niên", "Tây Nam":"Phục Vị"}, bad: {"Bắc":"Tuyệt Mệnh", "Đông Nam":"Ngũ Quỷ", "Nam":"Lục Sát", "Đông":"Họa Hại"} },
-      3: { name: "Chấn (Mộc)", element: "🌳", type: "Đông Tứ Mệnh", good: {"Nam":"Sinh Khí", "Bắc":"Thiên Y", "Đông Nam":"Diên Niên", "Đông":"Phục Vị"}, bad: {"Tây":"Tuyệt Mệnh", "Tây Bắc":"Ngũ Quỷ", "Đông Bắc":"Lục Sát", "Tây Nam":"Họa Hại"} },
-      4: { name: "Tốn (Mộc)", element: "🌳", type: "Đông Tứ Mệnh", good: {"Bắc":"Sinh Khí", "Nam":"Thiên Y", "Đông":"Diên Niên", "Đông Nam":"Phục Vị"}, bad: {"Đông Bắc":"Tuyệt Mệnh", "Tây Nam":"Ngũ Quỷ", "Tây":"Lục Sát", "Tây Bắc":"Họa Hại"} },
-      6: { name: "Càn (Kim)", element: "⚔️", type: "Tây Tứ Mệnh", good: {"Tây":"Sinh Khí", "Đông Bắc":"Thiên Y", "Tây Nam":"Diên Niên", "Tây Bắc":"Phục Vị"}, bad: {"Nam":"Tuyệt Mệnh", "Đông":"Ngũ Quỷ", "Bắc":"Lục Sát", "Đông Nam":"Họa Hại"} },
-      7: { name: "Đoài (Kim)", element: "⚔️", type: "Tây Tứ Mệnh", good: {"Tây Bắc":"Sinh Khí", "Tây Nam":"Thiên Y", "Đông Bắc":"Diên Niên", "Tây":"Phục Vị"}, bad: {"Đông":"Tuyệt Mệnh", "Nam":"Ngũ Quỷ", "Đông Nam":"Lục Sát", "Bắc":"Họa Hại"} },
-      8: { name: "Cấn (Thổ)", element: "⛰️", type: "Tây Tứ Mệnh", good: {"Tây Nam":"Sinh Khí", "Tây Bắc":"Thiên Y", "Tây":"Diên Niên", "Đông Bắc":"Phục Vị"}, bad: {"Đông Nam":"Tuyệt Mệnh", "Bắc":"Ngũ Quỷ", "Đông":"Lục Sát", "Nam":"Họa Hại"} },
-      9: { name: "Ly (Hỏa)", element: "🔥", type: "Đông Tứ Mệnh", good: {"Đông":"Sinh Khí", "Đông Nam":"Thiên Y", "Bắc":"Diên Niên", "Nam":"Phục Vị"}, bad: {"Tây Bắc":"Tuyệt Mệnh", "Tây":"Ngũ Quỷ", "Tây Nam":"Lục Sát", "Đông Bắc":"Họa Hại"} }
+    const dataBatTrach = {
+      1: { name: "Khảm (Thủy)", good: {"Đông Nam":"Sinh Khí", "Đông":"Thiên Y", "Nam":"Diên Niên", "Bắc":"Phục Vị"}, bad: {"Tây Nam":"Tuyệt Mệnh", "Đông Bắc":"Ngũ Quỷ", "Tây Bắc":"Lục Sát", "Tây":"Họa Hại"} },
+      2: { name: "Khôn (Thổ)", good: {"Đông Bắc":"Sinh Khí", "Tây":"Thiên Y", "Tây Bắc":"Diên Niên", "Tây Nam":"Phục Vị"}, bad: {"Bắc":"Tuyệt Mệnh", "Đông Nam":"Ngũ Quỷ", "Nam":"Lục Sát", "Đông":"Họa Hại"} },
+      3: { name: "Chấn (Mộc)", good: {"Nam":"Sinh Khí", "Bắc":"Thiên Y", "Đông Nam":"Diên Niên", "Đông":"Phục Vị"}, bad: {"Tây":"Tuyệt Mệnh", "Tây Bắc":"Ngũ Quỷ", "Đông Bắc":"Lục Sát", "Tây Nam":"Họa Hại"} },
+      4: { name: "Tốn (Mộc)", good: {"Bắc":"Sinh Khí", "Nam":"Thiên Y", "Đông":"Diên Niên", "Đông Nam":"Phục Vị"}, bad: {"Đông Bắc":"Tuyệt Mệnh", "Tây Nam":"Ngũ Quỷ", "Tây":"Lục Sát", "Tây Bắc":"Họa Hại"} },
+      6: { name: "Càn (Kim)", good: {"Tây":"Sinh Khí", "Đông Bắc":"Thiên Y", "Tây Nam":"Diên Niên", "Tây Bắc":"Phục Vị"}, bad: {"Nam":"Tuyệt Mệnh", "Đông":"Ngũ Quỷ", "Bắc":"Lục Sát", "Đông Nam":"Họa Hại"} },
+      7: { name: "Đoài (Kim)", good: {"Tây Bắc":"Sinh Khí", "Tây Nam":"Thiên Y", "Đông Bắc":"Diên Niên", "Tây":"Phục Vị"}, bad: {"Đông":"Tuyệt Mệnh", "Nam":"Ngũ Quỷ", "Đông Nam":"Lục Sát", "Bắc":"Họa Hại"} },
+      8: { name: "Cấn (Thổ)", good: {"Tây Nam":"Sinh Khí", "Tây Bắc":"Thiên Y", "Tây":"Diên Niên", "Đông Bắc":"Phục Vị"}, bad: {"Đông Nam":"Tuyệt Mệnh", "Bắc":"Ngũ Quỷ", "Đông":"Lục Sát", "Nam":"Họa Hại"} },
+      9: { name: "Ly (Hỏa)", good: {"Đông":"Sinh Khí", "Đông Nam":"Thiên Y", "Bắc":"Diên Niên", "Nam":"Phục Vị"}, bad: {"Tây Bắc":"Tuyệt Mệnh", "Tây":"Ngũ Quỷ", "Tây Nam":"Lục Sát", "Đông Bắc":"Họa Hại"} }
     };
     const napAmList = [ "Hải Trung Kim", "Lư Trung Hỏa", "Đại Lâm Mộc", "Lộ Bàng Thổ", "Kiếm Phong Kim", "Sơn Đầu Hỏa", "Giản Hạ Thủy", "Thành Đầu Thổ", "Bạch Lạp Kim", "Dương Liễu Mộc", "Tuyền Trung Thủy", "Ốc Thượng Thổ", "Tích Lịch Hỏa", "Tùng Bách Mộc", "Trường Lưu Thủy", "Sa Trung Kim", "Sơn Hạ Hỏa", "Bình Địa Mộc", "Bích Thượng Thổ", "Kim Bạch Kim", "Phúc Đăng Hỏa", "Thiên Hà Thủy", "Đại Trạch Thổ", "Thoa Xuyến Kim", "Tang Đố Mộc", "Đại Khê Thủy", "Sa Trung Thổ", "Thiên Thượng Hỏa", "Thạch Lựu Mộc", "Đại Hải Thủy" ];
     
-    function getNapAm(year) { if(year < 1924) return "Không xác định"; return napAmList[Math.floor((year - 1924) / 2) % 30]; }
-    function getColors(menhString) {
-      if(menhString.includes("Kim")) return { good: ["Vàng", "Nâu đất", "Trắng", "Xám"], bad: ["Đỏ", "Hồng", "Tím"] };
-      if(menhString.includes("Thủy")) return { good: ["Trắng", "Xám", "Xanh dương", "Đen"], bad: ["Vàng", "Nâu đất"] };
-      if(menhString.includes("Mộc")) return { good: ["Xanh dương", "Đen", "Xanh lá"], bad: ["Trắng", "Xám", "Bạc"] };
-      if(menhString.includes("Hỏa")) return { good: ["Xanh lá", "Đỏ", "Hồng", "Tím"], bad: ["Xanh dương", "Đen"] };
-      if(menhString.includes("Thổ")) return { good: ["Đỏ", "Hồng", "Tím", "Vàng", "Nâu đất"], bad: ["Xanh lá cây"] };
-      return { good: [], bad: [] };
+    function getColors(menh) {
+      if(menh.includes("Kim")) return { g: ["Vàng", "Nâu đất", "Trắng"], b: ["Đỏ", "Hồng", "Tím"] };
+      if(menh.includes("Thủy")) return { g: ["Trắng", "Xám", "Đen"], b: ["Vàng", "Nâu đất"] };
+      if(menh.includes("Mộc")) return { g: ["Đen", "Xanh dương", "Xanh lá"], b: ["Trắng", "Xám"] };
+      if(menh.includes("Hỏa")) return { g: ["Xanh lá", "Đỏ", "Hồng"], b: ["Đen", "Xanh dương"] };
+      if(menh.includes("Thổ")) return { g: ["Đỏ", "Hồng", "Vàng"], b: ["Xanh lá cây"] };
+      return { g: [], b: [] };
     }
 
-    function runExpertAnalysis() {
-      const year = parseInt(document.getElementById('birthYear').value);
-      const gender = document.getElementById('gender').value;
-      if (!year || year < 1900 || year > 2100) { alert("Vui lòng nhập năm sinh hợp lệ!"); return; }
-      let sum = 0; String(year).split('').forEach(d => sum += parseInt(d));
+    function runAnalysis() {
+      const y = parseInt(document.getElementById('birthYear').value);
+      const g = document.getElementById('gender').value;
+      if (!y || y < 1900) return;
+      
+      let sum = 0; String(y).split('').forEach(d => sum += parseInt(d));
       while(sum > 9) { let temp = 0; String(sum).split('').forEach(d => temp += parseInt(d)); sum = temp; }
-      let kua = (gender === 'nam') ? (11 - sum) : (4 + sum); if (kua > 9) kua -= 9; if (kua === 5) kua = (gender === 'nam') ? 2 : 8;
-      const profile = batTrachData[kua]; const napAm = getNapAm(year); const colors = getColors(napAm);
+      let kua = (g === 'nam') ? (11 - sum) : (4 + sum); if (kua > 9) kua -= 9; if (kua === 5) kua = (g === 'nam') ? 2 : 8;
+      
+      const p = batTrachData[kua]; 
+      const nap = napAmList[Math.floor((y - 1924) / 2) % 30]; 
+      const col = getColors(nap);
 
-      let html = `<div class="card-result"><span class="title-badge">HỒ SƠ PHONG THỦY</span><div class="profile-row"><div><div class="cung-name-with-element"><span class="element-icon">${profile.element}</span>Cung ${profile.name}</div><div style="color: #aaa; font-size: 13px; margin-top: 5px;">${profile.type}</div></div><div style="text-align: right;"><div class="menh-name">${napAm}</div></div></div><div class="section-title" style="color: var(--good)">BỐN HƯỚNG CÁT (TỐT):</div><div class="directions-grid">`;
-      for (const [huong, yNghia] of Object.entries(profile.good)) { html += `<div class="dir-item"><div class="dir-header"><span>Hướng ${huong}</span> <span style="color: var(--good)">${yNghia}</span></div><div class="dir-desc">${meanings[yNghia]}</div></div>`; }
-      html += `</div><div class="section-title" style="color: var(--bad)">BỐN HƯỚNG HUNG (XẤU):</div><div class="directions-grid">`;
-      for (const [huong, yNghia] of Object.entries(profile.bad)) { html += `<div class="dir-item bad"><div class="dir-header"><span>Hướng ${huong}</span> <span style="color: var(--bad)">${yNghia}</span></div><div class="dir-desc">${meanings[yNghia]}</div></div>`; }
-      html += `</div><div class="section-title">MÀU SẮC PHONG THỦY:</div><div class="colors-label">Màu tương sinh, tương hợp (Nên dùng):</div><div class="color-section">`;
-      colors.good.forEach(c => html += `<span class="color-dot" style="color: var(--good); border-color: var(--good);">${c}</span>`);
-      html += `</div><div class="colors-label" style="margin-top: 15px;">Màu đại kỵ (Nên tránh):</div><div class="color-section">`;
-      colors.bad.forEach(c => html += `<span class="color-dot" style="color: var(--bad); border-color: var(--bad);">${c}</span>`);
-      html += `</div></div>`;
-
-      const panel = document.getElementById('result-panel'); panel.innerHTML = html; panel.style.display = 'block';
-      setTimeout(() => { panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+      let h = `<span class="badge">HỒ SƠ GIA CHỦ</span><div class="row-info"><div class="val-cung">Cung ${p.name}</div><div class="val-menh">${nap}</div></div><div class="sec-title" style="color:#2ecc71">BỐN HƯỚNG CÁT:</div><div class="grid-2">`;
+      for (const [dir, name] of Object.entries(p.good)) { h += `<div class="item-dir"><div class="item-head"><span>${dir}</span><span style="color:#2ecc71">${name}</span></div></div>`; }
+      h += `</div><div class="sec-title" style="color:#e74c3c">BỐN HƯỚNG HUNG:</div><div class="grid-2">`;
+      for (const [dir, name] of Object.entries(p.bad)) { h += `<div class="item-dir bad"><div class="item-head"><span>${dir}</span><span style="color:#e74c3c">${name}</span></div></div>`; }
+      h += `</div><div class="sec-title">MÀU SẮC PHONG THỦY:</div><div style="font-size:13px; color:#aaa; margin-bottom:5px;">Nên dùng:</div><div class="color-wrap">`;
+      col.g.forEach(c => h += `<div class="color-tag" style="color:#2ecc71; border-color:#2ecc71">${c}</div>`);
+      h += `</div><div style="font-size:13px; color:#aaa; margin:10px 0 5px;">Đại kỵ:</div><div class="color-wrap">`;
+      col.b.forEach(c => h += `<div class="color-tag" style="color:#e74c3c; border-color:#e74c3c">${c}</div>`);
+      
+      const box = document.getElementById('result'); box.innerHTML = h + `</div>`; box.style.display = 'block';
+      setTimeout(() => box.scrollIntoView({ behavior: 'smooth' }), 100);
     }
 
-    /* --- KÍCH HOẠT LA BÀN BẰNG NÚT --- */
-    const compassFace = document.getElementById('compass-face');
-    const degreeInfo = document.getElementById('degree-info');
-    const directionText = document.getElementById('direction-text');
-    const btnStart = document.getElementById('btn-start');
+    const face = document.getElementById('face');
+    const degEl = document.getElementById('deg');
+    const dirEl = document.getElementById('dir');
+    const btn = document.getElementById('btn-start');
 
-    function getDirectionName(deg) {
-      if (deg >= 337.5 || deg < 22.5) return "Chính Bắc (Thủy)"; if (deg >= 22.5 && deg < 67.5) return "Đông Bắc (Thổ)";
-      if (deg >= 67.5 && deg < 112.5) return "Chính Đông (Mộc)"; if (deg >= 112.5 && deg < 157.5) return "Đông Nam (Mộc)";
-      if (deg >= 157.5 && deg < 202.5) return "Chính Nam (Hỏa)"; if (deg >= 202.5 && deg < 247.5) return "Tây Nam (Thổ)";
-      if (deg >= 247.5 && deg < 292.5) return "Chính Tây (Kim)"; if (deg >= 292.5 && deg < 337.5) return "Tây Bắc (Kim)";
-      return "";
+    function getDirName(d) {
+      const arr = ["Bắc","Đông Bắc","Đông","Đông Nam","Nam","Tây Nam","Tây","Tây Bắc"];
+      return "Chính " + arr[Math.round(d / 45) % 8];
     }
 
-    btnStart.addEventListener('click', function() {
+    btn.onclick = function() {
       if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-        DeviceOrientationEvent.requestPermission().then(state => {
-          if (state === 'granted') {
-            window.addEventListener('deviceorientation', handleOrientation);
-            activateUI();
-          } else { alert('Bạn cần Cho Phép để la bàn hoạt động.'); }
+        DeviceOrientationEvent.requestPermission().then(s => {
+          if (s === 'granted') { window.addEventListener('deviceorientation', handleOrient); activate(); }
         }).catch(console.error);
-      } else {
-        window.addEventListener('deviceorientationabsolute', handleOrientation);
-        activateUI();
-      }
-    });
+      } else { window.addEventListener('deviceorientationabsolute', handleOrient); activate(); }
+    };
 
-    function activateUI() {
-      btnStart.style.display = 'none';
-      degreeInfo.style.display = 'block';
-      directionText.style.display = 'block';
-    }
+    function activate() { btn.style.display = 'none'; degEl.style.display = 'block'; dirEl.style.display = 'block'; }
 
-    function handleOrientation(e) {
+    function handleOrient(e) {
       let h = e.webkitCompassHeading; 
       if (h != null) {
         requestAnimationFrame(() => {
-          compassFace.style.transform = `rotate(${-h}deg)`; 
-          let rounded = Math.round(h);
-          degreeInfo.innerText = rounded + "°";
-          directionText.innerText = getDirectionName(rounded);
+          face.style.transform = `rotate(${-h}deg)`; 
+          let r = Math.round(h); degEl.innerText = r + "°"; dirEl.innerText = getDirName(r);
         });
       }
     }
