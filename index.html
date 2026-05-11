@@ -8,111 +8,107 @@
   <title>La Bàn Pro</title>
   
   <link rel="apple-touch-icon" href="icon-app.png">
+  <link rel="icon" type="image/png" href="icon-app.png">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* GIAO DIỆN LUXURY GOLD - CỰC CHỈN CHU */
+    /* LỆNH ÉP KHUÔN TUYỆT ĐỐI - FIX LỖI TRÀN Ô NHẬP LIỆU */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
       --gold: #d4af37; --dark-gold: #aa8222; --bg: #030303; --card: #121212; 
       --text: #e8e8e8; --good: #2ecc71; --bad: #e74c3c; --border: #2c2c31;
     }
     body {
-      font-family: 'Inter', sans-serif; /* Phông Inter đồng bộ, nét */
+      font-family: 'Inter', sans-serif;
       background-color: var(--bg); color: var(--text);
-      margin: 0; padding: env(safe-area-inset-top) 20px 80px; /* Padding cho watermark */
-      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+      /* Canh lề chuẩn xác cho mọi màn hình, chống tràn ngang */
+      padding: max(20px, env(safe-area-inset-top)) 15px 80px 15px;
+      width: 100%; min-height: 100vh; overflow-x: hidden;
+      display: flex; flex-direction: column; align-items: center;
     }
-    .header { margin: 30px 0 25px; text-align: center; }
-    h1 { 
-      font-size: 26px; font-weight: 800; letter-spacing: 2px; 
-      color: var(--gold); text-transform: uppercase; margin-bottom: 5px;
-    }
+
+    .header { text-align: center; margin-bottom: 25px; width: 100%; }
+    h1 { font-size: 26px; font-weight: 800; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 5px; }
     .subtitle { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 3px; font-weight: 600;}
 
-    /* Form Nhập năm sinh & Giới tính */
+    /* KHU VỰC NHẬP LIỆU FIX 100% CỐ ĐỊNH */
     .input-section {
-      background: var(--card); padding: 22px; border-radius: 20px;
-      border: 1px solid var(--border); margin-bottom: 30px;
+      background: var(--card); padding: 20px; border-radius: 20px;
+      border: 1px solid var(--border); margin-bottom: 20px;
       box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+      width: 100%; max-width: 380px; /* Khóa kích thước tối đa */
     }
-    .row { display: flex; gap: 12px; margin-bottom: 18px; }
+    .row { 
+      display: flex; gap: 10px; margin-bottom: 15px; width: 100%; 
+    }
     input, select {
-      flex: 1; background: #000; border: 1px solid var(--border); color: #fff;
-      padding: 15px; border-radius: 12px; font-size: 16px; font-weight: 600; outline: none;
-      text-align: center; font-family: 'Inter', sans-serif;
+      flex: 1; min-width: 0; /* LỆNH CHỐNG TRÀN VƯỢT KHUNG KHI MÀN HÌNH NHỎ */
+      background: #000; border: 1px solid var(--border); color: #fff;
+      padding: 15px 10px; border-radius: 12px; font-size: 16px; font-weight: 600; outline: none;
+      text-align: center; font-family: 'Inter', sans-serif; appearance: none;
     }
     .btn-main {
       background: linear-gradient(135deg, var(--gold), var(--dark-gold));
-      color: #000; font-weight: 800; padding: 18px; border-radius: 12px;
+      color: #000; font-weight: 800; padding: 16px; border-radius: 12px;
       border: none; width: 100%; font-size: 15px; text-transform: uppercase; letter-spacing: 1px;
       font-family: 'Inter', sans-serif; cursor: pointer; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
     }
     .btn-main:active { transform: scale(0.98); }
-    .btn-secondary {
-      background: #111; color: var(--gold); border: 1px solid var(--gold);
-      margin-top: 15px; box-shadow: none;
-    }
 
-    /* Vòng La Bàn & Kim Xoay Chân Thực */
-    #compass-wrapper { position: relative; width: 320px; height: 320px; margin: 40px auto; }
+    /* KHU VỰC LA BÀN */
+    #compass-wrapper { position: relative; width: 100%; max-width: 320px; aspect-ratio: 1/1; margin: 30px auto 20px; }
     #compass-container {
       width: 100%; height: 100%; border-radius: 50%;
-      border: 3px solid var(--gold); padding: 5px; box-sizing: border-box;
+      border: 3px solid var(--gold); padding: 2px; box-sizing: border-box;
       box-shadow: 0 0 40px rgba(212, 175, 55, 0.15), inset 0 0 20px rgba(0,0,0,0.8);
       background: #000; position: relative; overflow: hidden;
     }
     #compass-face {
       width: 100%; height: 100%; border-radius: 50%;
-      /* SỬ DỤNG FILE PNG LA KINH CỦA ANH MINH ĐỂ XOAY */
       background: url('lakinh.png') no-repeat center;
       background-size: cover; 
-      transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Xoay mượt */
+      transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
       position: absolute; top: 0; left: 0;
-      /* Đã loại bỏ sepia filter để ảnh la kinh của anh hiện màu gốc chuyên nghiệp */
     }
     #pointer {
       position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
       width: 0; height: 0;
       border-left: 10px solid transparent; border-right: 10px solid transparent;
-      border-bottom: 50px solid var(--bad); /* Kim tam giác đỏ nhọn chuyên nghiệp */
+      border-bottom: 50px solid var(--bad); 
       z-index: 10; filter: drop-shadow(0 0 10px rgba(231,76,60,0.9));
     }
-    #degree-info { 
-      font-size: 42px; font-weight: 800; text-align: center; 
-      margin-top: 20px; color: #fff; font-variant-numeric: tabular-nums;
-    }
-    #direction-text { font-size: 18px; color: var(--gold); text-align: center; font-weight: 700; margin-top: 5px; letter-spacing: 1px;}
-
-    /* Bảng Kết Quả Chi Tiết */
-    #result-panel { display: none; margin-top: 40px; animation: slideUp 0.6s ease; padding-bottom: 50px; }
-    .card-result { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 22px; margin-bottom: 20px; }
-    .title-badge { font-size: 12px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-weight: 800; margin-bottom: 15px; display: block; text-align: center; }
+    #degree-info { font-size: 42px; font-weight: 800; text-align: center; margin-top: 10px; color: #fff; font-variant-numeric: tabular-nums; }
+    #direction-text { font-size: 18px; color: var(--gold); text-align: center; font-weight: 700; margin-top: 5px; letter-spacing: 1px; margin-bottom: 20px;}
     
+    .hint-text { text-align: center; color: #666; font-size: 12px; margin-bottom: 10px; font-style: italic;}
+
+    /* BẢNG KẾT QUẢ PHÂN TÍCH */
+    #result-panel { display: none; margin-top: 20px; animation: slideUp 0.6s ease; width: 100%; max-width: 400px; }
+    .card-result { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 22px; width: 100%; }
+    .title-badge { font-size: 12px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-weight: 800; margin-bottom: 15px; display: block; text-align: center; }
     .profile-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid var(--border); padding-bottom: 18px; }
     .cung-name-with-element { font-size: 22px; color: #fff; font-weight: 800; display: flex; align-items: center; gap: 8px; }
     .element-icon { font-size: 18px; opacity: 0.9; }
     .menh-name { font-size: 15px; color: var(--gold); font-weight: 600; }
-    
     .section-title { font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 15px; margin-top: 25px; }
-    
     .directions-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
     .dir-item { background: #000; padding: 15px; border-radius: 12px; border-left: 4px solid var(--good); }
     .dir-item.bad { border-left-color: var(--bad); }
     .dir-header { font-weight: 700; font-size: 15px; color: #fff; display: flex; justify-content: space-between; margin-bottom: 6px; }
     .dir-desc { font-size: 14px; color: #aaa; line-height: 1.5; }
-    
     .color-section { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
     .color-dot { padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; background: #111; color: #fff; border: 1px solid #333;}
     .colors-label { font-size: 14px; color: #888; margin-bottom: 8px; font-weight: 500;}
 
-    /* Watermark Footer Cá Nhân MinhTT */
+    /* FOOTER */
     .watermark-footer {
       position: fixed; bottom: 0; left: 0; width: 100%;
       background-color: rgba(5, 5, 5, 0.95); color: #888; 
-      text-align: center; padding: 14px; font-size: 12px;
+      text-align: center; padding: 14px; font-size: 11px;
       border-top: 1px solid var(--border);
       z-index: 999; letter-spacing: 2px; font-weight: 600;
       text-transform: uppercase; backdrop-filter: blur(8px);
@@ -130,7 +126,7 @@
 
   <div class="input-section">
     <div class="row">
-      <input type="number" id="birthYear" placeholder="Năm sinh Âm lịch (vd: 1991)" pattern="\d*" value="1991">
+      <input type="number" id="birthYear" placeholder="Năm sinh (1991)" pattern="\d*" value="1991">
       <select id="gender">
         <option value="nam">Nam giới</option>
         <option value="nu">Nữ giới</option>
@@ -140,7 +136,7 @@
   </div>
 
   <div id="degree-info">--°</div>
-  <div id="direction-text">Chưa kết nối la bàn</div>
+  <div id="direction-text">Chưa kết nối</div>
 
   <div id="compass-wrapper">
     <div id="pointer"></div>
@@ -149,23 +145,22 @@
     </div>
   </div>
   
-  <button id="btn-start" class="btn-main btn-secondary">KÍCH HOẠT LA BÀN TỪ TÍNH</button>
+  <div class="hint-text" id="hint">Chạm nhẹ vào bất kỳ đâu để La Bàn tự xoay</div>
 
-  <div id="result-panel">
-    </div>
+  <div id="result-panel"></div>
 
   <footer class="watermark-footer">
     MinhTT - Kiến Trúc Thanh Hòa - 0987334004
   </footer>
 
   <script>
-    // --- DỮ LIỆU THUẬT TOÁN BÁT TRẠCH CỔ ĐIỂN CHUẨN MASTER ---
+    // --- DỮ LIỆU PHONG THỦY BÁT TRẠCH ---
     const meanings = {
       "Sinh Khí": "Tuyệt hảo cho Cửa chính. Thu hút tài lộc, thăng quan tiến chức.",
-      "Thiên Y": "Tốt cho Phòng ngủ Master. Năng lượng chữa lành, trường thọ, dồi dào sức khỏe.",
-      "Diên Niên": "Tốt cho Phòng khách/Bếp. Gia đạo hòa thuận, củng cố tình yêu và quan hệ xã hội.",
-      "Phục Vị": "Tốt cho Phòng thờ/Làm việc. Bình yên, vững chãi, tốt cho thi cử và tinh thần.",
-      "Tuyệt Mệnh": "Đại hung. Tránh đặt cửa chính hay giường ngủ. Gây phá sản, bệnh tật.",
+      "Thiên Y": "Tốt cho Phòng ngủ Master. Năng lượng chữa lành, dồi dào sức khỏe.",
+      "Diên Niên": "Tốt cho Phòng khách/Bếp. Gia đạo hòa thuận, củng cố quan hệ.",
+      "Phục Vị": "Tốt cho Phòng thờ/Làm việc. Bình yên, vững chãi, tốt cho thi cử.",
+      "Tuyệt Mệnh": "Đại hung. Tránh đặt cửa chính hay giường ngủ. Phá sản, bệnh tật.",
       "Ngũ Quỷ": "Hung. Gây tai họa, mất nguồn thu nhập, thị phi và cãi vã.",
       "Lục Sát": "Hung. Xáo trộn tình cảm, thù hận, dính dáng pháp luật.",
       "Họa Hại": "Hung. Không may mắn, dễ thất bại, mệt mỏi tinh thần."
@@ -192,21 +187,19 @@
 
     function getNapAm(year) {
       if(year < 1924) return "Không xác định";
-      let diff = year - 1924; // Giáp Tý
-      let index = Math.floor(diff / 2) % 30;
+      let index = Math.floor((year - 1924) / 2) % 30;
       return napAmList[index];
     }
 
     function getColors(menhString) {
-      if(menhString.includes("Kim")) return { good: ["Vàng", "Nâu đất", "Trắng", "Xám", "Bạc"], bad: ["Đỏ", "Hồng", "Tím"] };
-      if(menhString.includes("Thủy")) return { good: ["Trắng", "Xám", "Bạc", "Xanh dương", "Đen"], bad: ["Vàng", "Nâu đất"] };
+      if(menhString.includes("Kim")) return { good: ["Vàng", "Nâu đất", "Trắng", "Xám"], bad: ["Đỏ", "Hồng", "Tím"] };
+      if(menhString.includes("Thủy")) return { good: ["Trắng", "Xám", "Xanh dương", "Đen"], bad: ["Vàng", "Nâu đất"] };
       if(menhString.includes("Mộc")) return { good: ["Xanh dương", "Đen", "Xanh lá"], bad: ["Trắng", "Xám", "Bạc"] };
       if(menhString.includes("Hỏa")) return { good: ["Xanh lá", "Đỏ", "Hồng", "Tím"], bad: ["Xanh dương", "Đen"] };
       if(menhString.includes("Thổ")) return { good: ["Đỏ", "Hồng", "Tím", "Vàng", "Nâu đất"], bad: ["Xanh lá cây"] };
       return { good: [], bad: [] };
     }
 
-    // --- LOGIC PHÂN TÍCH CHUYÊN SÂU ---
     function runExpertAnalysis() {
       const year = parseInt(document.getElementById('birthYear').value);
       const gender = document.getElementById('gender').value;
@@ -228,14 +221,13 @@
       const napAm = getNapAm(year);
       const colors = getColors(napAm);
 
-      // Sinh mã HTML Kết quả chân thực, chuyên nghiệp
       let html = `
         <div class="card-result">
           <span class="title-badge">HỒ SƠ PHONG THỦY BÁT TRẠCH</span>
           <div class="profile-row">
             <div>
               <div class="cung-name-with-element"><span class="element-icon">${profile.element}</span>Cung ${profile.name}</div>
-              <div style="color: #aaa; font-size: 14px; margin-top: 4px;">${profile.type}</div>
+              <div style="color: #aaa; font-size: 14px; margin-top: 5px;">${profile.type}</div>
             </div>
             <div style="text-align: right;">
               <div class="menh-name">${napAm}</div>
@@ -259,7 +251,7 @@
           </div>`;
       }
       html += `</div>
-          <div class="section-title">BẢNG MÀU TƯƠNG SINH TƯƠNG KHẮC:</div>
+          <div class="section-title">MÀU SẮC PHONG THỦY:</div>
           <div class="colors-label">Màu tương sinh, tương hợp (Nên dùng):</div>
           <div class="color-section">
       `;
@@ -274,11 +266,11 @@
       setTimeout(() => { panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
     }
 
-    // --- LOGIC LA BÀN CHẠM LÀ TỰ ĐỘNG XOAY (IOS & ANDROID) ---
+    // --- CƠ CHẾ CHẠM TỰ ĐỘNG KÍCH HOẠT ĐA NỀN TẢNG ---
     const compassFace = document.getElementById('compass-face');
     const degreeInfo = document.getElementById('degree-info');
     const directionText = document.getElementById('direction-text');
-    const btnStart = document.getElementById('btn-start');
+    let isCompassActive = false;
 
     function getDirectionName(deg) {
       if (deg >= 337.5 || deg < 22.5) return "Chính Bắc (Tý)";
@@ -292,42 +284,46 @@
       return "";
     }
 
-    // Cơ chế Kích hoạt khi chạm
-    btnStart.onclick = function() {
-      requestCompassPermission();
-    };
-
-    // Tự động kích hoạt khi chạm vào khu vực La Kinh
-    document.getElementById('compass-wrapper').onclick = function() {
-      // Chỉ kích hoạt nếu nút vẫn còn hiện (chưa được cấp quyền)
-      if (btnStart.style.display !== 'none') {
-        requestCompassPermission();
-      }
-    };
-
-    function requestCompassPermission() {
-      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-        // iOS 13+ yêu cầu cấp quyền
+    // Gắn sự kiện: Chạm vào bất kỳ vị trí nào trên ứng dụng sẽ kích hoạt
+    function activateCompass() {
+      if (isCompassActive) return;
+      if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+        // Của iOS
         DeviceOrientationEvent.requestPermission().then(state => {
           if (state === 'granted') {
             window.addEventListener('deviceorientation', handleOrientation);
-            btnStart.style.display = 'none'; // Ẩn nút khi đã được cấp quyền
-          } else { alert('Vui lòng cấp quyền cảm biến trên iPhone của anh.'); }
+            isCompassActive = true;
+            document.getElementById('hint').style.display = 'none';
+          }
         }).catch(console.error);
       } else {
-        // Cho Android hoặc iOS cũ không cần quyền
-        window.addEventListener('deviceorientationabsolute', handleOrientation);
-        btnStart.style.display = 'none';
+        // Của Android / Thiết bị cũ
+        if ('ondeviceorientationabsolute' in window) {
+          window.addEventListener('deviceorientationabsolute', handleOrientation);
+        } else {
+          window.addEventListener('deviceorientation', handleOrientation);
+        }
+        isCompassActive = true;
+        document.getElementById('hint').style.display = 'none';
       }
     }
 
+    document.body.addEventListener('click', activateCompass);
+    document.body.addEventListener('touchstart', activateCompass);
+
     function handleOrientation(e) {
-      let h = e.webkitCompassHeading;
-      if (h != null) {
+      let heading = null;
+      if (e.webkitCompassHeading !== undefined && e.webkitCompassHeading !== null) {
+        heading = e.webkitCompassHeading;
+      } else if (e.alpha !== null) {
+        heading = 360 - e.alpha;
+      }
+
+      if (heading != null) {
         requestAnimationFrame(() => {
-          // Xoay mặt La Kinh chân thực (Reverse xoay để giữ đúng hướng Bắc từ tính ở đỉnh).
-          compassFace.style.transform = `rotate(${-h}deg)`; 
-          let rounded = Math.round(h);
+          compassFace.style.transform = `rotate(${-heading}deg)`; 
+          let rounded = Math.round(heading) % 360;
+          if (rounded < 0) rounded += 360;
           degreeInfo.innerText = rounded + "°";
           directionText.innerText = getDirectionName(rounded);
         });
