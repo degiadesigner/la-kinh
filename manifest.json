@@ -1,0 +1,16 @@
+{
+  "name": "La Bàn Pro - Minh TT",
+  "short_name": "La Bàn Pro",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#030303",
+  "theme_color": "#d4af37",
+  "icons": [
+    {
+      "src": "icon-app.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
