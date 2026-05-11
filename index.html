@@ -166,8 +166,8 @@
     MinhTT - Kiến Trúc Thanh Hòa - 0987334004
   </footer>
 
-  <script>
-    // --- THUẬT TOÁN BÁT TRẠCH ---
+ <script>
+    // --- THUẬT TOÁN BÁT TRẠCH CỔ ĐIỂN ---
     const meanings = {
       "Sinh Khí": "Tuyệt hảo cho Cửa chính. Thu hút tài lộc, thăng quan tiến chức.",
       "Thiên Y": "Tốt cho Phòng ngủ Master. Năng lượng chữa lành, dồi dào sức khỏe.",
@@ -279,58 +279,68 @@
       setTimeout(() => { panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
     }
 
-    // --- CƠ CHẾ ĐA NỀN TẢNG (IOS & ANDROID) ---
+    // --- CƠ CHẾ LA BÀN ĐA NỀN TẢNG CHUYÊN SÂU ---
     const compassFace = document.getElementById('compass-face');
     const degreeInfo = document.getElementById('degree-info');
     const directionText = document.getElementById('direction-text');
-    const calibrationOverlay = document.getElementById('calibration-overlay');
+    const compassWrapper = document.getElementById('compass-wrapper'); // Lấy chính xác vòng tròn la kinh
     let isCompassActive = false;
 
+    // THUẬT TOÁN ĐỌC 24 SƠN HƯỚNG (MỖI SƠN 15 ĐỘ)
     function getDirectionName(deg) {
-      if (deg >= 337.5 || deg < 22.5) return "Chính Bắc (Tý)";
-      if (deg >= 22.5 && deg < 67.5) return "Đông Bắc (Cấn)";
-      if (deg >= 67.5 && deg < 112.5) return "Chính Đông (Mão)";
-      if (deg >= 112.5 && deg < 157.5) return "Đông Nam (Tốn)";
-      if (deg >= 157.5 && deg < 202.5) return "Chính Nam (Ngọ)";
-      if (deg >= 202.5 && deg < 247.5) return "Tây Nam (Khôn)";
-      if (deg >= 247.5 && deg < 292.5) return "Chính Tây (Dậu)";
-      if (deg >= 292.5 && deg < 337.5) return "Tây Bắc (Càn)";
-      return "";
+      const son24 = [
+        "Chính Bắc (Tý)", "Chính Bắc (Quý)", 
+        "Đông Bắc (Sửu)", "Đông Bắc (Cấn)", "Đông Bắc (Dần)", 
+        "Chính Đông (Giáp)", "Chính Đông (Mão)", "Chính Đông (Ất)", 
+        "Đông Nam (Thìn)", "Đông Nam (Tốn)", "Đông Nam (Tỵ)", 
+        "Chính Nam (Bính)", "Chính Nam (Ngọ)", "Chính Nam (Đinh)", 
+        "Tây Nam (Mùi)", "Tây Nam (Khôn)", "Tây Nam (Thân)", 
+        "Chính Tây (Canh)", "Chính Tây (Dậu)", "Chính Tây (Tân)", 
+        "Tây Bắc (Tuất)", "Tây Bắc (Càn)", "Tây Bắc (Hợi)", 
+        "Chính Bắc (Nhâm)"
+      ];
+      let index = Math.floor(((deg + 7.5) % 360) / 15);
+      return son24[index];
     }
 
+    // HÀM XIN QUYỀN VÀ BẬT LA BÀN
     function activateCompass() {
-      if (isCompassActive) return;
+      if (isCompassActive) return; // Chỉ chạy 1 lần để tránh lỗi
       
-      // Xử lý xin quyền cho iOS
+      // Của iOS (Apple)
       if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
         DeviceOrientationEvent.requestPermission().then(state => {
           if (state === 'granted') {
             window.addEventListener('deviceorientation', handleOrientation, true);
             isCompassActive = true;
-            calibrationOverlay.style.display = 'none'; 
+            // Ẩn dòng chữ hướng dẫn đi cho chuyên nghiệp
+            const hint = document.getElementById('hint');
+            if (hint) hint.style.display = 'none';
           }
         }).catch(console.error);
       } else {
-        // Xử lý cho Android
+        // Của Android (Google)
         if ('ondeviceorientationabsolute' in window) {
           window.addEventListener('deviceorientationabsolute', handleOrientation, true);
         } else {
           window.addEventListener('deviceorientation', handleOrientation, true);
         }
         isCompassActive = true;
-        calibrationOverlay.style.display = 'none';
+        const hint = document.getElementById('hint');
+        if (hint) hint.style.display = 'none';
       }
     }
+
+    // GẮN SỰ KIỆN: CHẠM VÀO VÒNG TRÒN LA KINH LÀ TỰ BẬT
+    compassWrapper.addEventListener('click', activateCompass);
+    compassWrapper.addEventListener('touchstart', activateCompass);
 
     function handleOrientation(e) {
       let heading = null;
       
-      // Ưu tiên đọc la bàn chuẩn xác nhất tùy nền tảng
       if (e.webkitCompassHeading !== undefined && e.webkitCompassHeading !== null) {
-        // Apple iOS
         heading = e.webkitCompassHeading;
       } else if (e.alpha !== null) {
-        // Google Android (Cần đảo chiều)
         heading = 360 - e.alpha;
       }
 
