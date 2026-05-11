@@ -8,73 +8,73 @@
   <title>La Bàn Pro</title>
   
   <link rel="apple-touch-icon" href="icon-app.png">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* 1. KHÓA KHUNG CHỐNG LỆCH TUYỆT ĐỐI */
+    /* 1. KHUNG CHỐNG LỆCH CHUẨN IOS */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
-    body {
+    html, body {
+      width: 100%;
+      height: 100%;
       background-color: #050505; 
       color: #e8e8e8; 
       font-family: 'Inter', sans-serif;
       -webkit-font-smoothing: antialiased;
-      width: 100%;
-      overflow-x: hidden; /* Cấm trượt ngang */
+      overflow-x: hidden; /* Cấm tuyệt đối trượt ngang gây lệch khung */
     }
 
-    /* Chiếc hộp này khóa mọi thứ ở chính giữa màn hình */
+    /* Container khóa chính tâm màn hình */
     .app-container {
-      max-width: 430px; /* Chiều rộng chuẩn của iPhone Max */
-      margin: 0 auto; /* Tự động căn giữa 2 bên */
-      padding: calc(env(safe-area-inset-top) + 20px) 20px 100px 20px;
       width: 100%;
+      max-width: 430px;
+      margin: 0 auto; /* Lệnh tự động căn giữa thần thánh */
+      padding: env(safe-area-inset-top) 20px 100px 20px; /* Tôn trọng vùng tai thỏ của iPhone */
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    /* 2. THẨM MỸ GIAO DIỆN */
-    .header { text-align: center; margin-bottom: 25px; width: 100%; }
+    /* 2. HEADER & INPUTS */
+    .header { text-align: center; margin: 15px 0 25px; width: 100%; }
     h1 { color: #d4af37; font-size: 26px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
     .subtitle { color: #888; font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; }
 
-    /* Form Nhập Liệu */
     .input-box { background: #121212; border: 1px solid #2c2c31; border-radius: 20px; padding: 20px; width: 100%; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
     .flex-row { display: flex; gap: 15px; margin-bottom: 15px; width: 100%; }
-    .flex-row input, .flex-row select { flex: 1; width: 50%; background: #000; border: 1px solid #2c2c31; color: #fff; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: 600; text-align: center; outline: none; font-family: 'Inter', sans-serif; }
+    .flex-row input, .flex-row select { flex: 1; width: 100%; background: #000; border: 1px solid #2c2c31; color: #fff; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: 600; text-align: center; outline: none; font-family: 'Inter', sans-serif; }
     
-    .btn-gold { background: linear-gradient(135deg, #d4af37, #aa8222); color: #000; border: none; border-radius: 12px; padding: 18px; width: 100%; font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; font-family: 'Inter', sans-serif; box-shadow: 0 5px 15px rgba(212,175,55,0.2); cursor: pointer; display: block; text-align: center;}
+    .btn-gold { background: linear-gradient(135deg, #d4af37, #aa8222); color: #000; border: none; border-radius: 12px; padding: 18px; width: 100%; font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; font-family: 'Inter', sans-serif; box-shadow: 0 5px 15px rgba(212,175,55,0.2); cursor: pointer; }
     .btn-gold:active { transform: scale(0.98); }
-    .btn-outline { background: transparent; color: #d4af37; border: 1px solid #d4af37; box-shadow: none; margin-bottom: 15px;}
 
-    /* 3. KHU VỰC LA BÀN CHUẨN XÁC */
-    .status-area { text-align: center; width: 100%; min-height: 85px; margin-bottom: 10px;}
-    .deg-text { font-size: 46px; font-weight: 800; color: #fff; display: none; line-height: 1; margin-bottom: 5px;}
-    .dir-text { font-size: 18px; font-weight: 700; color: #d4af37; letter-spacing: 1px; display: none; }
+    /* 3. KHU VỰC LA BÀN */
+    .status-area { text-align: center; width: 100%; min-height: 80px; margin-bottom: 5px;}
+    .deg-text { font-size: 46px; font-weight: 800; color: #fff; line-height: 1; margin-bottom: 5px;}
+    .dir-text { font-size: 18px; font-weight: 700; color: #d4af37; letter-spacing: 1px; }
+    .hint-text { font-size: 12px; color: #666; margin-top: 5px; font-style: italic; }
 
-    /* Khung La Bàn: Ép tỷ lệ 1:1 vuông vức, không méo */
-    .compass-box { width: 100%; max-width: 340px; aspect-ratio: 1 / 1; position: relative; margin: 0 auto 30px; }
+    .compass-box { width: 100%; max-width: 330px; aspect-ratio: 1 / 1; position: relative; margin: 0 auto 30px; }
     .compass-ring { width: 100%; height: 100%; border-radius: 50%; border: 3px solid #d4af37; padding: 5px; background: #000; position: relative; box-shadow: 0 0 30px rgba(212,175,55,0.15), inset 0 0 20px #000; }
     
-    /* Mặt La Kinh: Neo tâm chống lắc lư */
     .compass-face { 
       width: 100%; height: 100%; border-radius: 50%;
-      background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Luopan.jpg/1024px-Luopan.jpg');
-      background-size: contain; /* Ép hình ảnh vừa khít vòng tròn */
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Luopan.jpg/1024px-Luopan.jpg'); /* Đã đổi sang la kinh chuẩn quốc tế, không lệch tâm */
+      background-size: contain; 
       background-position: center center;
       background-repeat: no-repeat;
       position: absolute; top: 0; left: 0;
-      transform-origin: center center; /* KHÓA TÂM: Chống lắc xéo khi xoay */
+      transform-origin: center center;
       transition: transform 0.1s linear;
       filter: sepia(0.2) brightness(1.1);
     }
     
-    /* Kim đỏ */
     .pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 40px solid #e74c3c; z-index: 10; filter: drop-shadow(0 0 8px rgba(231,76,60,0.8)); }
 
     /* 4. KẾT QUẢ PHÂN TÍCH */
@@ -120,9 +120,9 @@
     </div>
 
     <div class="status-area">
-      <button id="btn-start" class="btn-gold btn-outline">KẾT NỐI LA KINH TỪ TÍNH</button>
       <div id="deg" class="deg-text">--°</div>
-      <div id="dir" class="dir-text"></div>
+      <div id="dir" class="dir-text">Đang đồng bộ...</div>
+      <div id="hint" class="hint-text">Chạm màn hình nếu la bàn chưa xoay</div>
     </div>
 
     <div class="compass-box">
@@ -186,25 +186,37 @@
       setTimeout(() => box.scrollIntoView({ behavior: 'smooth' }), 100);
     }
 
+    /* --- CƠ CHẾ KÍCH HOẠT ẨN THÔNG MINH --- */
     const face = document.getElementById('face');
     const degEl = document.getElementById('deg');
     const dirEl = document.getElementById('dir');
-    const btn = document.getElementById('btn-start');
+    const hintEl = document.getElementById('hint');
+    let isCompassReady = false;
 
     function getDirName(d) {
       const arr = ["Bắc","Đông Bắc","Đông","Đông Nam","Nam","Tây Nam","Tây","Tây Bắc"];
       return "Chính " + arr[Math.round(d / 45) % 8];
     }
 
-    btn.onclick = function() {
+    // Kích hoạt ngay khi người dùng chạm vào bất kỳ đâu trên màn hình
+    function initCompass() {
+      if(isCompassReady) return;
       if (typeof DeviceOrientationEvent.requestPermission === 'function') {
         DeviceOrientationEvent.requestPermission().then(s => {
-          if (s === 'granted') { window.addEventListener('deviceorientation', handleOrient); activate(); }
+          if (s === 'granted') { 
+            window.addEventListener('deviceorientation', handleOrient); 
+            isCompassReady = true; hintEl.style.display = 'none';
+          }
         }).catch(console.error);
-      } else { window.addEventListener('deviceorientationabsolute', handleOrient); activate(); }
-    };
+      } else { 
+        window.addEventListener('deviceorientationabsolute', handleOrient); 
+        isCompassReady = true; hintEl.style.display = 'none';
+      }
+    }
 
-    function activate() { btn.style.display = 'none'; degEl.style.display = 'block'; dirEl.style.display = 'block'; }
+    // Lắng nghe mọi cú chạm để ngầm kích hoạt
+    document.body.addEventListener('touchstart', initCompass, { once: true });
+    document.body.addEventListener('click', initCompass, { once: true });
 
     function handleOrient(e) {
       let h = e.webkitCompassHeading; 
