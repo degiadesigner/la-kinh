@@ -15,7 +15,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* LỆNH ÉP KHUÔN TUYỆT ĐỐI - FIX LỖI TRÀN Ô NHẬP LIỆU */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -25,9 +24,8 @@
     body {
       font-family: 'Inter', sans-serif;
       background-color: var(--bg); color: var(--text);
-      /* Canh lề chuẩn xác cho mọi màn hình, chống tràn ngang */
-      padding: max(20px, env(safe-area-inset-top)) 15px 80px 15px;
-      width: 100%; min-height: 100vh; overflow-x: hidden;
+      padding: env(safe-area-inset-top) 15px 80px 15px;
+      width: 100vw; min-height: 100vh; overflow-x: hidden;
       display: flex; flex-direction: column; align-items: center;
     }
 
@@ -35,19 +33,15 @@
     h1 { font-size: 26px; font-weight: 800; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 5px; }
     .subtitle { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 3px; font-weight: 600;}
 
-    /* KHU VỰC NHẬP LIỆU FIX 100% CỐ ĐỊNH */
+    /* Form Nhập Liệu */
     .input-section {
       background: var(--card); padding: 20px; border-radius: 20px;
       border: 1px solid var(--border); margin-bottom: 20px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.8);
-      width: 100%; max-width: 380px; /* Khóa kích thước tối đa */
+      box-shadow: 0 15px 35px rgba(0,0,0,0.8); width: 100%; max-width: 380px;
     }
-    .row { 
-      display: flex; gap: 10px; margin-bottom: 15px; width: 100%; 
-    }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; width: 100%; }
     input, select {
-      flex: 1; min-width: 0; /* LỆNH CHỐNG TRÀN VƯỢT KHUNG KHI MÀN HÌNH NHỎ */
-      background: #000; border: 1px solid var(--border); color: #fff;
+      width: 100%; background: #000; border: 1px solid var(--border); color: #fff;
       padding: 15px 10px; border-radius: 12px; font-size: 16px; font-weight: 600; outline: none;
       text-align: center; font-family: 'Inter', sans-serif; appearance: none;
     }
@@ -59,8 +53,27 @@
     }
     .btn-main:active { transform: scale(0.98); }
 
-    /* KHU VỰC LA BÀN */
+    /* Vòng La Bàn & Kim Xoay */
     #compass-wrapper { position: relative; width: 100%; max-width: 320px; aspect-ratio: 1/1; margin: 30px auto 20px; }
+    
+    /* GIAO DIỆN HIỆU CHỈNH CHUYÊN NGHIỆP (OVERLAY) */
+    #calibration-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85); border-radius: 50%; z-index: 20;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      border: 2px dashed var(--gold); cursor: pointer; backdrop-filter: blur(4px);
+    }
+    .pulse-dot {
+      width: 40px; height: 40px; background: var(--gold); border-radius: 50%; margin-bottom: 15px;
+      animation: pulse 1.5s infinite;
+    }
+    .calibration-text { color: var(--gold); font-size: 13px; font-weight: 700; text-align: center; text-transform: uppercase; letter-spacing: 1px; padding: 0 20px;}
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(212, 175, 55, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+    }
+
     #compass-container {
       width: 100%; height: 100%; border-radius: 50%;
       border: 3px solid var(--gold); padding: 2px; box-sizing: border-box;
@@ -70,7 +83,7 @@
     #compass-face {
       width: 100%; height: 100%; border-radius: 50%;
       background: url('lakinh.png') no-repeat center;
-      background-size: cover; 
+      background-size: contain; 
       transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
       position: absolute; top: 0; left: 0;
     }
@@ -82,12 +95,10 @@
       z-index: 10; filter: drop-shadow(0 0 10px rgba(231,76,60,0.9));
     }
     #degree-info { font-size: 42px; font-weight: 800; text-align: center; margin-top: 10px; color: #fff; font-variant-numeric: tabular-nums; }
-    #direction-text { font-size: 18px; color: var(--gold); text-align: center; font-weight: 700; margin-top: 5px; letter-spacing: 1px; margin-bottom: 20px;}
-    
-    .hint-text { text-align: center; color: #666; font-size: 12px; margin-bottom: 10px; font-style: italic;}
+    #direction-text { font-size: 18px; color: var(--gold); text-align: center; font-weight: 700; margin-top: 5px; letter-spacing: 1px; margin-bottom: 30px;}
 
-    /* BẢNG KẾT QUẢ PHÂN TÍCH */
-    #result-panel { display: none; margin-top: 20px; animation: slideUp 0.6s ease; width: 100%; max-width: 400px; }
+    /* Kết Quả */
+    #result-panel { display: none; margin-top: 20px; animation: slideUp 0.6s ease; width: 100%; max-width: 400px; padding-bottom: 50px;}
     .card-result { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 22px; width: 100%; }
     .title-badge { font-size: 12px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-weight: 800; margin-bottom: 15px; display: block; text-align: center; }
     .profile-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid var(--border); padding-bottom: 18px; }
@@ -139,13 +150,16 @@
   <div id="direction-text">Chưa kết nối</div>
 
   <div id="compass-wrapper">
+    <div id="calibration-overlay" onclick="activateCompass()">
+      <div class="pulse-dot"></div>
+      <div class="calibration-text">Chạm để khởi động<br>Hệ thống Từ Trường</div>
+    </div>
+    
     <div id="pointer"></div>
     <div id="compass-container">
       <div id="compass-face"></div>
     </div>
   </div>
-  
-  <div class="hint-text" id="hint">Chạm nhẹ vào bất kỳ đâu để La Bàn tự xoay</div>
 
   <div id="result-panel"></div>
 
@@ -154,7 +168,6 @@
   </footer>
 
   <script>
-    // --- DỮ LIỆU PHONG THỦY BÁT TRẠCH ---
     const meanings = {
       "Sinh Khí": "Tuyệt hảo cho Cửa chính. Thu hút tài lộc, thăng quan tiến chức.",
       "Thiên Y": "Tốt cho Phòng ngủ Master. Năng lượng chữa lành, dồi dào sức khỏe.",
@@ -266,10 +279,10 @@
       setTimeout(() => { panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
     }
 
-    // --- CƠ CHẾ CHẠM TỰ ĐỘNG KÍCH HOẠT ĐA NỀN TẢNG ---
     const compassFace = document.getElementById('compass-face');
     const degreeInfo = document.getElementById('degree-info');
     const directionText = document.getElementById('direction-text');
+    const calibrationOverlay = document.getElementById('calibration-overlay');
     let isCompassActive = false;
 
     function getDirectionName(deg) {
@@ -284,32 +297,27 @@
       return "";
     }
 
-    // Gắn sự kiện: Chạm vào bất kỳ vị trí nào trên ứng dụng sẽ kích hoạt
+    // KÍCH HOẠT LA BÀN KHI CHẠM VÀO LỚP PHỦ
     function activateCompass() {
       if (isCompassActive) return;
       if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-        // Của iOS
         DeviceOrientationEvent.requestPermission().then(state => {
           if (state === 'granted') {
             window.addEventListener('deviceorientation', handleOrientation);
             isCompassActive = true;
-            document.getElementById('hint').style.display = 'none';
+            calibrationOverlay.style.display = 'none'; // Ẩn lớp phủ khi cấp quyền thành công
           }
         }).catch(console.error);
       } else {
-        // Của Android / Thiết bị cũ
         if ('ondeviceorientationabsolute' in window) {
           window.addEventListener('deviceorientationabsolute', handleOrientation);
         } else {
           window.addEventListener('deviceorientation', handleOrientation);
         }
         isCompassActive = true;
-        document.getElementById('hint').style.display = 'none';
+        calibrationOverlay.style.display = 'none';
       }
     }
-
-    document.body.addEventListener('click', activateCompass);
-    document.body.addEventListener('touchstart', activateCompass);
 
     function handleOrientation(e) {
       let heading = null;
