@@ -7,9 +7,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>La Bàn Pro</title>
   
-  <!-- LIÊN KẾT FILE MANIFEST ĐỂ CÀI ĐẶT APP TRÊN ANDROID CHUẨN PWA -->
   <link rel="manifest" href="manifest.json">
-  
   <link rel="apple-touch-icon" href="icon-app.png">
   <link rel="icon" type="image/png" href="icon-app.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -36,9 +34,10 @@
     .tab-content.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+    /* HEADER CẬP NHẬT THEO YÊU CẦU MỚI */
     .header { text-align: center; margin: 20px 0; width: 100%; }
-    h1 { font-size: 26px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 2px;}
-    .subtitle { font-size: 10px; color: #888; letter-spacing: 2px; font-weight: 600;}
+    h1 { font-size: 26px; font-weight: 900; color: var(--gold); text-transform: uppercase; letter-spacing: 2px;}
+    .subtitle { font-size: 11px; color: #aaa; letter-spacing: 2px; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;}
 
     .input-section {
       background: var(--card); padding: 20px; border-radius: 20px; border: 1px solid var(--border);
@@ -72,16 +71,18 @@
     .color-section { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; margin-bottom: 15px; }
     .color-dot { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; background: #111; color: #fff; border: 1px solid #333; }
     
+    /* Xóa bỏ hoàn toàn transition CSS cũ để JS đảm nhiệm độ mượt 100% */
     #compass-wrapper { position: relative; width: 320px; height: 320px; margin: 25px auto; }
     #compass-face {
       width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--gold);
-      background: url('lakinh.png?v=v008') no-repeat center; background-size: contain;
+      background: url('lakinh.png?v=v009') no-repeat center; background-size: contain;
       position: absolute; top: 0; left: 0;
+      will-change: transform; /* Báo cho trình duyệt tối ưu GPU đồ họa */
     }
-    #pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 50px solid var(--bad); z-index: 10; }
-    #degree-info { font-size: 44px; font-weight: 800; text-align: center; color: #fff; margin-top: 10px; }
+    #pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 50px solid var(--bad); z-index: 10; filter: drop-shadow(0 0 8px rgba(231,76,60,0.8));}
+    #degree-info { font-size: 46px; font-weight: 900; text-align: center; color: #fff; margin-top: 10px; font-variant-numeric: tabular-nums;}
     #basic-direction { font-size: 22px; color: var(--good); text-align: center; font-weight: 800; margin-top: 5px; text-transform: uppercase;}
-    #direction-text { font-size: 16px; color: var(--gold); text-align: center; font-weight: 700; margin-top: 5px; margin-bottom: 20px; }
+    #direction-text { font-size: 16px; color: var(--gold); text-align: center; font-weight: 700; margin-top: 5px; margin-bottom: 20px; letter-spacing: 1px; }
 
     .consult-box { background: linear-gradient(135deg, #1e1e1e, #121212); border-radius: 20px; padding: 20px; border: 1px solid var(--gold); width: 100%; margin-bottom: 20px; }
     .consult-title { color: var(--gold); font-weight: 800; font-size: 14px; text-transform: uppercase; margin-bottom: 15px; text-align: center;}
@@ -89,17 +90,18 @@
     .borrow-year-chip { display: inline-block; background: #222; color: var(--gold); border: 1px solid var(--gold); padding: 8px 12px; border-radius: 10px; font-size: 13px; font-weight: 700; margin: 4px; }
     .future-year-chip { display: inline-block; background: rgba(46, 204, 113, 0.1); color: var(--good); border: 1px solid var(--good); padding: 8px 12px; border-radius: 10px; font-size: 13px; font-weight: 700; margin: 4px; }
 
+    /* FOOTER CHUẨN QUỐC TẾ - CHUYÊN NGHIỆP */
     .watermark-footer {
-      width: 100%; text-align: center; color: #555; font-size: 11px; letter-spacing: 1px;
-      line-height: 1.8; text-transform: uppercase; font-weight: 600;
-      margin-top: 20px; padding-bottom: 120px; 
+      width: 100%; text-align: center; padding: 20px 0 120px 0; border-top: 1px solid #222; margin-top: 30px;
     }
+    .copy-main { font-size: 11px; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .copy-sub { font-size: 10px; font-weight: 600; color: #555; text-transform: uppercase; letter-spacing: 2px;}
   </style>
 </head>
 <body>
 
   <div class="header">
-    <div class="subtitle">Architectural Feng Shui Master</div>
+    <div class="subtitle">Kiến Trúc Xây Dựng Thanh Hòa</div>
     <h1>LA BÀN PRO</h1>
   </div>
 
@@ -128,14 +130,12 @@
     <div id="result-panel"></div>
   </div>
 
-  <!-- TAB 2: XEM NGÀY ĐỘNG THỔ ĐỘNG THÁI -->
+  <!-- TAB 2: XEM NGÀY ĐỘNG THỔ -->
   <div id="tab-xemngay" class="tab-content">
     <div class="input-section">
       <p style="text-align: center; color: var(--gold); font-size: 13px; margin-bottom: 10px; font-weight: 800; text-transform: uppercase; line-height: 1.5;">PHÂN TÍCH LÝ SỐ ĐỘNG THỔ</p>
-      
       <p style="font-size: 12px; color: #aaa; margin-bottom: 5px;">Năm dự kiến xây nhà:</p>
       <input type="number" id="targetYear" class="loban-input" style="font-size:22px !important; margin-bottom: 15px;" placeholder="Ví dụ: 2026">
-      
       <button class="btn-main" onclick="analyzeDongTho()">KIỂM TRA TUỔI XÂY CẤT</button>
       <p style="text-align: center; color: #888; font-size: 11px; margin-top: 15px; font-style: italic;">Hệ thống lấy năm sinh chủ nhà từ Tab La Bàn.</p>
     </div>
@@ -174,9 +174,10 @@
     </div>
   </div>
 
+  <!-- FOOTER CHUẨN BẢN QUYỀN QUỐC TẾ -->
   <footer class="watermark-footer">
-    MinhTT - Kiến Trúc Thanh Hòa<br>
-    0987334004 - v008
+    <div class="copy-main">© 2026 Developed by MinhTT. All rights reserved.</div>
+    <div class="copy-sub">Contact: 0987.334.004 &nbsp;|&nbsp; Version: v009</div>
   </footer>
 
   <nav class="nav-tabs">
@@ -196,6 +197,7 @@
       window.scrollTo(0,0);
     }
 
+    // --- CÁC HÀM CÔNG CỤ XEM NGÀY ---
     function getCanChi(year) {
       const can = ["Canh", "Tân", "Nhâm", "Quý", "Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ"];
       const chi = ["Thân", "Dậu", "Tuất", "Hợi", "Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi"];
@@ -212,7 +214,6 @@
         return false;
     }
 
-    // --- THUẬT TOÁN ĐỘNG THỔ ---
     function analyzeDongTho() {
       const birthYear = parseInt(document.getElementById('birthYear').value);
       if (!birthYear || birthYear < 1900) { alert("Vui lòng nhập năm sinh ở Tab La Bàn!"); return; }
@@ -221,7 +222,6 @@
       const age = targetYear - birthYear + 1; 
       
       const targetCanChi = getCanChi(targetYear);
-      
       const isTamTai = checkTamTai(birthYear, targetYear);
       const ttStatus = !isTamTai;
       const ttDesc = isTamTai ? `Phạm Tam Tai (Năm ${targetCanChi}). Tránh động thổ.` : "Không phạm Tam Tai. An toàn xây cất.";
@@ -246,9 +246,7 @@
       else if(ho===0) hoDesc="Lục Hoang Ốc (Xấu) - Phạm Hoang Ốc.";
       const hoStatus = !isHoangOc;
 
-      const renderCard = (title, status, desc) => {
-        return `<div class="info-card ${status ? 'is-good' : 'is-bad'}"><div class="cung-title">${title}</div><div class="cung-main">${status ? 'TỐT' : 'PHẠM KỴ'}</div><div class="cung-sub">${desc}</div></div>`;
-      };
+      const renderCard = (title, status, desc) => { return `<div class="info-card ${status ? 'is-good' : 'is-bad'}"><div class="cung-title">${title}</div><div class="cung-main">${status ? 'TỐT' : 'PHẠM KỴ'}</div><div class="cung-sub">${desc}</div></div>`; };
 
       let html = `<div style="text-align:center; font-size:16px; color:var(--gold); font-weight:800; margin-bottom:15px; border-bottom:1px solid #333; padding-bottom:10px;">Đánh giá năm ${targetYear} (${targetCanChi})<br><span style="font-size:13px; color:#888; display:block; margin-top:5px;">Chủ Nhà Sinh Năm ${birthYear} (${age} Tuổi)</span></div>`;
       html += renderCard("Hạn Tam Tai", ttStatus, ttDesc);
@@ -258,7 +256,6 @@
       if(ttStatus && klStatus && hoStatus) {
         html += `<div class="consult-box" style="border-color:var(--gold);"><div class="consult-title" style="color:var(--gold); margin-bottom:8px;">✨ ĐẠI CÁT ĐẠI LỢI</div><p style="text-align:center; font-size:14px; line-height:1.5; color:#e8e8e8;">Năm ${targetYear} chủ nhà được tuổi cực đẹp. Hoàn toàn phù hợp để tiến hành Động Thổ, cất nóc.</p></div>`;
       } else {
-        // Tìm người mượn tuổi
         let goodYearsHTML = "";
         for (let y = targetYear - 70; y <= targetYear - 25; y++) {
             let testAge = targetYear - y + 1;
@@ -267,7 +264,6 @@
             }
         }
 
-        // Tìm 5 năm tương lai
         let futureGoodYears = [];
         let checkY = targetYear + 1;
         while(futureGoodYears.length < 5 && checkY < targetYear + 50) {
@@ -279,26 +275,12 @@
         }
         let futureYearsHTML = futureGoodYears.map(y => `<span class="future-year-chip">${y} (${getCanChi(y)})</span>`).join('');
 
-        html += `
-          <div class="consult-box" style="border-color:#fff; margin-bottom: 15px;">
-            <div class="consult-title" style="color:#fff; margin-bottom:8px;">⚠️ CHỦ NHÀ PHẠM KỴ ĐỘNG THỔ</div>
-            <p style="text-align:center; font-size:13px; line-height:1.5; color:#ccc; margin-bottom:15px;">Giải pháp 1: Mượn tuổi của những người nam giới có năm sinh dưới đây để làm lễ Động Thổ năm ${targetYear}:</p>
-            <div style="text-align:center; line-height: 2;">${goodYearsHTML}</div>
-          </div>
-          
-          <div class="consult-box" style="border-color:var(--good);">
-            <div class="consult-title" style="color:var(--good); margin-bottom:8px;">📅 CÁC NĂM TỚI ĐƯỢC TUỔI LÀM NHÀ</div>
-            <p style="text-align:center; font-size:13px; line-height:1.5; color:#ccc; margin-bottom:15px;">Giải pháp 2: Nếu chủ nhà không muốn mượn tuổi, có thể dời kế hoạch xây cất sang 1 trong 5 năm Đại Cát gần nhất dưới đây:</p>
-            <div style="text-align:center; line-height: 2;">${futureYearsHTML}</div>
-          </div>
-        `;
+        html += `<div class="consult-box" style="border-color:#fff; margin-bottom: 15px;"><div class="consult-title" style="color:#fff; margin-bottom:8px;">⚠️ CHỦ NHÀ PHẠM KỴ ĐỘNG THỔ</div><p style="text-align:center; font-size:13px; line-height:1.5; color:#ccc; margin-bottom:15px;">Giải pháp 1: Mượn tuổi của những người nam giới có năm sinh dưới đây để làm lễ Động Thổ năm ${targetYear}:</p><div style="text-align:center; line-height: 2;">${goodYearsHTML}</div></div>`;
+        html += `<div class="consult-box" style="border-color:var(--good);"><div class="consult-title" style="color:var(--good); margin-bottom:8px;">📅 CÁC NĂM TỚI ĐƯỢC TUỔI LÀM NHÀ</div><p style="text-align:center; font-size:13px; line-height:1.5; color:#ccc; margin-bottom:15px;">Giải pháp 2: Nếu không muốn mượn tuổi, có thể dời kế hoạch xây cất sang 1 trong 5 năm Đại Cát gần nhất dưới đây:</p><div style="text-align:center; line-height: 2;">${futureYearsHTML}</div></div>`;
       }
-
-      const resultsDiv = document.getElementById('dongtho-results');
-      resultsDiv.innerHTML = html;
-      resultsDiv.style.display = 'block';
+      document.getElementById('dongtho-results').innerHTML = html;
+      document.getElementById('dongtho-results').style.display = 'block';
     }
-
 
     // --- LOGIC BÁT TRẠCH ---
     const batTrachData = {
@@ -348,6 +330,10 @@
       document.getElementById('result-panel').style.display = 'block';
     }
 
+
+    // =====================================================================
+    // THUẬT TOÁN LA BÀN CHỐNG GIẬT (ANTI-JITTER / LOW-PASS FILTER) ĐỘC QUYỀN
+    // =====================================================================
     const face = document.getElementById('compass-face');
     const degInfo = document.getElementById('degree-info');
     const basicDirection = document.getElementById('basic-direction');
@@ -361,14 +347,23 @@
     function getSon(d) { return ["Tý", "Quý", "Sửu", "Cấn", "Dần", "Giáp", "Mão", "Ất", "Thìn", "Tốn", "Tỵ", "Bính", "Ngọ", "Đinh", "Mùi", "Khôn", "Thân", "Canh", "Dậu", "Tân", "Tuất", "Càn", "Hợi", "Nhâm"][Math.floor(((d + 7.5) % 360) / 15)]; }
 
     function animateCompass() {
+      // 1. Tính toán quãng đường ngắn nhất (tránh lỗi xoay ngược 360 độ)
       let diff = targetHeading - currentHeading;
       diff = ((diff + 180) % 360 + 360) % 360 - 180;
-      currentHeading += diff * 0.08; 
 
-      face.style.transform = `rotate(${-currentHeading}deg)`;
-      let r = Math.round(currentHeading) % 360;
-      if(r < 0) r += 360;
+      // 2. THUẬT TOÁN VÙNG CHẾT (DEADZONE) CHỐNG GIẬT
+      // Nếu độ lệch rất nhỏ (< 0.2 độ) do nhiễu cảm biến -> Khóa cứng, không cho kim nhúc nhích.
+      if (Math.abs(diff) > 0.2) {
+         // 3. LOW-PASS FILTER (EMA): Làm mượt gia tốc. 0.12 là độ "trì" của la kinh.
+         currentHeading += diff * 0.12; 
+      }
+
+      // 4. Chuẩn hóa góc quay hiển thị
+      let displayHeading = (currentHeading % 360 + 360) % 360;
+
+      face.style.transform = `rotate(${-displayHeading}deg)`;
       
+      let r = Math.round(displayHeading);
       degInfo.innerText = r + "°";
       basicDirection.innerText = getBasicDirection(r);
       txtInfo.innerText = getSon(r);
@@ -376,24 +371,35 @@
       requestAnimationFrame(animateCompass);
     }
 
+    // Tương thích đa nền tảng (iOS Safari & Android Chrome)
     function activateCompass() {
       if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-        DeviceOrientationEvent.requestPermission().then(s => { if(s==='granted') window.addEventListener('deviceorientation', handle, true); });
+        DeviceOrientationEvent.requestPermission().then(s => { 
+            if(s==='granted') {
+                window.addEventListener('deviceorientation', handleOrientation, true);
+                if(!isAnimating) { isAnimating = true; animateCompass(); }
+            }
+        });
       } else {
-        window.addEventListener('deviceorientationabsolute', handle, true);
-        window.addEventListener('deviceorientation', handle, true);
+        // Ưu tiên Absolute trên Android để lấy hướng Bắc từ tính thực sự
+        if ('ondeviceorientationabsolute' in window) {
+            window.addEventListener('deviceorientationabsolute', handleAbsolute, true);
+        } else {
+            window.addEventListener('deviceorientation', handleOrientation, true);
+        }
+        if(!isAnimating) { isAnimating = true; animateCompass(); }
       }
     }
 
-    function handle(e) {
-      let h = e.webkitCompassHeading || (360 - e.alpha);
-      if (h !== null && h !== undefined) {
-        targetHeading = h;
-        if (!isAnimating) {
-            isAnimating = true;
-            currentHeading = h; 
-            animateCompass();
-        }
+    function handleAbsolute(e) {
+      if (e.alpha !== null) targetHeading = 360 - e.alpha;
+    }
+
+    function handleOrientation(e) {
+      if (e.webkitCompassHeading !== undefined && e.webkitCompassHeading !== null) {
+        targetHeading = e.webkitCompassHeading; // iOS chuẩn
+      } else if (e.alpha !== null) {
+        targetHeading = 360 - e.alpha; // Android Fallback
       }
     }
 
