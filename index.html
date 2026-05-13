@@ -21,7 +21,6 @@
       display: flex; flex-direction: column; align-items: center; overflow-x: hidden; min-height: 100vh;
     }
 
-    /* Thanh Điều Hướng Tabs: Chia 3 Đều Nhau */
     .nav-tabs {
       position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(18, 18, 18, 0.98);
       display: grid; grid-template-columns: 1fr 1fr 1fr; border-top: 1px solid var(--border);
@@ -38,7 +37,6 @@
     h1 { font-size: 26px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 2px;}
     .subtitle { font-size: 10px; color: #888; letter-spacing: 2px; font-weight: 600;}
 
-    /* Form Nhập Liệu Chung */
     .input-section {
       background: var(--card); padding: 20px; border-radius: 20px; border: 1px solid var(--border);
       width: 100%; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -53,7 +51,6 @@
       font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
     }
     
-    /* Giao Diện Các Thẻ (Cards) Dùng Chung (Lỗ Ban & Xem Ngày) */
     .card-result { background: var(--card); border-radius: 20px; padding: 20px; border: 1px solid var(--border); margin-bottom: 20px; }
     .info-card { background: #181818; border-radius: 16px; padding: 15px; border-left: 6px solid #444; margin-bottom: 12px; transition: 0.3s; }
     .info-card.is-good { border-left-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
@@ -65,31 +62,29 @@
     .cung-main { font-size: 20px; font-weight: 800; margin-bottom: 2px; }
     .cung-sub { font-size: 13px; opacity: 0.7; line-height: 1.4; color: #ccc;}
 
-    /* Lỗ Ban Đặc Biệt */
     .loban-input { font-size: 28px !important; color: var(--gold) !important; border: 2px solid var(--gold) !important; margin-bottom: 10px; }
     
-    /* Bát Trạch & La Bàn */
     .dir-item { background: #000; padding: 12px; border-radius: 12px; border-left: 4px solid var(--good); margin-bottom: 10px; }
     .dir-item.bad { border-left-color: var(--bad); }
     .color-section { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; margin-bottom: 15px; }
     .color-dot { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; background: #111; color: #fff; border: 1px solid #333; }
+    
     #compass-wrapper { position: relative; width: 320px; height: 320px; margin: 25px auto; }
     #compass-face {
       width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--gold);
-      background: url('lakinh.png?v=v004') no-repeat center; background-size: contain;
-      position: absolute; top: 0; left: 0; transition: transform 0.1s linear;
+      background: url('lakinh.png?v=v006') no-repeat center; background-size: contain;
+      position: absolute; top: 0; left: 0;
     }
     #pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 50px solid var(--bad); z-index: 10; }
     #degree-info { font-size: 44px; font-weight: 800; text-align: center; color: #fff; margin-top: 10px; }
     #basic-direction { font-size: 22px; color: var(--good); text-align: center; font-weight: 800; margin-top: 5px; text-transform: uppercase;}
     #direction-text { font-size: 16px; color: var(--gold); text-align: center; font-weight: 700; margin-top: 5px; margin-bottom: 20px; }
 
-    /* Tư vấn Lỗ ban & Động thổ */
     .consult-box { background: linear-gradient(135deg, #1e1e1e, #121212); border-radius: 20px; padding: 20px; border: 1px solid var(--gold); width: 100%; margin-bottom: 20px; }
     .consult-title { color: var(--gold); font-weight: 800; font-size: 14px; text-transform: uppercase; margin-bottom: 15px; text-align: center;}
     .perfect-num { display: inline-block; padding: 6px 14px; border-radius: 8px; font-weight: 800; margin: 4px; font-size: 16px;}
+    .borrow-year-chip { display: inline-block; background: #222; color: var(--gold); border: 1px solid var(--gold); padding: 8px 12px; border-radius: 10px; font-size: 13px; font-weight: 700; margin: 4px; }
 
-    /* Chân trang */
     .watermark-footer {
       width: 100%; text-align: center; color: #555; font-size: 11px; letter-spacing: 1px;
       line-height: 1.8; text-transform: uppercase; font-weight: 600;
@@ -160,22 +155,24 @@
     </div>
   </div>
 
-  <!-- TAB 3: XEM NGÀY ĐỘNG THỔ -->
+  <!-- TAB 3: XEM NGÀY ĐỘNG THỔ ĐỘNG THÁI (DYNAMIC YEAR) -->
   <div id="tab-xemngay" class="tab-content">
     <div class="input-section">
-      <p style="text-align: center; color: var(--gold); font-size: 13px; margin-bottom: 15px; font-weight: 800; text-transform: uppercase; line-height: 1.5;">Phân Tích Lý Số Động Thổ<br>Năm 2026 (Bính Ngọ)</p>
+      <p style="text-align: center; color: var(--gold); font-size: 13px; margin-bottom: 10px; font-weight: 800; text-transform: uppercase; line-height: 1.5;">PHÂN TÍCH LÝ SỐ ĐỘNG THỔ</p>
+      
+      <p style="font-size: 12px; color: #aaa; margin-bottom: 5px;">Năm dự kiến xây nhà:</p>
+      <input type="number" id="targetYear" class="loban-input" style="font-size:22px !important; margin-bottom: 15px;" placeholder="Ví dụ: 2026">
+      
       <button class="btn-main" onclick="analyzeDongTho()">KIỂM TRA TUỔI XÂY CẤT</button>
-      <p style="text-align: center; color: #888; font-size: 11px; margin-top: 15px; font-style: italic;">Hệ thống tự động sử dụng Năm Sinh ở Tab La Bàn để phân tích.</p>
+      <p style="text-align: center; color: #888; font-size: 11px; margin-top: 15px; font-style: italic;">Hệ thống lấy năm sinh chủ nhà từ Tab La Bàn.</p>
     </div>
 
-    <div id="dongtho-results" style="display:none;">
-      <!-- Kết quả xuất ra tại đây -->
-    </div>
+    <div id="dongtho-results" style="display:none;"></div>
   </div>
 
   <footer class="watermark-footer">
     MinhTT - Kiến Trúc Thanh Hòa<br>
-    0987334004 - v004
+    0987334004 - v006
   </footer>
 
   <nav class="nav-tabs">
@@ -185,7 +182,9 @@
   </nav>
 
   <script>
-    // --- CHUYỂN TAB MƯỢT MÀ ---
+    // --- KHỞI TẠO NĂM HIỆN TẠI TỰ ĐỘNG ---
+    document.getElementById('targetYear').value = new Date().getFullYear();
+
     function switchTab(id, el) {
       document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
@@ -194,74 +193,93 @@
       window.scrollTo(0,0);
     }
 
-    // --- TAB 3: THUẬT TOÁN ĐỘNG THỔ ĐẲNG CẤP (NĂM 2026 BÍNH NGỌ) ---
+    // --- CÔNG THỨC CAN CHI VĨNH CỬU ---
+    function getCanChi(year) {
+      const can = ["Canh", "Tân", "Nhâm", "Quý", "Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ"];
+      const chi = ["Thân", "Dậu", "Tuất", "Hợi", "Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi"];
+      return `${can[year % 10]} ${chi[year % 12]}`;
+    }
+
+    // --- CÔNG THỨC TAM TAI MA TRẬN CHO MỌI NĂM ---
+    function checkTamTai(birthYear, targetYear) {
+        const bChi = birthYear % 12; // Chi của năm sinh
+        const tChi = targetYear % 12; // Chi của năm xây nhà
+        // Nhóm 1: Thân-Tý-Thìn (0, 4, 8) bị Tam Tai năm Dần-Mão-Thìn (6, 7, 8)
+        if ([0, 4, 8].includes(bChi) && [6, 7, 8].includes(tChi)) return true;
+        // Nhóm 2: Dần-Ngọ-Tuất (6, 10, 2) bị Tam Tai năm Thân-Dậu-Tuất (0, 1, 2)
+        if ([6, 10, 2].includes(bChi) && [0, 1, 2].includes(tChi)) return true;
+        // Nhóm 3: Tỵ-Dậu-Sửu (9, 1, 5) bị Tam Tai năm Hợi-Tý-Sửu (3, 4, 5)
+        if ([9, 1, 5].includes(bChi) && [3, 4, 5].includes(tChi)) return true;
+        // Nhóm 4: Hợi-Mão-Mùi (3, 7, 11) bị Tam Tai năm Tỵ-Ngọ-Mùi (9, 10, 11)
+        if ([3, 7, 11].includes(bChi) && [9, 10, 11].includes(tChi)) return true;
+        return false;
+    }
+
+    // --- TAB 3: THUẬT TOÁN ĐỘNG THỔ DYNAMIC YEAR ---
     function analyzeDongTho() {
       const birthYear = parseInt(document.getElementById('birthYear').value);
       if (!birthYear || birthYear < 1900) { alert("Vui lòng nhập năm sinh ở Tab La Bàn!"); return; }
 
-      const currentYear = 2026; // Chuẩn hóa năm hiện tại là Bính Ngọ
-      const age = currentYear - birthYear + 1; // Tuổi mụ
+      const targetYear = parseInt(document.getElementById('targetYear').value) || new Date().getFullYear();
+      const age = targetYear - birthYear + 1; // Tuổi mụ
       
-      // 1. Phân tích Tam Tai
-      const branchIdx = birthYear % 12; 
-      // 0:Thân, 1:Dậu, 2:Tuất, 3:Hợi, 4:Tý, 5:Sửu, 6:Dần, 7:Mão, 8:Thìn, 9:Tỵ, 10:Ngọ, 11:Mùi
-      // Năm Ngọ -> Hợi, Mão, Mùi phạm Tam Tai
-      const isTamTai = [3, 7, 11].includes(branchIdx);
-      const ttStatus = isTamTai ? false : true;
-      const ttDesc = isTamTai ? "Phạm Tam Tai (Năm Ngọ). Tuyệt đối tránh động thổ." : "Không phạm Tam Tai. An toàn xây cất.";
+      const targetCanChi = getCanChi(targetYear);
+      
+      const isTamTai = checkTamTai(birthYear, targetYear);
+      const ttStatus = !isTamTai;
+      const ttDesc = isTamTai ? `Phạm Tam Tai (Năm ${targetCanChi}). Tránh động thổ.` : "Không phạm Tam Tai. An toàn xây cất.";
 
-      // 2. Phân tích Kim Lâu
       const kl = age % 9;
       const isKimLau = [1, 3, 6, 8].includes(kl);
       let klDesc = "Không phạm Kim Lâu. Gia đạo bình an.";
-      if(kl===1) klDesc="Phạm Kim Lâu Thân (Kỵ chính bản thân chủ nhà).";
-      else if(kl===3) klDesc="Phạm Kim Lâu Thê (Kỵ người vợ).";
-      else if(kl===6) klDesc="Phạm Kim Lâu Tử (Kỵ con cái).";
-      else if(kl===8) klDesc="Phạm Kim Lâu Lục Súc (Kỵ chăn nuôi, kinh tế).";
+      if(kl===1) klDesc="Phạm Kim Lâu Thân (Kỵ bản thân).";
+      else if(kl===3) klDesc="Phạm Kim Lâu Thê (Kỵ vợ).";
+      else if(kl===6) klDesc="Phạm Kim Lâu Tử (Kỵ con).";
+      else if(kl===8) klDesc="Phạm Lâu Lục Súc (Kỵ kinh tế).";
       const klStatus = !isKimLau;
 
-      // 3. Phân tích Hoang Ốc
       const ho = (Math.floor(age / 10) + (age % 10)) % 6;
-      // Tốt: 1, 2, 4. Xấu: 3, 5, 0(6)
       const isHoangOc = [3, 5, 0].includes(ho);
       let hoDesc = "";
-      if(ho===1) hoDesc="Nhất Cát (Tốt) - Chốn an cư tốt, vạn sự hanh thông.";
-      else if(ho===2) hoDesc="Nhị Nghi (Tốt) - Xây nhà được rước lộc, hưng vượng.";
-      else if(ho===3) hoDesc="Tam Địa Sát (Xấu) - Phạm Hoang Ốc, kỵ xây dựng.";
-      else if(ho===4) hoDesc="Tứ Tấn Tài (Tốt) - Phúc lộc kéo tới, tài vận dồi dào.";
-      else if(ho===5) hoDesc="Ngũ Thọ Tử (Xấu) - Phạm Hoang Ốc, chia rẽ sinh ly.";
-      else if(ho===0) hoDesc="Lục Hoang Ốc (Xấu) - Phạm Hoang Ốc, khó thành đạt.";
+      if(ho===1) hoDesc="Nhất Cát (Tốt) - An cư lạc nghiệp.";
+      else if(ho===2) hoDesc="Nhị Nghi (Tốt) - Rước lộc hưng vượng.";
+      else if(ho===3) hoDesc="Tam Địa Sát (Xấu) - Phạm Hoang Ốc, kỵ xây.";
+      else if(ho===4) hoDesc="Tứ Tấn Tài (Tốt) - Phúc lộc tài vận.";
+      else if(ho===5) hoDesc="Ngũ Thọ Tử (Xấu) - Phạm Hoang Ốc, sinh ly.";
+      else if(ho===0) hoDesc="Lục Hoang Ốc (Xấu) - Phạm Hoang Ốc.";
       const hoStatus = !isHoangOc;
 
-      // Render HTML Kết quả
       const renderCard = (title, status, desc) => {
-        return `
-          <div class="info-card ${status ? 'is-good' : 'is-bad'}">
-            <div class="cung-title">${title}</div>
-            <div class="cung-main">${status ? 'TỐT' : 'PHẠM KỴ'}</div>
-            <div class="cung-sub">${desc}</div>
-          </div>
-        `;
+        return `<div class="info-card ${status ? 'is-good' : 'is-bad'}"><div class="cung-title">${title}</div><div class="cung-main">${status ? 'TỐT' : 'PHẠM KỴ'}</div><div class="cung-sub">${desc}</div></div>`;
       };
 
-      let html = `<div style="text-align:center; font-size:16px; color:var(--gold); font-weight:800; margin-bottom:15px; border-bottom:1px solid #333; padding-bottom:10px;">Chủ Nhà: Sinh năm ${birthYear} (${age} Tuổi)</div>`;
+      let html = `<div style="text-align:center; font-size:16px; color:var(--gold); font-weight:800; margin-bottom:15px; border-bottom:1px solid #333; padding-bottom:10px;">Đánh giá năm ${targetYear} (${targetCanChi})<br><span style="font-size:13px; color:#888; display:block; margin-top:5px;">Chủ Nhà Sinh Năm ${birthYear} (${age} Tuổi)</span></div>`;
       html += renderCard("Hạn Tam Tai", ttStatus, ttDesc);
       html += renderCard("Hạn Kim Lâu", klStatus, klDesc);
       html += renderCard("Hạn Hoang Ốc", hoStatus, hoDesc);
 
-      // Chốt Kết Luận
       if(ttStatus && klStatus && hoStatus) {
-        html += `
-          <div class="consult-box" style="border-color:var(--gold);">
-            <div class="consult-title" style="color:var(--gold); margin-bottom:8px;">✨ ĐẠI CÁT ĐẠI LỢI</div>
-            <p style="text-align:center; font-size:14px; line-height:1.5; color:#e8e8e8;">Năm 2026 chủ nhà được tuổi cực đẹp. Hoàn toàn phù hợp để tiến hành Động Thổ, cất nóc.</p>
-          </div>
-        `;
+        html += `<div class="consult-box" style="border-color:var(--gold);"><div class="consult-title" style="color:var(--gold); margin-bottom:8px;">✨ ĐẠI CÁT ĐẠI LỢI</div><p style="text-align:center; font-size:14px; line-height:1.5; color:#e8e8e8;">Năm ${targetYear} chủ nhà được tuổi cực đẹp. Hoàn toàn phù hợp để tiến hành Động Thổ, cất nóc.</p></div>`;
       } else {
+        // Thuật toán Quét mượn tuổi vĩnh cửu
+        let goodYearsHTML = "";
+        for (let y = targetYear - 70; y <= targetYear - 25; y++) {
+            let testAge = targetYear - y + 1;
+            let t_isTamTai = checkTamTai(y, targetYear);
+            let t_isKimLau = [1, 3, 6, 8].includes(testAge % 9);
+            let t_ho = (Math.floor(testAge / 10) + (testAge % 10)) % 6;
+            let t_isHoangOc = [3, 5, 0].includes(t_ho);
+            
+            if (!t_isTamTai && !t_isKimLau && !t_isHoangOc) {
+                goodYearsHTML += `<span class="borrow-year-chip">${y} (${getCanChi(y)})</span>`;
+            }
+        }
+
         html += `
           <div class="consult-box" style="border-color:#fff;">
-            <div class="consult-title" style="color:#fff; margin-bottom:8px;">⚠️ LỜI KHUYÊN TỪ MASTER</div>
-            <p style="text-align:center; font-size:14px; line-height:1.5; color:#ccc;">Năm 2026 chủ nhà phạm kỵ phong thủy, không được tự ý đứng ra xây cất. Cần tiến hành thủ tục <b>MƯỢN TUỔI</b> người hợp mệnh để động thổ.</p>
+            <div class="consult-title" style="color:#fff; margin-bottom:8px;">⚠️ CHỦ NHÀ PHẠM KỴ ĐỘNG THỔ</div>
+            <p style="text-align:center; font-size:13px; line-height:1.5; color:#ccc; margin-bottom:15px;">Vui lòng mượn tuổi của những người thân/bạn bè nam giới có năm sinh dưới đây để làm lễ Động Thổ năm ${targetYear}:</p>
+            <div style="text-align:center; line-height: 2;">${goodYearsHTML}</div>
           </div>
         `;
       }
@@ -272,14 +290,7 @@
     }
 
 
-    // --- TAB 1: LOGIC BÁT TRẠCH & LA BÀN CHUẨN ---
-    const meanings = {
-      "Sinh Khí": "Tài lộc thăng quan, vượng danh tiếng.", "Thiên Y": "Sức khỏe trường thọ, phòng ngủ Master.",
-      "Diên Niên": "Gia đạo hòa thuận, phòng khách/bếp.", "Phục Vị": "Bình yên vững chãi, phòng thờ.",
-      "Tuyệt Mệnh": "Đại hung. Tránh cửa chính, giường ngủ.", "Ngũ Quỷ": "Hung. Tai họa, mất thu nhập.",
-      "Lục Sát": "Hung. Tình cảm xáo trộn, pháp luật.", "Họa Hại": "Hung. Mệt mỏi tinh thần, dễ thất bại."
-    };
-
+    // --- TAB 1: LOGIC BÁT TRẠCH ---
     const batTrachData = {
       1: { name: "Khảm (Đông Tứ Mệnh)", good: {"Đông Nam":"Sinh Khí", "Đông":"Thiên Y", "Nam":"Diên Niên", "Bắc":"Phục Vị"}, bad: {"Tây Nam":"Tuyệt Mệnh", "Đông Bắc":"Ngũ Quỷ", "Tây Bắc":"Lục Sát", "Tây":"Họa Hại"} },
       2: { name: "Khôn (Tây Tứ Mệnh)", good: {"Đông Bắc":"Sinh Khí", "Tây":"Thiên Y", "Tây Bắc":"Diên Niên", "Tây Nam":"Phục Vị"}, bad: {"Bắc":"Tuyệt Mệnh", "Đông Nam":"Ngũ Quỷ", "Nam":"Lục Sát", "Đông":"Họa Hại"} },
@@ -290,29 +301,26 @@
       8: { name: "Cấn (Tây Tứ Mệnh)", good: {"Tây Nam":"Sinh Khí", "Tây Bắc":"Thiên Y", "Tây":"Diên Niên", "Đông Bắc":"Phục Vị"}, bad: {"Đông Nam":"Tuyệt Mệnh", "Bắc":"Ngũ Quỷ", "Đông":"Lục Sát", "Nam":"Họa Hại"} },
       9: { name: "Ly (Đông Tứ Mệnh)", good: {"Đông":"Sinh Khí", "Đông Nam":"Thiên Y", "Bắc":"Diên Niên", "Nam":"Phục Vị"}, bad: {"Tây Bắc":"Tuyệt Mệnh", "Tây":"Ngũ Quỷ", "Tây Nam":"Lục Sát", "Đông Bắc":"Họa Hại"} }
     };
+    const meanings = { "Sinh Khí": "Tài lộc thăng quan.", "Thiên Y": "Sức khỏe trường thọ.", "Diên Niên": "Gia đạo hòa thuận.", "Phục Vị": "Bình yên vững chãi.", "Tuyệt Mệnh": "Đại hung. Tránh cửa chính.", "Ngũ Quỷ": "Hung. Mất thu nhập.", "Lục Sát": "Hung. Tình cảm xáo trộn.", "Họa Hại": "Hung. Mệt mỏi tinh thần." };
 
-    function getColors(menhString) {
-      if(menhString.includes("Kim")) return { good: ["Vàng", "Nâu đất", "Trắng", "Xám"], bad: ["Đỏ", "Hồng", "Tím"] };
-      if(menhString.includes("Thủy")) return { good: ["Trắng", "Xám", "Xanh dương", "Đen"], bad: ["Vàng", "Nâu đất"] };
-      if(menhString.includes("Mộc")) return { good: ["Xanh dương", "Đen", "Xanh lá cây"], bad: ["Trắng", "Xám", "Bạc"] };
-      if(menhString.includes("Hỏa")) return { good: ["Xanh lá cây", "Đỏ", "Hồng", "Tím", "Cam"], bad: ["Xanh dương", "Đen"] };
-      if(menhString.includes("Thổ")) return { good: ["Đỏ", "Hồng", "Tím", "Cam", "Vàng", "Nâu đất"], bad: ["Xanh lá cây"] };
+    function getColors(m) {
+      if(m.includes("Kim")) return { good: ["Vàng", "Nâu đất", "Trắng", "Xám"], bad: ["Đỏ", "Hồng", "Tím"] };
+      if(m.includes("Thủy")) return { good: ["Trắng", "Xám", "Xanh dương", "Đen"], bad: ["Vàng", "Nâu đất"] };
+      if(m.includes("Mộc")) return { good: ["Xanh dương", "Đen", "Xanh lá cây"], bad: ["Trắng", "Xám", "Bạc"] };
+      if(m.includes("Hỏa")) return { good: ["Xanh lá cây", "Đỏ", "Hồng", "Tím", "Cam"], bad: ["Xanh dương", "Đen"] };
+      if(m.includes("Thổ")) return { good: ["Đỏ", "Hồng", "Tím", "Cam", "Vàng", "Nâu đất"], bad: ["Xanh lá cây"] };
       return { good: ["Trắng", "Đen", "Xanh", "Đỏ", "Vàng"], bad: [] };
     }
 
     function runExpertAnalysis() {
       const year = parseInt(document.getElementById('birthYear').value) || 1991;
       const gender = document.getElementById('gender').value;
-      
       let sum = 0; String(year).split('').forEach(d => sum += parseInt(d));
       while(sum > 9) { let t = 0; String(sum).split('').forEach(d => t += parseInt(d)); sum = t; }
       let kua = (gender === 'nam') ? (11 - sum) : (4 + sum);
       if (kua > 9) kua -= 9; if (kua === 5) kua = (gender === 'nam') ? 2 : 8;
-      
       const p = batTrachData[kua];
-      const hanhList = ["Kim", "Thủy", "Mộc", "Hỏa", "Thổ"];
-      const menh = hanhList[(year % 5)]; 
-      const colors = getColors(menh);
+      const colors = getColors(["Kim", "Thủy", "Mộc", "Hỏa", "Thổ"][(year % 5)]); 
       
       let h = `<div class="card-result"><div style="font-size:20px; font-weight:800; border-bottom:1px solid #333; padding-bottom:10px; margin-bottom:15px; color:var(--gold)">Cung ${p.name}</div>`;
       h += `<div style="color:var(--good); font-weight:800; margin-bottom:10px; font-size:13px;">BỐN HƯỚNG CÁT (TỐT):</div>`;
@@ -326,23 +334,37 @@
       colors.bad.forEach(c => h += `<span class="color-dot" style="color: var(--bad); border-color: var(--bad);">${c}</span>`);
       h += `</div></div>`;
       
-      const panel = document.getElementById('result-panel');
-      panel.innerHTML = h;
-      panel.style.display = 'block';
+      document.getElementById('result-panel').innerHTML = h;
+      document.getElementById('result-panel').style.display = 'block';
     }
 
-    // --- LA BÀN ĐIỆN TỬ CHUẨN ---
+    // --- LA BÀN NỘI SUY MƯỢT NHƯ NƯỚC ---
     const face = document.getElementById('compass-face');
     const degInfo = document.getElementById('degree-info');
     const basicDirection = document.getElementById('basic-direction');
     const txtInfo = document.getElementById('direction-text');
 
-    const baseDirections = ["Bắc", "Đông Bắc", "Đông", "Đông Nam", "Nam", "Tây Nam", "Tây", "Tây Bắc"];
-    function getBasicDirection(deg) { return baseDirections[Math.floor(((deg % 360 + 360) % 360 + 22.5) / 45) % 8]; }
+    let currentHeading = 0;
+    let targetHeading = 0;
+    let isAnimating = false;
 
-    function getSon(d) {
-      const s = ["Tý", "Quý", "Sửu", "Cấn", "Dần", "Giáp", "Mão", "Ất", "Thìn", "Tốn", "Tỵ", "Bính", "Ngọ", "Đinh", "Mùi", "Khôn", "Thân", "Canh", "Dậu", "Tân", "Tuất", "Càn", "Hợi", "Nhâm"];
-      return s[Math.floor(((d + 7.5) % 360) / 15)];
+    function getBasicDirection(deg) { return ["Bắc", "Đông Bắc", "Đông", "Đông Nam", "Nam", "Tây Nam", "Tây", "Tây Bắc"][Math.floor(((deg % 360 + 360) % 360 + 22.5) / 45) % 8]; }
+    function getSon(d) { return ["Tý", "Quý", "Sửu", "Cấn", "Dần", "Giáp", "Mão", "Ất", "Thìn", "Tốn", "Tỵ", "Bính", "Ngọ", "Đinh", "Mùi", "Khôn", "Thân", "Canh", "Dậu", "Tân", "Tuất", "Càn", "Hợi", "Nhâm"][Math.floor(((d + 7.5) % 360) / 15)]; }
+
+    function animateCompass() {
+      let diff = targetHeading - currentHeading;
+      diff = ((diff + 180) % 360 + 360) % 360 - 180;
+      currentHeading += diff * 0.08; 
+
+      face.style.transform = `rotate(${-currentHeading}deg)`;
+      let r = Math.round(currentHeading) % 360;
+      if(r < 0) r += 360;
+      
+      degInfo.innerText = r + "°";
+      basicDirection.innerText = getBasicDirection(r);
+      txtInfo.innerText = getSon(r);
+
+      requestAnimationFrame(animateCompass);
     }
 
     function activateCompass() {
@@ -356,47 +378,22 @@
 
     function handle(e) {
       let h = e.webkitCompassHeading || (360 - e.alpha);
-      if (h) {
-        requestAnimationFrame(() => {
-          face.style.transform = `rotate(${-h}deg)`;
-          let r = Math.round(h) % 360;
-          if(r < 0) r += 360;
-          degInfo.innerText = r + "°";
-          basicDirection.innerText = getBasicDirection(r);
-          txtInfo.innerText = getSon(r);
-        });
+      if (h !== null && h !== undefined) {
+        targetHeading = h;
+        if (!isAnimating) {
+            isAnimating = true;
+            currentHeading = h; 
+            animateCompass();
+        }
       }
     }
 
-    // --- TAB 2: LỖ BAN TAM HỒNG CHUẨN CHỈ MÀU SẮC ---
-    const lb522 = [
-      {n: "Quý Nhân", g: true, d: "Gia cảnh hưng vượng, con cái thông minh."}, {n: "Hiểm Họa", g: false, d: "Dễ tán tài, gia đạo bất an."},
-      {n: "Thiên Tai", g: false, d: "Bệnh tật, tai nạn bất ngờ."}, {n: "Thiên Tài", g: true, d: "May mắn về tiền bạc, con cái hiếu thảo."},
-      {n: "Nhân Lộc", g: true, d: "Công việc thuận lợi, phúc lộc dồi dào."}, {n: "Cô Độc", g: false, d: "Ly tán, cô đơn, vất vả."},
-      {n: "Thiên Tặc", g: false, d: "Tai bay vạ gió, trộm cắp."}, {n: "Tể Tướng", g: true, d: "Gia đạo hạnh phúc, quyền quý."}
-    ];
+    // --- TAB 2: LỖ BAN ---
+    const lb522 = [{n: "Quý Nhân", g: true, d: "Gia cảnh hưng vượng."}, {n: "Hiểm Họa", g: false, d: "Dễ tán tài."}, {n: "Thiên Tai", g: false, d: "Tai nạn bất ngờ."}, {n: "Thiên Tài", g: true, d: "May mắn tiền bạc."}, {n: "Nhân Lộc", g: true, d: "Công việc thuận lợi."}, {n: "Cô Độc", g: false, d: "Ly tán, cô đơn."}, {n: "Thiên Tặc", g: false, d: "Trộm cắp."}, {n: "Tể Tướng", g: true, d: "Gia đạo hạnh phúc."}];
+    const lb429 = [{n: "Tài", g: true, d: "Đón tài lộc."}, {n: "Bệnh", g: false, d: "Ốm đau."}, {n: "Ly", g: false, d: "Xa cách."}, {n: "Nghĩa", g: true, d: "Gia đạo yên ấm."}, {n: "Quan", g: true, d: "Quan vận hanh thông."}, {n: "Kiếp", g: false, d: "Tai nạn."}, {n: "Hại", g: false, d: "Tranh chấp."}, {n: "Bản", g: true, d: "Hưng vượng đỗ đạt."}];
+    const lb388 = [{n: "Đinh", g: true, d: "Thêm con trai."}, {n: "Hại", g: false, d: "Họa hại."}, {n: "Vượng", g: true, d: "Tiền bạc dồi dào."}, {n: "Khổ", g: false, d: "Khốn khó."}, {n: "Nghĩa", g: true, d: "Phúc lộc."}, {n: "Quan", g: true, d: "Quyền quý."}, {n: "Tử", g: false, d: "Ly tán."}, {n: "Thất", g: false, d: "Nghèo khó."}, {n: "Cát", g: true, d: "Mọi việc như ý."}, {n: "Bản", g: true, d: "Hưng vượng."}];
 
-    const lb429 = [
-      {n: "Tài", g: true, d: "Đón tài lộc, vạn sự cát tường."}, {n: "Bệnh", g: false, d: "Ốm đau, tai ách liên miên."},
-      {n: "Ly", g: false, d: "Xa cách, hao tốn tiền của."}, {n: "Nghĩa", g: true, d: "Gia đạo yên ấm, nhân nghĩa."},
-      {n: "Quan", g: true, d: "Quan vận hanh thông, quý giá."}, {n: "Kiếp", g: false, d: "Tai nạn, mất mát tiền của."},
-      {n: "Hại", g: false, d: "Bị hại, tranh chấp kiện tụng."}, {n: "Bản", g: true, d: "Gia đình hưng vượng, đỗ đạt."}
-    ];
-
-    const lb388 = [
-      {n: "Đinh", g: true, d: "Thêm con trai, phúc lộc."}, {n: "Hại", g: false, d: "Họa hại, tai ương."},
-      {n: "Vượng", g: true, d: "Tiền bạc dồi dào."}, {n: "Khổ", g: false, d: "Khốn khó, vất vả."},
-      {n: "Nghĩa", g: true, d: "Phúc lộc thiên tạo."}, {n: "Quan", g: true, d: "Giàu sang, quyền quý."},
-      {n: "Tử", g: false, d: "Ly tán, chết chóc."}, {n: "Thất", g: false, d: "Thất thoát, nghèo khó."},
-      {n: "Cát", g: true, d: "Mọi việc như ý."}, {n: "Bản", g: true, d: "Gia sản hưng vượng."}
-    ];
-
-    function getCung(mm, size, data) {
-      let cm = mm / 10;
-      let idx = Math.floor((cm % (size * data.length)) / size);
-      if (idx >= data.length) idx = data.length - 1;
-      return data[idx];
-    }
+    function getCung(mm, size, data) { let idx = Math.floor(((mm/10) % (size * data.length)) / size); return data[idx >= data.length ? data.length-1 : idx]; }
 
     function calculateLoBan() {
       let val = document.getElementById('lobanInput').value;
@@ -415,44 +412,23 @@
       updateUI('ruler-429', 5.3625, lb429);
       updateUI('ruler-388', 3.88, lb388);
 
-      let tamHong = [];
-      let haiHong = [];
-      
+      let tamHong = [], haiHong = [];
       let start = Math.floor(mm / 5) * 5 - 80; 
       for (let i = 0; i <= 32; i++) {
-        let testMm = start + (i * 5);
-        if (testMm <= 0) continue;
-        
-        let g1 = getCung(testMm, 6.525, lb522).g;
-        let g2 = getCung(testMm, 5.3625, lb429).g;
-        let g3 = getCung(testMm, 3.88, lb388).g;
-        
-        let score = (g1?1:0) + (g2?1:0) + (g3?1:0);
-        if (score === 3) tamHong.push(testMm);
-        else if (score === 2) haiHong.push(testMm);
+        let t = start + (i * 5);
+        if (t <= 0) continue;
+        let score = (getCung(t,6.525,lb522).g?1:0) + (getCung(t,5.3625,lb429).g?1:0) + (getCung(t,3.88,lb388).g?1:0);
+        if (score === 3) tamHong.push(t);
+        else if (score === 2) haiHong.push(t);
       }
 
-      const consultPanel = document.getElementById('consult-panel');
-      const perfectDiv = document.getElementById('perfect-numbers');
-      
-      let htmlRender = '';
-      if (tamHong.length > 0) {
-        htmlRender += `<div style="margin-bottom:12px;"><span style="color:var(--gold); font-size:12px; display:block; margin-bottom:5px;">Tuyệt đẹp (Tam Hồng):</span>`;
-        htmlRender += tamHong.map(n => `<span class="perfect-num" style="background:var(--gold); color:#000;">${n}</span>`).join('');
-        htmlRender += `</div>`;
-      }
-      if (haiHong.length > 0) {
-        htmlRender += `<div><span style="color:var(--good); font-size:12px; display:block; margin-bottom:5px;">Khá tốt (2 Thước Đỏ):</span>`;
-        htmlRender += haiHong.map(n => `<span class="perfect-num" style="background:var(--good); color:#000;">${n}</span>`).join('');
-        htmlRender += `</div>`;
-      }
+      const cp = document.getElementById('consult-panel');
+      const pd = document.getElementById('perfect-numbers');
+      let html = '';
+      if (tamHong.length) html += `<div style="margin-bottom:12px;"><span style="color:var(--gold); font-size:12px; display:block; margin-bottom:5px;">Tuyệt đẹp (Tam Hồng):</span>${tamHong.map(n => `<span class="perfect-num" style="background:var(--gold); color:#000;">${n}</span>`).join('')}</div>`;
+      if (haiHong.length) html += `<div><span style="color:var(--good); font-size:12px; display:block; margin-bottom:5px;">Khá tốt (2 Thước Đỏ):</span>${haiHong.map(n => `<span class="perfect-num" style="background:var(--good); color:#000;">${n}</span>`).join('')}</div>`;
 
-      if(htmlRender !== '') {
-        consultPanel.style.display = 'block';
-        perfectDiv.innerHTML = htmlRender;
-      } else {
-        consultPanel.style.display = 'none';
-      }
+      if(html) { cp.style.display = 'block'; pd.innerHTML = html; } else cp.style.display = 'none';
     }
   </script>
 </body>
