@@ -72,7 +72,7 @@
     #compass-wrapper { position: relative; width: 320px; height: 320px; margin: 25px auto; }
     #compass-face {
       width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--gold);
-      background: url('lakinh.png?v=v006') no-repeat center; background-size: contain;
+      background: url('lakinh.png?v=v007') no-repeat center; background-size: contain;
       position: absolute; top: 0; left: 0;
     }
     #pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 50px solid var(--bad); z-index: 10; }
@@ -84,6 +84,7 @@
     .consult-title { color: var(--gold); font-weight: 800; font-size: 14px; text-transform: uppercase; margin-bottom: 15px; text-align: center;}
     .perfect-num { display: inline-block; padding: 6px 14px; border-radius: 8px; font-weight: 800; margin: 4px; font-size: 16px;}
     .borrow-year-chip { display: inline-block; background: #222; color: var(--gold); border: 1px solid var(--gold); padding: 8px 12px; border-radius: 10px; font-size: 13px; font-weight: 700; margin: 4px; }
+    .future-year-chip { display: inline-block; background: rgba(46, 204, 113, 0.1); color: var(--good); border: 1px solid var(--good); padding: 8px 12px; border-radius: 10px; font-size: 13px; font-weight: 700; margin: 4px; }
 
     .watermark-footer {
       width: 100%; text-align: center; color: #555; font-size: 11px; letter-spacing: 1px;
@@ -124,7 +125,22 @@
     <div id="result-panel"></div>
   </div>
 
-  <!-- TAB 2: THƯỚC LỖ BAN -->
+  <!-- TAB 2: XEM NGÀY ĐỘNG THỔ ĐỘNG THÁI -->
+  <div id="tab-xemngay" class="tab-content">
+    <div class="input-section">
+      <p style="text-align: center; color: var(--gold); font-size: 13px; margin-bottom: 10px; font-weight: 800; text-transform: uppercase; line-height: 1.5;">PHÂN TÍCH LÝ SỐ ĐỘNG THỔ</p>
+      
+      <p style="font-size: 12px; color: #aaa; margin-bottom: 5px;">Năm dự kiến xây nhà:</p>
+      <input type="number" id="targetYear" class="loban-input" style="font-size:22px !important; margin-bottom: 15px;" placeholder="Ví dụ: 2026">
+      
+      <button class="btn-main" onclick="analyzeDongTho()">KIỂM TRA TUỔI XÂY CẤT</button>
+      <p style="text-align: center; color: #888; font-size: 11px; margin-top: 15px; font-style: italic;">Hệ thống lấy năm sinh chủ nhà từ Tab La Bàn.</p>
+    </div>
+
+    <div id="dongtho-results" style="display:none;"></div>
+  </div>
+
+  <!-- TAB 3: THƯỚC LỖ BAN -->
   <div id="tab-loban" class="tab-content">
     <div class="input-section">
       <p style="text-align: center; color: var(--gold); font-size: 12px; margin-bottom: 10px; font-weight: 700; text-transform: uppercase;">Nhập kích thước khảo sát (mm)</p>
@@ -155,34 +171,18 @@
     </div>
   </div>
 
-  <!-- TAB 3: XEM NGÀY ĐỘNG THỔ ĐỘNG THÁI (DYNAMIC YEAR) -->
-  <div id="tab-xemngay" class="tab-content">
-    <div class="input-section">
-      <p style="text-align: center; color: var(--gold); font-size: 13px; margin-bottom: 10px; font-weight: 800; text-transform: uppercase; line-height: 1.5;">PHÂN TÍCH LÝ SỐ ĐỘNG THỔ</p>
-      
-      <p style="font-size: 12px; color: #aaa; margin-bottom: 5px;">Năm dự kiến xây nhà:</p>
-      <input type="number" id="targetYear" class="loban-input" style="font-size:22px !important; margin-bottom: 15px;" placeholder="Ví dụ: 2026">
-      
-      <button class="btn-main" onclick="analyzeDongTho()">KIỂM TRA TUỔI XÂY CẤT</button>
-      <p style="text-align: center; color: #888; font-size: 11px; margin-top: 15px; font-style: italic;">Hệ thống lấy năm sinh chủ nhà từ Tab La Bàn.</p>
-    </div>
-
-    <div id="dongtho-results" style="display:none;"></div>
-  </div>
-
   <footer class="watermark-footer">
     MinhTT - Kiến Trúc Thanh Hòa<br>
-    0987334004 - v006
+    0987334004 - v007
   </footer>
 
   <nav class="nav-tabs">
     <div class="tab-item active" onclick="switchTab('laban', this)">La Bàn</div>
-    <div class="tab-item" onclick="switchTab('loban', this)">Lỗ Ban</div>
     <div class="tab-item" onclick="switchTab('xemngay', this)">Động Thổ</div>
+    <div class="tab-item" onclick="switchTab('loban', this)">Lỗ Ban</div>
   </nav>
 
   <script>
-    // --- KHỞI TẠO NĂM HIỆN TẠI TỰ ĐỘNG ---
     document.getElementById('targetYear').value = new Date().getFullYear();
 
     function switchTab(id, el) {
@@ -193,35 +193,29 @@
       window.scrollTo(0,0);
     }
 
-    // --- CÔNG THỨC CAN CHI VĨNH CỬU ---
     function getCanChi(year) {
       const can = ["Canh", "Tân", "Nhâm", "Quý", "Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ"];
       const chi = ["Thân", "Dậu", "Tuất", "Hợi", "Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi"];
       return `${can[year % 10]} ${chi[year % 12]}`;
     }
 
-    // --- CÔNG THỨC TAM TAI MA TRẬN CHO MỌI NĂM ---
     function checkTamTai(birthYear, targetYear) {
-        const bChi = birthYear % 12; // Chi của năm sinh
-        const tChi = targetYear % 12; // Chi của năm xây nhà
-        // Nhóm 1: Thân-Tý-Thìn (0, 4, 8) bị Tam Tai năm Dần-Mão-Thìn (6, 7, 8)
+        const bChi = birthYear % 12; 
+        const tChi = targetYear % 12; 
         if ([0, 4, 8].includes(bChi) && [6, 7, 8].includes(tChi)) return true;
-        // Nhóm 2: Dần-Ngọ-Tuất (6, 10, 2) bị Tam Tai năm Thân-Dậu-Tuất (0, 1, 2)
         if ([6, 10, 2].includes(bChi) && [0, 1, 2].includes(tChi)) return true;
-        // Nhóm 3: Tỵ-Dậu-Sửu (9, 1, 5) bị Tam Tai năm Hợi-Tý-Sửu (3, 4, 5)
         if ([9, 1, 5].includes(bChi) && [3, 4, 5].includes(tChi)) return true;
-        // Nhóm 4: Hợi-Mão-Mùi (3, 7, 11) bị Tam Tai năm Tỵ-Ngọ-Mùi (9, 10, 11)
         if ([3, 7, 11].includes(bChi) && [9, 10, 11].includes(tChi)) return true;
         return false;
     }
 
-    // --- TAB 3: THUẬT TOÁN ĐỘNG THỔ DYNAMIC YEAR ---
+    // --- THUẬT TOÁN ĐỘNG THỔ VÀ TIÊN TRI NĂM TỐT TƯƠNG LAI ---
     function analyzeDongTho() {
       const birthYear = parseInt(document.getElementById('birthYear').value);
       if (!birthYear || birthYear < 1900) { alert("Vui lòng nhập năm sinh ở Tab La Bàn!"); return; }
 
       const targetYear = parseInt(document.getElementById('targetYear').value) || new Date().getFullYear();
-      const age = targetYear - birthYear + 1; // Tuổi mụ
+      const age = targetYear - birthYear + 1; 
       
       const targetCanChi = getCanChi(targetYear);
       
@@ -261,25 +255,39 @@
       if(ttStatus && klStatus && hoStatus) {
         html += `<div class="consult-box" style="border-color:var(--gold);"><div class="consult-title" style="color:var(--gold); margin-bottom:8px;">✨ ĐẠI CÁT ĐẠI LỢI</div><p style="text-align:center; font-size:14px; line-height:1.5; color:#e8e8e8;">Năm ${targetYear} chủ nhà được tuổi cực đẹp. Hoàn toàn phù hợp để tiến hành Động Thổ, cất nóc.</p></div>`;
       } else {
-        // Thuật toán Quét mượn tuổi vĩnh cửu
+        // --- 1. TÌM TUỔI MƯỢN TRONG NĂM ĐÓ ---
         let goodYearsHTML = "";
         for (let y = targetYear - 70; y <= targetYear - 25; y++) {
             let testAge = targetYear - y + 1;
-            let t_isTamTai = checkTamTai(y, targetYear);
-            let t_isKimLau = [1, 3, 6, 8].includes(testAge % 9);
-            let t_ho = (Math.floor(testAge / 10) + (testAge % 10)) % 6;
-            let t_isHoangOc = [3, 5, 0].includes(t_ho);
-            
-            if (!t_isTamTai && !t_isKimLau && !t_isHoangOc) {
+            if (!checkTamTai(y, targetYear) && ![1, 3, 6, 8].includes(testAge % 9) && ![3, 5, 0].includes((Math.floor(testAge / 10) + (testAge % 10)) % 6)) {
                 goodYearsHTML += `<span class="borrow-year-chip">${y} (${getCanChi(y)})</span>`;
             }
         }
 
+        // --- 2. TÌM 5 NĂM GẦN NHẤT CHỦ NHÀ ĐƯỢC TUỔI ---
+        let futureGoodYears = [];
+        let checkY = targetYear + 1;
+        // Quét tương lai cho đến khi tìm đủ 5 năm đẹp
+        while(futureGoodYears.length < 5 && checkY < targetYear + 50) {
+            let fAge = checkY - birthYear + 1;
+            if (!checkTamTai(birthYear, checkY) && ![1, 3, 6, 8].includes(fAge % 9) && ![3, 5, 0].includes((Math.floor(fAge / 10) + (fAge % 10)) % 6)) {
+                futureGoodYears.push(checkY);
+            }
+            checkY++;
+        }
+        let futureYearsHTML = futureGoodYears.map(y => `<span class="future-year-chip">${y} (${getCanChi(y)})</span>`).join('');
+
         html += `
-          <div class="consult-box" style="border-color:#fff;">
+          <div class="consult-box" style="border-color:#fff; margin-bottom: 15px;">
             <div class="consult-title" style="color:#fff; margin-bottom:8px;">⚠️ CHỦ NHÀ PHẠM KỴ ĐỘNG THỔ</div>
-            <p style="text-align:center; font-size:13px; line-height:1.5; color:#ccc; margin-bottom:15px;">Vui lòng mượn tuổi của những người thân/bạn bè nam giới có năm sinh dưới đây để làm lễ Động Thổ năm ${targetYear}:</p>
+            <p style="text-align:center; font-size:13px; line-height:1.5; color:#ccc; margin-bottom:15px;">Giải pháp 1: Mượn tuổi của những người nam giới có năm sinh dưới đây để làm lễ Động Thổ năm ${targetYear}:</p>
             <div style="text-align:center; line-height: 2;">${goodYearsHTML}</div>
+          </div>
+          
+          <div class="consult-box" style="border-color:var(--good);">
+            <div class="consult-title" style="color:var(--good); margin-bottom:8px;">📅 CÁC NĂM TỚI ĐƯỢC TUỔI LÀM NHÀ</div>
+            <p style="text-align:center; font-size:13px; line-height:1.5; color:#ccc; margin-bottom:15px;">Giải pháp 2: Nếu chủ nhà không muốn mượn tuổi, có thể dời kế hoạch xây cất sang 1 trong 5 năm Đại Cát gần nhất dưới đây:</p>
+            <div style="text-align:center; line-height: 2;">${futureYearsHTML}</div>
           </div>
         `;
       }
@@ -290,7 +298,7 @@
     }
 
 
-    // --- TAB 1: LOGIC BÁT TRẠCH ---
+    // --- LOGIC BÁT TRẠCH & LA BÀN ---
     const batTrachData = {
       1: { name: "Khảm (Đông Tứ Mệnh)", good: {"Đông Nam":"Sinh Khí", "Đông":"Thiên Y", "Nam":"Diên Niên", "Bắc":"Phục Vị"}, bad: {"Tây Nam":"Tuyệt Mệnh", "Đông Bắc":"Ngũ Quỷ", "Tây Bắc":"Lục Sát", "Tây":"Họa Hại"} },
       2: { name: "Khôn (Tây Tứ Mệnh)", good: {"Đông Bắc":"Sinh Khí", "Tây":"Thiên Y", "Tây Bắc":"Diên Niên", "Tây Nam":"Phục Vị"}, bad: {"Bắc":"Tuyệt Mệnh", "Đông Nam":"Ngũ Quỷ", "Nam":"Lục Sát", "Đông":"Họa Hại"} },
@@ -338,7 +346,6 @@
       document.getElementById('result-panel').style.display = 'block';
     }
 
-    // --- LA BÀN NỘI SUY MƯỢT NHƯ NƯỚC ---
     const face = document.getElementById('compass-face');
     const degInfo = document.getElementById('degree-info');
     const basicDirection = document.getElementById('basic-direction');
@@ -388,7 +395,7 @@
       }
     }
 
-    // --- TAB 2: LỖ BAN ---
+    // --- LOGIC LỖ BAN ---
     const lb522 = [{n: "Quý Nhân", g: true, d: "Gia cảnh hưng vượng."}, {n: "Hiểm Họa", g: false, d: "Dễ tán tài."}, {n: "Thiên Tai", g: false, d: "Tai nạn bất ngờ."}, {n: "Thiên Tài", g: true, d: "May mắn tiền bạc."}, {n: "Nhân Lộc", g: true, d: "Công việc thuận lợi."}, {n: "Cô Độc", g: false, d: "Ly tán, cô đơn."}, {n: "Thiên Tặc", g: false, d: "Trộm cắp."}, {n: "Tể Tướng", g: true, d: "Gia đạo hạnh phúc."}];
     const lb429 = [{n: "Tài", g: true, d: "Đón tài lộc."}, {n: "Bệnh", g: false, d: "Ốm đau."}, {n: "Ly", g: false, d: "Xa cách."}, {n: "Nghĩa", g: true, d: "Gia đạo yên ấm."}, {n: "Quan", g: true, d: "Quan vận hanh thông."}, {n: "Kiếp", g: false, d: "Tai nạn."}, {n: "Hại", g: false, d: "Tranh chấp."}, {n: "Bản", g: true, d: "Hưng vượng đỗ đạt."}];
     const lb388 = [{n: "Đinh", g: true, d: "Thêm con trai."}, {n: "Hại", g: false, d: "Họa hại."}, {n: "Vượng", g: true, d: "Tiền bạc dồi dào."}, {n: "Khổ", g: false, d: "Khốn khó."}, {n: "Nghĩa", g: true, d: "Phúc lộc."}, {n: "Quan", g: true, d: "Quyền quý."}, {n: "Tử", g: false, d: "Ly tán."}, {n: "Thất", g: false, d: "Nghèo khó."}, {n: "Cát", g: true, d: "Mọi việc như ý."}, {n: "Bản", g: true, d: "Hưng vượng."}];
