@@ -17,18 +17,17 @@
     
     body {
       font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text);
-      /* Đảm bảo nội dung không bị che bởi tai thỏ và thanh Tabs */
       padding: env(safe-area-inset-top) 15px 0 15px;
       display: flex; flex-direction: column; align-items: center; overflow-x: hidden; min-height: 100vh;
     }
 
-    /* Thanh Điều Hướng Tabs (Ghim đáy) */
+    /* Thanh Điều Hướng Tabs: Chia 3 Đều Nhau */
     .nav-tabs {
       position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(18, 18, 18, 0.98);
-      display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--border);
+      display: grid; grid-template-columns: 1fr 1fr 1fr; border-top: 1px solid var(--border);
       z-index: 1000; backdrop-filter: blur(15px); padding-bottom: env(safe-area-inset-bottom);
     }
-    .tab-item { padding: 18px 0; text-align: center; color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; cursor: pointer; }
+    .tab-item { padding: 18px 0; text-align: center; color: #888; font-size: 11px; font-weight: 800; text-transform: uppercase; cursor: pointer; letter-spacing: 0.5px;}
     .tab-item.active { color: var(--gold); border-top: 3px solid var(--gold); background: rgba(212, 175, 55, 0.05); }
 
     .tab-content { display: none; width: 100%; max-width: 420px; animation: fadeIn 0.3s ease; flex-grow: 1; }
@@ -39,7 +38,7 @@
     h1 { font-size: 26px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 2px;}
     .subtitle { font-size: 10px; color: #888; letter-spacing: 2px; font-weight: 600;}
 
-    /* Form Nhập Liệu */
+    /* Form Nhập Liệu Chung */
     .input-section {
       background: var(--card); padding: 20px; border-radius: 20px; border: 1px solid var(--border);
       width: 100%; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -48,57 +47,53 @@
       width: 100%; background: #000; border: 1px solid var(--border); color: #fff;
       padding: 16px; border-radius: 12px; font-size: 18px; text-align: center; outline: none; font-weight: 600;
     }
+    .btn-main {
+      width: 100%; background: linear-gradient(135deg, var(--gold), #aa8222); color: #000;
+      font-weight: 800; padding: 16px; border-radius: 12px; border: none; cursor: pointer;
+      font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
+    }
     
-    /* Giao Diện Bát Trạch (La Bàn) */
+    /* Giao Diện Các Thẻ (Cards) Dùng Chung (Lỗ Ban & Xem Ngày) */
     .card-result { background: var(--card); border-radius: 20px; padding: 20px; border: 1px solid var(--border); margin-bottom: 20px; }
+    .info-card { background: #181818; border-radius: 16px; padding: 15px; border-left: 6px solid #444; margin-bottom: 12px; transition: 0.3s; }
+    .info-card.is-good { border-left-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
+    .info-card.is-good .cung-main { color: var(--gold); }
+    .info-card.is-bad { border-left-color: #fff; background: rgba(255, 255, 255, 0.05); }
+    .info-card.is-bad .cung-main { color: #fff; }
+    
+    .cung-title { font-size: 11px; text-transform: uppercase; color: #888; letter-spacing: 1px; margin-bottom: 4px; font-weight: 700;}
+    .cung-main { font-size: 20px; font-weight: 800; margin-bottom: 2px; }
+    .cung-sub { font-size: 13px; opacity: 0.7; line-height: 1.4; color: #ccc;}
+
+    /* Lỗ Ban Đặc Biệt */
+    .loban-input { font-size: 28px !important; color: var(--gold) !important; border: 2px solid var(--gold) !important; margin-bottom: 10px; }
+    
+    /* Bát Trạch & La Bàn */
     .dir-item { background: #000; padding: 12px; border-radius: 12px; border-left: 4px solid var(--good); margin-bottom: 10px; }
     .dir-item.bad { border-left-color: var(--bad); }
     .color-section { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; margin-bottom: 15px; }
     .color-dot { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; background: #111; color: #fff; border: 1px solid #333; }
-
-    /* Giao Diện Lỗ Ban */
-    .loban-input { font-size: 28px !important; color: var(--gold) !important; border: 2px solid var(--gold) !important; margin-bottom: 10px; }
-    .ruler-container { display: flex; flex-direction: column; gap: 12px; width: 100%; }
-    .ruler-card { background: #181818; border-radius: 16px; padding: 15px; border-left: 6px solid #444; transition: 0.3s; }
-    
-    /* Logic Màu Sắc Lỗ Ban: TỐT = VÀNG, XẤU = TRẮNG */
-    .ruler-card.is-good { border-left-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
-    .ruler-card.is-good .cung-main { color: var(--gold); }
-    .ruler-card.is-bad { border-left-color: #fff; background: rgba(255, 255, 255, 0.05); }
-    .ruler-card.is-bad .cung-main { color: #fff; }
-    
-    .ruler-name { font-size: 11px; text-transform: uppercase; color: #888; letter-spacing: 1px; margin-bottom: 4px; font-weight: 700;}
-    .cung-main { font-size: 20px; font-weight: 800; margin-bottom: 2px; }
-    .cung-sub { font-size: 13px; opacity: 0.7; line-height: 1.4; color: #ccc;}
-
-    .consult-box {
-      background: linear-gradient(135deg, #1e1e1e, #121212); border-radius: 20px;
-      padding: 20px; border: 1px solid var(--gold); margin-top: 25px; width: 100%; margin-bottom: 20px;
-    }
-    .consult-title { color: var(--gold); font-weight: 800; font-size: 14px; text-transform: uppercase; margin-bottom: 15px; display: flex; align-items: center; justify-content: center;}
-    .perfect-num { display: inline-block; padding: 6px 14px; border-radius: 8px; font-weight: 800; margin: 4px; font-size: 16px;}
-
-    /* La Bàn UI */
     #compass-wrapper { position: relative; width: 320px; height: 320px; margin: 25px auto; }
     #compass-face {
       width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--gold);
-      background: url('lakinh.png?v=v003') no-repeat center; background-size: contain;
+      background: url('lakinh.png?v=v004') no-repeat center; background-size: contain;
       position: absolute; top: 0; left: 0; transition: transform 0.1s linear;
     }
-    #pointer {
-      position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-      width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent;
-      border-bottom: 50px solid var(--bad); z-index: 10;
-    }
+    #pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 50px solid var(--bad); z-index: 10; }
     #degree-info { font-size: 44px; font-weight: 800; text-align: center; color: #fff; margin-top: 10px; }
     #basic-direction { font-size: 22px; color: var(--good); text-align: center; font-weight: 800; margin-top: 5px; text-transform: uppercase;}
     #direction-text { font-size: 16px; color: var(--gold); text-align: center; font-weight: 700; margin-top: 5px; margin-bottom: 20px; }
 
-    /* Footer Trôi Dưới Cùng Không Đè Lên Tabs */
+    /* Tư vấn Lỗ ban & Động thổ */
+    .consult-box { background: linear-gradient(135deg, #1e1e1e, #121212); border-radius: 20px; padding: 20px; border: 1px solid var(--gold); width: 100%; margin-bottom: 20px; }
+    .consult-title { color: var(--gold); font-weight: 800; font-size: 14px; text-transform: uppercase; margin-bottom: 15px; text-align: center;}
+    .perfect-num { display: inline-block; padding: 6px 14px; border-radius: 8px; font-weight: 800; margin: 4px; font-size: 16px;}
+
+    /* Chân trang */
     .watermark-footer {
       width: 100%; text-align: center; color: #555; font-size: 11px; letter-spacing: 1px;
       line-height: 1.8; text-transform: uppercase; font-weight: 600;
-      margin-top: 30px; padding-bottom: 120px; /* Cách một khoảng lớn để không bị Tabs che mất khi cuộn */
+      margin-top: 20px; padding-bottom: 120px; 
     }
   </style>
 </head>
@@ -109,7 +104,7 @@
     <h1>LA BÀN PRO</h1>
   </div>
 
-  <!-- TAB 1: LA BÀN -->
+  <!-- TAB 1: LA BÀN BÁT TRẠCH -->
   <div id="tab-laban" class="tab-content active">
     <div class="input-section">
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
@@ -119,7 +114,7 @@
           <option value="nu">Nữ</option>
         </select>
       </div>
-      <button onclick="runExpertAnalysis()" style="width:100%; background:linear-gradient(135deg, var(--gold), #aa8222); color:#000; font-weight:800; padding:16px; border-radius:12px; border:none; cursor:pointer; font-size:14px; text-transform:uppercase;">PHÂN TÍCH BÁT TRẠCH</button>
+      <button class="btn-main" onclick="runExpertAnalysis()">PHÂN TÍCH BÁT TRẠCH</button>
     </div>
 
     <div id="degree-info">--°</div>
@@ -141,19 +136,19 @@
       <input type="number" id="lobanInput" class="loban-input" placeholder="Ví dụ: 2130" oninput="calculateLoBan()">
     </div>
 
-    <div class="ruler-container" id="loban-results">
-       <div class="ruler-card" id="ruler-522">
-         <div class="ruler-name">52.2cm - Cửa, Cửa sổ (Thông Thủy)</div>
+    <div id="loban-results">
+       <div class="info-card" id="ruler-522">
+         <div class="cung-title">52.2cm - Cửa, Cửa sổ (Thông Thủy)</div>
          <div class="cung-main">--</div>
          <div class="cung-sub">Nhập số để xem</div>
        </div>
-       <div class="ruler-card" id="ruler-429">
-         <div class="ruler-name">42.9cm - Bếp, Bậc, Khối đặc (Dương Trạch)</div>
+       <div class="info-card" id="ruler-429">
+         <div class="cung-title">42.9cm - Bếp, Bậc, Khối đặc (Dương Trạch)</div>
          <div class="cung-main">--</div>
          <div class="cung-sub">--</div>
        </div>
-       <div class="ruler-card" id="ruler-388">
-         <div class="ruler-name">38.8cm - Bàn thờ, Nội thất (Âm Phần)</div>
+       <div class="info-card" id="ruler-388">
+         <div class="cung-title">38.8cm - Bàn thờ, Nội thất (Âm Phần)</div>
          <div class="cung-main">--</div>
          <div class="cung-sub">--</div>
        </div>
@@ -165,19 +160,32 @@
     </div>
   </div>
 
-  <!-- Footer sẽ luôn nằm dưới cùng của nội dung cuộn -->
+  <!-- TAB 3: XEM NGÀY ĐỘNG THỔ -->
+  <div id="tab-xemngay" class="tab-content">
+    <div class="input-section">
+      <p style="text-align: center; color: var(--gold); font-size: 13px; margin-bottom: 15px; font-weight: 800; text-transform: uppercase; line-height: 1.5;">Phân Tích Lý Số Động Thổ<br>Năm 2026 (Bính Ngọ)</p>
+      <button class="btn-main" onclick="analyzeDongTho()">KIỂM TRA TUỔI XÂY CẤT</button>
+      <p style="text-align: center; color: #888; font-size: 11px; margin-top: 15px; font-style: italic;">Hệ thống tự động sử dụng Năm Sinh ở Tab La Bàn để phân tích.</p>
+    </div>
+
+    <div id="dongtho-results" style="display:none;">
+      <!-- Kết quả xuất ra tại đây -->
+    </div>
+  </div>
+
   <footer class="watermark-footer">
     MinhTT - Kiến Trúc Thanh Hòa<br>
-    0987334004 - v003
+    0987334004 - v004
   </footer>
 
   <nav class="nav-tabs">
     <div class="tab-item active" onclick="switchTab('laban', this)">La Bàn</div>
-    <div class="tab-item" onclick="switchTab('loban', this)">Thước Lỗ Ban</div>
+    <div class="tab-item" onclick="switchTab('loban', this)">Lỗ Ban</div>
+    <div class="tab-item" onclick="switchTab('xemngay', this)">Động Thổ</div>
   </nav>
 
   <script>
-    // --- CHUYỂN TAB ---
+    // --- CHUYỂN TAB MƯỢT MÀ ---
     function switchTab(id, el) {
       document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
@@ -186,7 +194,85 @@
       window.scrollTo(0,0);
     }
 
-    // --- LOGIC PHONG THỦY BÁT TRẠCH (KHÔI PHỤC FULL) ---
+    // --- TAB 3: THUẬT TOÁN ĐỘNG THỔ ĐẲNG CẤP (NĂM 2026 BÍNH NGỌ) ---
+    function analyzeDongTho() {
+      const birthYear = parseInt(document.getElementById('birthYear').value);
+      if (!birthYear || birthYear < 1900) { alert("Vui lòng nhập năm sinh ở Tab La Bàn!"); return; }
+
+      const currentYear = 2026; // Chuẩn hóa năm hiện tại là Bính Ngọ
+      const age = currentYear - birthYear + 1; // Tuổi mụ
+      
+      // 1. Phân tích Tam Tai
+      const branchIdx = birthYear % 12; 
+      // 0:Thân, 1:Dậu, 2:Tuất, 3:Hợi, 4:Tý, 5:Sửu, 6:Dần, 7:Mão, 8:Thìn, 9:Tỵ, 10:Ngọ, 11:Mùi
+      // Năm Ngọ -> Hợi, Mão, Mùi phạm Tam Tai
+      const isTamTai = [3, 7, 11].includes(branchIdx);
+      const ttStatus = isTamTai ? false : true;
+      const ttDesc = isTamTai ? "Phạm Tam Tai (Năm Ngọ). Tuyệt đối tránh động thổ." : "Không phạm Tam Tai. An toàn xây cất.";
+
+      // 2. Phân tích Kim Lâu
+      const kl = age % 9;
+      const isKimLau = [1, 3, 6, 8].includes(kl);
+      let klDesc = "Không phạm Kim Lâu. Gia đạo bình an.";
+      if(kl===1) klDesc="Phạm Kim Lâu Thân (Kỵ chính bản thân chủ nhà).";
+      else if(kl===3) klDesc="Phạm Kim Lâu Thê (Kỵ người vợ).";
+      else if(kl===6) klDesc="Phạm Kim Lâu Tử (Kỵ con cái).";
+      else if(kl===8) klDesc="Phạm Kim Lâu Lục Súc (Kỵ chăn nuôi, kinh tế).";
+      const klStatus = !isKimLau;
+
+      // 3. Phân tích Hoang Ốc
+      const ho = (Math.floor(age / 10) + (age % 10)) % 6;
+      // Tốt: 1, 2, 4. Xấu: 3, 5, 0(6)
+      const isHoangOc = [3, 5, 0].includes(ho);
+      let hoDesc = "";
+      if(ho===1) hoDesc="Nhất Cát (Tốt) - Chốn an cư tốt, vạn sự hanh thông.";
+      else if(ho===2) hoDesc="Nhị Nghi (Tốt) - Xây nhà được rước lộc, hưng vượng.";
+      else if(ho===3) hoDesc="Tam Địa Sát (Xấu) - Phạm Hoang Ốc, kỵ xây dựng.";
+      else if(ho===4) hoDesc="Tứ Tấn Tài (Tốt) - Phúc lộc kéo tới, tài vận dồi dào.";
+      else if(ho===5) hoDesc="Ngũ Thọ Tử (Xấu) - Phạm Hoang Ốc, chia rẽ sinh ly.";
+      else if(ho===0) hoDesc="Lục Hoang Ốc (Xấu) - Phạm Hoang Ốc, khó thành đạt.";
+      const hoStatus = !isHoangOc;
+
+      // Render HTML Kết quả
+      const renderCard = (title, status, desc) => {
+        return `
+          <div class="info-card ${status ? 'is-good' : 'is-bad'}">
+            <div class="cung-title">${title}</div>
+            <div class="cung-main">${status ? 'TỐT' : 'PHẠM KỴ'}</div>
+            <div class="cung-sub">${desc}</div>
+          </div>
+        `;
+      };
+
+      let html = `<div style="text-align:center; font-size:16px; color:var(--gold); font-weight:800; margin-bottom:15px; border-bottom:1px solid #333; padding-bottom:10px;">Chủ Nhà: Sinh năm ${birthYear} (${age} Tuổi)</div>`;
+      html += renderCard("Hạn Tam Tai", ttStatus, ttDesc);
+      html += renderCard("Hạn Kim Lâu", klStatus, klDesc);
+      html += renderCard("Hạn Hoang Ốc", hoStatus, hoDesc);
+
+      // Chốt Kết Luận
+      if(ttStatus && klStatus && hoStatus) {
+        html += `
+          <div class="consult-box" style="border-color:var(--gold);">
+            <div class="consult-title" style="color:var(--gold); margin-bottom:8px;">✨ ĐẠI CÁT ĐẠI LỢI</div>
+            <p style="text-align:center; font-size:14px; line-height:1.5; color:#e8e8e8;">Năm 2026 chủ nhà được tuổi cực đẹp. Hoàn toàn phù hợp để tiến hành Động Thổ, cất nóc.</p>
+          </div>
+        `;
+      } else {
+        html += `
+          <div class="consult-box" style="border-color:#fff;">
+            <div class="consult-title" style="color:#fff; margin-bottom:8px;">⚠️ LỜI KHUYÊN TỪ MASTER</div>
+            <p style="text-align:center; font-size:14px; line-height:1.5; color:#ccc;">Năm 2026 chủ nhà phạm kỵ phong thủy, không được tự ý đứng ra xây cất. Cần tiến hành thủ tục <b>MƯỢN TUỔI</b> người hợp mệnh để động thổ.</p>
+          </div>
+        `;
+      }
+
+      const resultsDiv = document.getElementById('dongtho-results');
+      resultsDiv.innerHTML = html;
+      resultsDiv.style.display = 'block';
+    }
+
+
+    // --- TAB 1: LOGIC BÁT TRẠCH & LA BÀN CHUẨN ---
     const meanings = {
       "Sinh Khí": "Tài lộc thăng quan, vượng danh tiếng.", "Thiên Y": "Sức khỏe trường thọ, phòng ngủ Master.",
       "Diên Niên": "Gia đạo hòa thuận, phòng khách/bếp.", "Phục Vị": "Bình yên vững chãi, phòng thờ.",
@@ -224,21 +310,15 @@
       if (kua > 9) kua -= 9; if (kua === 5) kua = (gender === 'nam') ? 2 : 8;
       
       const p = batTrachData[kua];
-      
-      // Xây dựng Can Chi Mệnh (Đơn giản hóa cho nhẹ code)
       const hanhList = ["Kim", "Thủy", "Mộc", "Hỏa", "Thổ"];
       const menh = hanhList[(year % 5)]; 
       const colors = getColors(menh);
       
-      let h = `<div class="card-result">
-                <div style="font-size:20px; font-weight:800; border-bottom:1px solid #333; padding-bottom:10px; margin-bottom:15px; color:var(--gold)">Cung ${p.name}</div>`;
-      
+      let h = `<div class="card-result"><div style="font-size:20px; font-weight:800; border-bottom:1px solid #333; padding-bottom:10px; margin-bottom:15px; color:var(--gold)">Cung ${p.name}</div>`;
       h += `<div style="color:var(--good); font-weight:800; margin-bottom:10px; font-size:13px;">BỐN HƯỚNG CÁT (TỐT):</div>`;
       for (let [k, v] of Object.entries(p.good)) h += `<div class="dir-item"><b>${k}</b> - ${v}<br><span style="font-size:13px; color:#aaa">${meanings[v]}</span></div>`;
-      
       h += `<div style="color:var(--bad); font-weight:800; margin:15px 0 10px; font-size:13px;">BỐN HƯỚNG HUNG (XẤU):</div>`;
       for (let [k, v] of Object.entries(p.bad)) h += `<div class="dir-item bad"><b>${k}</b> - ${v}<br><span style="font-size:13px; color:#aaa">${meanings[v]}</span></div>`;
-      
       h += `<div style="color:var(--gold); font-weight:800; margin:20px 0 5px; font-size:13px; border-top:1px solid #333; padding-top:15px;">MÀU SẮC PHONG THỦY:</div>`;
       h += `<div style="font-size:13px; color:#888; margin-bottom:8px;">Màu Tương sinh - Tương hợp:</div><div class="color-section">`;
       colors.good.forEach(c => h += `<span class="color-dot" style="color: var(--good); border-color: var(--good);">${c}</span>`);
@@ -249,20 +329,16 @@
       const panel = document.getElementById('result-panel');
       panel.innerHTML = h;
       panel.style.display = 'block';
-      setTimeout(() => { panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 150);
     }
 
-    // --- LOGIC LA BÀN 8 HƯỚNG & 24 SƠN ---
+    // --- LA BÀN ĐIỆN TỬ CHUẨN ---
     const face = document.getElementById('compass-face');
     const degInfo = document.getElementById('degree-info');
     const basicDirection = document.getElementById('basic-direction');
     const txtInfo = document.getElementById('direction-text');
 
     const baseDirections = ["Bắc", "Đông Bắc", "Đông", "Đông Nam", "Nam", "Tây Nam", "Tây", "Tây Bắc"];
-    function getBasicDirection(deg) {
-      let index = Math.floor(((deg % 360 + 360) % 360 + 22.5) / 45) % 8;
-      return baseDirections[index];
-    }
+    function getBasicDirection(deg) { return baseDirections[Math.floor(((deg % 360 + 360) % 360 + 22.5) / 45) % 8]; }
 
     function getSon(d) {
       const s = ["Tý", "Quý", "Sửu", "Cấn", "Dần", "Giáp", "Mão", "Ất", "Thìn", "Tốn", "Tỵ", "Bính", "Ngọ", "Đinh", "Mùi", "Khôn", "Thân", "Canh", "Dậu", "Tân", "Tuất", "Càn", "Hợi", "Nhâm"];
@@ -292,7 +368,7 @@
       }
     }
 
-    // --- LOGIC LỖ BAN TAM HỒNG CHUẨN ĐUÔI 0 VÀ 5 ---
+    // --- TAB 2: LỖ BAN TAM HỒNG CHUẨN CHỈ MÀU SẮC ---
     const lb522 = [
       {n: "Quý Nhân", g: true, d: "Gia cảnh hưng vượng, con cái thông minh."}, {n: "Hiểm Họa", g: false, d: "Dễ tán tài, gia đạo bất an."},
       {n: "Thiên Tai", g: false, d: "Bệnh tật, tai nạn bất ngờ."}, {n: "Thiên Tài", g: true, d: "May mắn về tiền bạc, con cái hiếu thảo."},
@@ -330,7 +406,7 @@
       const updateUI = (id, size, data) => {
         let res = getCung(mm, size, data);
         let el = document.getElementById(id);
-        el.className = "ruler-card " + (res.g ? "is-good" : "is-bad");
+        el.className = "info-card " + (res.g ? "is-good" : "is-bad");
         el.querySelector('.cung-main').innerText = res.n + (res.g ? " (Tốt)" : " (Xấu)");
         el.querySelector('.cung-sub').innerText = res.d;
       };
@@ -339,7 +415,6 @@
       updateUI('ruler-429', 5.3625, lb429);
       updateUI('ruler-388', 3.88, lb388);
 
-      // Thuật toán quét số 0 và 5
       let tamHong = [];
       let haiHong = [];
       
