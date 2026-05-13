@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>La Bàn Pro v003</title>
+  <title>La Bàn Pro</title>
   
   <link rel="apple-touch-icon" href="icon-app.png">
   <link rel="icon" type="image/png" href="icon-app.png">
@@ -17,10 +17,12 @@
     
     body {
       font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text);
-      padding: env(safe-area-inset-top) 15px 120px 15px;
-      display: flex; flex-direction: column; align-items: center; overflow-x: hidden;
+      /* Đảm bảo nội dung không bị che bởi tai thỏ và thanh Tabs */
+      padding: env(safe-area-inset-top) 15px 0 15px;
+      display: flex; flex-direction: column; align-items: center; overflow-x: hidden; min-height: 100vh;
     }
 
+    /* Thanh Điều Hướng Tabs (Ghim đáy) */
     .nav-tabs {
       position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(18, 18, 18, 0.98);
       display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--border);
@@ -29,14 +31,15 @@
     .tab-item { padding: 18px 0; text-align: center; color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; cursor: pointer; }
     .tab-item.active { color: var(--gold); border-top: 3px solid var(--gold); background: rgba(212, 175, 55, 0.05); }
 
-    .tab-content { display: none; width: 100%; max-width: 420px; animation: fadeIn 0.3s ease; }
+    .tab-content { display: none; width: 100%; max-width: 420px; animation: fadeIn 0.3s ease; flex-grow: 1; }
     .tab-content.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    .header { text-align: center; margin: 20px 0; }
-    h1 { font-size: 24px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 1px;}
+    .header { text-align: center; margin: 20px 0; width: 100%; }
+    h1 { font-size: 26px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 2px;}
     .subtitle { font-size: 10px; color: #888; letter-spacing: 2px; font-weight: 600;}
 
+    /* Form Nhập Liệu */
     .input-section {
       background: var(--card); padding: 20px; border-radius: 20px; border: 1px solid var(--border);
       width: 100%; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -46,24 +49,34 @@
       padding: 16px; border-radius: 12px; font-size: 18px; text-align: center; outline: none; font-weight: 600;
     }
     
-    /* Thước Lỗ Ban UI */
+    /* Giao Diện Bát Trạch (La Bàn) */
+    .card-result { background: var(--card); border-radius: 20px; padding: 20px; border: 1px solid var(--border); margin-bottom: 20px; }
+    .dir-item { background: #000; padding: 12px; border-radius: 12px; border-left: 4px solid var(--good); margin-bottom: 10px; }
+    .dir-item.bad { border-left-color: var(--bad); }
+    .color-section { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; margin-bottom: 15px; }
+    .color-dot { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; background: #111; color: #fff; border: 1px solid #333; }
+
+    /* Giao Diện Lỗ Ban */
     .loban-input { font-size: 28px !important; color: var(--gold) !important; border: 2px solid var(--gold) !important; margin-bottom: 10px; }
     .ruler-container { display: flex; flex-direction: column; gap: 12px; width: 100%; }
     .ruler-card { background: #181818; border-radius: 16px; padding: 15px; border-left: 6px solid #444; transition: 0.3s; }
-    .ruler-card.is-good { border-left-color: var(--good); background: rgba(46, 204, 113, 0.05); }
-    .ruler-card.is-bad { border-left-color: var(--bad); background: rgba(231, 76, 60, 0.05); }
+    
+    /* Logic Màu Sắc Lỗ Ban: TỐT = VÀNG, XẤU = TRẮNG */
+    .ruler-card.is-good { border-left-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
+    .ruler-card.is-good .cung-main { color: var(--gold); }
+    .ruler-card.is-bad { border-left-color: #fff; background: rgba(255, 255, 255, 0.05); }
+    .ruler-card.is-bad .cung-main { color: #fff; }
     
     .ruler-name { font-size: 11px; text-transform: uppercase; color: #888; letter-spacing: 1px; margin-bottom: 4px; font-weight: 700;}
     .cung-main { font-size: 20px; font-weight: 800; margin-bottom: 2px; }
-    .cung-sub { font-size: 13px; opacity: 0.7; line-height: 1.4; }
+    .cung-sub { font-size: 13px; opacity: 0.7; line-height: 1.4; color: #ccc;}
 
-    /* Tư vấn chuyên nghiệp */
     .consult-box {
       background: linear-gradient(135deg, #1e1e1e, #121212); border-radius: 20px;
-      padding: 20px; border: 1px solid var(--gold); margin-top: 25px; width: 100%;
+      padding: 20px; border: 1px solid var(--gold); margin-top: 25px; width: 100%; margin-bottom: 20px;
     }
-    .consult-title { color: var(--gold); font-weight: 800; font-size: 14px; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;}
-    .perfect-num { display: inline-block; background: var(--good); color: #000; padding: 4px 12px; border-radius: 8px; font-weight: 800; margin: 5px; font-size: 18px;}
+    .consult-title { color: var(--gold); font-weight: 800; font-size: 14px; text-transform: uppercase; margin-bottom: 15px; display: flex; align-items: center; justify-content: center;}
+    .perfect-num { display: inline-block; padding: 6px 14px; border-radius: 8px; font-weight: 800; margin: 4px; font-size: 16px;}
 
     /* La Bàn UI */
     #compass-wrapper { position: relative; width: 320px; height: 320px; margin: 25px auto; }
@@ -78,10 +91,14 @@
       border-bottom: 50px solid var(--bad); z-index: 10;
     }
     #degree-info { font-size: 44px; font-weight: 800; text-align: center; color: #fff; margin-top: 10px; }
-    #direction-text { font-size: 18px; color: var(--gold); text-align: center; font-weight: 700; margin-bottom: 20px; }
+    #basic-direction { font-size: 22px; color: var(--good); text-align: center; font-weight: 800; margin-top: 5px; text-transform: uppercase;}
+    #direction-text { font-size: 16px; color: var(--gold); text-align: center; font-weight: 700; margin-top: 5px; margin-bottom: 20px; }
 
+    /* Footer Trôi Dưới Cùng Không Đè Lên Tabs */
     .watermark-footer {
-      position: fixed; bottom: 85px; left: 0; width: 100%; color: #555; text-align: center; font-size: 10px; letter-spacing: 1px; font-weight: 600;
+      width: 100%; text-align: center; color: #555; font-size: 11px; letter-spacing: 1px;
+      line-height: 1.8; text-transform: uppercase; font-weight: 600;
+      margin-top: 30px; padding-bottom: 120px; /* Cách một khoảng lớn để không bị Tabs che mất khi cuộn */
     }
   </style>
 </head>
@@ -89,9 +106,10 @@
 
   <div class="header">
     <div class="subtitle">Architectural Feng Shui Master</div>
-    <h1>LA BÀN PRO <span style="font-size: 12px; opacity: 0.6;">v003</span></h1>
+    <h1>LA BÀN PRO</h1>
   </div>
 
+  <!-- TAB 1: LA BÀN -->
   <div id="tab-laban" class="tab-content active">
     <div class="input-section">
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
@@ -101,10 +119,11 @@
           <option value="nu">Nữ</option>
         </select>
       </div>
-      <button class="btn-main" onclick="runExpertAnalysis()" style="width:100%; background:linear-gradient(135deg, var(--gold), #aa8222); color:#000; font-weight:800; padding:16px; border-radius:12px; border:none; cursor:pointer; font-size:14px; text-transform:uppercase;">PHÂN TÍCH BÁT TRẠCH</button>
+      <button onclick="runExpertAnalysis()" style="width:100%; background:linear-gradient(135deg, var(--gold), #aa8222); color:#000; font-weight:800; padding:16px; border-radius:12px; border:none; cursor:pointer; font-size:14px; text-transform:uppercase;">PHÂN TÍCH BÁT TRẠCH</button>
     </div>
 
-    <div id="degree-info">0°</div>
+    <div id="degree-info">--°</div>
+    <div id="basic-direction">Chưa kết nối</div>
     <div id="direction-text">Chạm La Kinh để xoay</div>
 
     <div id="compass-wrapper" onclick="activateCompass()">
@@ -115,10 +134,11 @@
     <div id="result-panel"></div>
   </div>
 
+  <!-- TAB 2: THƯỚC LỖ BAN -->
   <div id="tab-loban" class="tab-content">
     <div class="input-section">
       <p style="text-align: center; color: var(--gold); font-size: 12px; margin-bottom: 10px; font-weight: 700; text-transform: uppercase;">Nhập kích thước khảo sát (mm)</p>
-      <input type="number" id="lobanInput" class="loban-input" placeholder="Ví dụ: 810" oninput="calculateLoBan()">
+      <input type="number" id="lobanInput" class="loban-input" placeholder="Ví dụ: 2130" oninput="calculateLoBan()">
     </div>
 
     <div class="ruler-container" id="loban-results">
@@ -140,122 +160,114 @@
     </div>
 
     <div id="consult-panel" class="consult-box" style="display:none;">
-      <div class="consult-title">✨ Tư vấn kích thước Vàng (Tam Hồng)</div>
+      <div class="consult-title">✨ TƯ VẤN KÍCH THƯỚC VÀNG</div>
       <div id="perfect-numbers"></div>
-      <p style="font-size: 12px; color: #aaa; margin-top: 10px; line-height: 1.4;">Số đẹp nhất được làm tròn đuôi 0 hoặc 5, đảm bảo đỏ cả 3 thước theo thực tế.</p>
     </div>
   </div>
+
+  <!-- Footer sẽ luôn nằm dưới cùng của nội dung cuộn -->
+  <footer class="watermark-footer">
+    MinhTT - Kiến Trúc Thanh Hòa<br>
+    0987334004 - v003
+  </footer>
 
   <nav class="nav-tabs">
     <div class="tab-item active" onclick="switchTab('laban', this)">La Bàn</div>
     <div class="tab-item" onclick="switchTab('loban', this)">Thước Lỗ Ban</div>
   </nav>
 
-  <footer class="watermark-footer">
-    MINH TT - KIẾN TRÚC THANH HÒA
-  </footer>
-
   <script>
-    // CHUYỂN TAB MƯỢT MÀ
+    // --- CHUYỂN TAB ---
     function switchTab(id, el) {
       document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
       document.getElementById('tab-' + id).classList.add('active');
       el.classList.add('active');
+      window.scrollTo(0,0);
     }
 
-    // --- DỮ LIỆU LỖ BAN CHUẨN THỰC TẾ ---
-    const lb522 = [
-      {n: "Quý Nhân", g: true, d: "Gia cảnh hưng vượng, con cái thông minh."},
-      {n: "Hiểm Họa", g: false, d: "Dễ tán tài, gia đạo bất an."},
-      {n: "Thiên Tai", g: false, d: "Bệnh tật, tai nạn bất ngờ."},
-      {n: "Thiên Tài", g: true, d: "May mắn về tiền bạc, con cái hiếu thảo."},
-      {n: "Nhân Lộc", g: true, d: "Công việc thuận lợi, phúc lộc dồi dào."},
-      {n: "Cô Độc", g: false, d: "Ly tán, cô đơn, vất vả."},
-      {n: "Thiên Tặc", g: false, d: "Tai bay vạ gió, trộm cắp."},
-      {n: "Tể Tướng", g: true, d: "Gia đạo hạnh phúc, quyền quý."}
-    ];
+    // --- LOGIC PHONG THỦY BÁT TRẠCH (KHÔI PHỤC FULL) ---
+    const meanings = {
+      "Sinh Khí": "Tài lộc thăng quan, vượng danh tiếng.", "Thiên Y": "Sức khỏe trường thọ, phòng ngủ Master.",
+      "Diên Niên": "Gia đạo hòa thuận, phòng khách/bếp.", "Phục Vị": "Bình yên vững chãi, phòng thờ.",
+      "Tuyệt Mệnh": "Đại hung. Tránh cửa chính, giường ngủ.", "Ngũ Quỷ": "Hung. Tai họa, mất thu nhập.",
+      "Lục Sát": "Hung. Tình cảm xáo trộn, pháp luật.", "Họa Hại": "Hung. Mệt mỏi tinh thần, dễ thất bại."
+    };
 
-    const lb429 = [
-      {n: "Tài", g: true, d: "Đón tài lộc, vạn sự cát tường."},
-      {n: "Bệnh", g: false, d: "Ốm đau, tai ách liên miên."},
-      {n: "Ly", g: false, d: "Xa cách, hao tốn tiền của."},
-      {n: "Nghĩa", g: true, d: "Gia đạo yên ấm, nhân nghĩa."},
-      {n: "Quan", g: true, d: "Quan vận hanh thông, quý giá."},
-      {n: "Kiếp", g: false, d: "Tai nạn, mất mát tiền của."},
-      {n: "Hại", g: false, d: "Bị hại, tranh chấp kiện tụng."},
-      {n: "Bản", g: true, d: "Gia đình hưng vượng, đỗ đạt."}
-    ];
+    const batTrachData = {
+      1: { name: "Khảm (Đông Tứ Mệnh)", good: {"Đông Nam":"Sinh Khí", "Đông":"Thiên Y", "Nam":"Diên Niên", "Bắc":"Phục Vị"}, bad: {"Tây Nam":"Tuyệt Mệnh", "Đông Bắc":"Ngũ Quỷ", "Tây Bắc":"Lục Sát", "Tây":"Họa Hại"} },
+      2: { name: "Khôn (Tây Tứ Mệnh)", good: {"Đông Bắc":"Sinh Khí", "Tây":"Thiên Y", "Tây Bắc":"Diên Niên", "Tây Nam":"Phục Vị"}, bad: {"Bắc":"Tuyệt Mệnh", "Đông Nam":"Ngũ Quỷ", "Nam":"Lục Sát", "Đông":"Họa Hại"} },
+      3: { name: "Chấn (Đông Tứ Mệnh)", good: {"Nam":"Sinh Khí", "Bắc":"Thiên Y", "Đông Nam":"Diên Niên", "Đông":"Phục Vị"}, bad: {"Tây":"Tuyệt Mệnh", "Tây Bắc":"Ngũ Quỷ", "Đông Bắc":"Lục Sát", "Tây Nam":"Họa Hại"} },
+      4: { name: "Tốn (Đông Tứ Mệnh)", good: {"Bắc":"Sinh Khí", "Nam":"Thiên Y", "Đông":"Diên Niên", "Đông Nam":"Phục Vị"}, bad: {"Đông Bắc":"Tuyệt Mệnh", "Tây Nam":"Ngũ Quỷ", "Tây":"Lục Sát", "Tây Bắc":"Họa Hại"} },
+      6: { name: "Càn (Tây Tứ Mệnh)", good: {"Tây":"Sinh Khí", "Đông Bắc":"Thiên Y", "Tây Nam":"Diên Niên", "Tây Bắc":"Phục Vị"}, bad: {"Nam":"Tuyệt Mệnh", "Đông":"Ngũ Quỷ", "Bắc":"Lục Sát", "Đông Nam":"Họa Hại"} },
+      7: { name: "Đoài (Tây Tứ Mệnh)", good: {"Tây Bắc":"Sinh Khí", "Tây Nam":"Thiên Y", "Đông Bắc":"Diên Niên", "Tây":"Phục Vị"}, bad: {"Đông":"Tuyệt Mệnh", "Nam":"Ngũ Quỷ", "Đông Nam":"Lục Sát", "Bắc":"Họa Hại"} },
+      8: { name: "Cấn (Tây Tứ Mệnh)", good: {"Tây Nam":"Sinh Khí", "Tây Bắc":"Thiên Y", "Tây":"Diên Niên", "Đông Bắc":"Phục Vị"}, bad: {"Đông Nam":"Tuyệt Mệnh", "Bắc":"Ngũ Quỷ", "Đông":"Lục Sát", "Nam":"Họa Hại"} },
+      9: { name: "Ly (Đông Tứ Mệnh)", good: {"Đông":"Sinh Khí", "Đông Nam":"Thiên Y", "Bắc":"Diên Niên", "Nam":"Phục Vị"}, bad: {"Tây Bắc":"Tuyệt Mệnh", "Tây":"Ngũ Quỷ", "Tây Nam":"Lục Sát", "Đông Bắc":"Họa Hại"} }
+    };
 
-    const lb388 = [
-      {n: "Đinh", g: true, d: "Thêm con trai, phúc lộc."},
-      {n: "Hại", g: false, d: "Họa hại, tai ương."},
-      {n: "Vượng", g: true, d: "Tiền bạc dồi dào."},
-      {n: "Khổ", g: false, d: "Khốn khó, vất vả."},
-      {n: "Nghĩa", g: true, d: "Phúc lộc thiên tạo."},
-      {n: "Quan", g: true, d: "Giàu sang, quyền quý."},
-      {n: "Tử", g: false, d: "Ly tán, chết chóc."},
-      {n: "Thất", g: false, d: "Thất thoát, nghèo khó."},
-      {n: "Cát", g: true, d: "Mọi việc như ý."},
-      {n: "Bản", g: true, d: "Gia sản hưng vượng."}
-    ];
-
-    function getCung(mm, size, data) {
-      let cm = mm / 10;
-      let idx = Math.floor((cm % (size * data.length)) / size);
-      if (idx >= data.length) idx = data.length - 1;
-      return data[idx];
+    function getColors(menhString) {
+      if(menhString.includes("Kim")) return { good: ["Vàng", "Nâu đất", "Trắng", "Xám"], bad: ["Đỏ", "Hồng", "Tím"] };
+      if(menhString.includes("Thủy")) return { good: ["Trắng", "Xám", "Xanh dương", "Đen"], bad: ["Vàng", "Nâu đất"] };
+      if(menhString.includes("Mộc")) return { good: ["Xanh dương", "Đen", "Xanh lá cây"], bad: ["Trắng", "Xám", "Bạc"] };
+      if(menhString.includes("Hỏa")) return { good: ["Xanh lá cây", "Đỏ", "Hồng", "Tím", "Cam"], bad: ["Xanh dương", "Đen"] };
+      if(menhString.includes("Thổ")) return { good: ["Đỏ", "Hồng", "Tím", "Cam", "Vàng", "Nâu đất"], bad: ["Xanh lá cây"] };
+      return { good: ["Trắng", "Đen", "Xanh", "Đỏ", "Vàng"], bad: [] };
     }
 
-    function calculateLoBan() {
-      let val = document.getElementById('lobanInput').value;
-      if (!val) return;
-      let mm = parseFloat(val);
-
-      // Cập nhật hiển thị 3 thước
-      const updateUI = (id, size, data) => {
-        let res = getCung(mm, size, data);
-        let el = document.getElementById(id);
-        el.className = "ruler-card " + (res.g ? "is-good" : "is-bad");
-        el.querySelector('.cung-main').innerText = res.n + (res.g ? " (Tốt)" : " (Xấu)");
-        el.querySelector('.cung-sub').innerText = res.d;
-      };
-
-      updateUI('ruler-522', 6.525, lb522);
-      updateUI('ruler-429', 5.3625, lb429);
-      updateUI('ruler-388', 3.88, lb388);
-
-      // --- TƯ VẤN SỐ VÀNG (TAM HỒNG) ---
-      let perfects = [];
-      // Tìm trong khoảng +/- 100mm, bước nhảy 5mm
-      let start = Math.floor(mm / 5) * 5 - 100;
-      for (let i = 0; i <= 40; i++) {
-        let testMm = start + (i * 5);
-        if (testMm <= 0) continue;
-        
-        let g1 = getCung(testMm, 6.525, lb522).g;
-        let g2 = getCung(testMm, 5.3625, lb429).g;
-        let g3 = getCung(testMm, 3.88, lb388).g;
-        
-        if (g1 && g2 && g3) {
-          perfects.push(testMm);
-        }
-      }
-
-      const consultPanel = document.getElementById('consult-panel');
-      const perfectDiv = document.getElementById('perfect-numbers');
-      if (perfects.length > 0) {
-        consultPanel.style.display = 'block';
-        perfectDiv.innerHTML = perfects.map(n => `<span class="perfect-num">${n}</span>`).join('');
-      } else {
-        perfectDiv.innerHTML = "<p style='font-size:13px; color:var(--bad)'>Không tìm thấy số Tam Hồng gần đây. Hãy thử số khác.</p>";
-      }
+    function runExpertAnalysis() {
+      const year = parseInt(document.getElementById('birthYear').value) || 1991;
+      const gender = document.getElementById('gender').value;
+      
+      let sum = 0; String(year).split('').forEach(d => sum += parseInt(d));
+      while(sum > 9) { let t = 0; String(sum).split('').forEach(d => t += parseInt(d)); sum = t; }
+      let kua = (gender === 'nam') ? (11 - sum) : (4 + sum);
+      if (kua > 9) kua -= 9; if (kua === 5) kua = (gender === 'nam') ? 2 : 8;
+      
+      const p = batTrachData[kua];
+      
+      // Xây dựng Can Chi Mệnh (Đơn giản hóa cho nhẹ code)
+      const hanhList = ["Kim", "Thủy", "Mộc", "Hỏa", "Thổ"];
+      const menh = hanhList[(year % 5)]; 
+      const colors = getColors(menh);
+      
+      let h = `<div class="card-result">
+                <div style="font-size:20px; font-weight:800; border-bottom:1px solid #333; padding-bottom:10px; margin-bottom:15px; color:var(--gold)">Cung ${p.name}</div>`;
+      
+      h += `<div style="color:var(--good); font-weight:800; margin-bottom:10px; font-size:13px;">BỐN HƯỚNG CÁT (TỐT):</div>`;
+      for (let [k, v] of Object.entries(p.good)) h += `<div class="dir-item"><b>${k}</b> - ${v}<br><span style="font-size:13px; color:#aaa">${meanings[v]}</span></div>`;
+      
+      h += `<div style="color:var(--bad); font-weight:800; margin:15px 0 10px; font-size:13px;">BỐN HƯỚNG HUNG (XẤU):</div>`;
+      for (let [k, v] of Object.entries(p.bad)) h += `<div class="dir-item bad"><b>${k}</b> - ${v}<br><span style="font-size:13px; color:#aaa">${meanings[v]}</span></div>`;
+      
+      h += `<div style="color:var(--gold); font-weight:800; margin:20px 0 5px; font-size:13px; border-top:1px solid #333; padding-top:15px;">MÀU SẮC PHONG THỦY:</div>`;
+      h += `<div style="font-size:13px; color:#888; margin-bottom:8px;">Màu Tương sinh - Tương hợp:</div><div class="color-section">`;
+      colors.good.forEach(c => h += `<span class="color-dot" style="color: var(--good); border-color: var(--good);">${c}</span>`);
+      h += `</div><div style="font-size:13px; color:#888; margin-bottom:8px;">Màu Tương khắc (Đại kỵ):</div><div class="color-section">`;
+      colors.bad.forEach(c => h += `<span class="color-dot" style="color: var(--bad); border-color: var(--bad);">${c}</span>`);
+      h += `</div></div>`;
+      
+      const panel = document.getElementById('result-panel');
+      panel.innerHTML = h;
+      panel.style.display = 'block';
+      setTimeout(() => { panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 150);
     }
 
-    // LOGIC LA BÀN 24 SƠN (CHẾ ĐỘ Master)
+    // --- LOGIC LA BÀN 8 HƯỚNG & 24 SƠN ---
     const face = document.getElementById('compass-face');
     const degInfo = document.getElementById('degree-info');
+    const basicDirection = document.getElementById('basic-direction');
     const txtInfo = document.getElementById('direction-text');
+
+    const baseDirections = ["Bắc", "Đông Bắc", "Đông", "Đông Nam", "Nam", "Tây Nam", "Tây", "Tây Bắc"];
+    function getBasicDirection(deg) {
+      let index = Math.floor(((deg % 360 + 360) % 360 + 22.5) / 45) % 8;
+      return baseDirections[index];
+    }
+
+    function getSon(d) {
+      const s = ["Tý", "Quý", "Sửu", "Cấn", "Dần", "Giáp", "Mão", "Ất", "Thìn", "Tốn", "Tỵ", "Bính", "Ngọ", "Đinh", "Mùi", "Khôn", "Thân", "Canh", "Dậu", "Tân", "Tuất", "Càn", "Hợi", "Nhâm"];
+      return s[Math.floor(((d + 7.5) % 360) / 15)];
+    }
 
     function activateCompass() {
       if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
@@ -272,23 +284,100 @@
         requestAnimationFrame(() => {
           face.style.transform = `rotate(${-h}deg)`;
           let r = Math.round(h) % 360;
+          if(r < 0) r += 360;
           degInfo.innerText = r + "°";
-          const sons = ["Tý", "Quý", "Sửu", "Cấn", "Dần", "Giáp", "Mão", "Ất", "Thìn", "Tốn", "Tỵ", "Bính", "Ngọ", "Đinh", "Mùi", "Khôn", "Thân", "Canh", "Dậu", "Tân", "Tuất", "Càn", "Hợi", "Nhâm"];
-          txtInfo.innerText = sons[Math.floor(((r + 7.5) % 360) / 15)];
+          basicDirection.innerText = getBasicDirection(r);
+          txtInfo.innerText = getSon(r);
         });
       }
     }
 
-    // Logic Bát Trạch (Rút gọn cho v003)
-    function runExpertAnalysis() {
-      const year = parseInt(document.getElementById('birthYear').value) || 1991;
-      const gender = document.getElementById('gender').value;
-      let sum = 0; String(year).split('').forEach(d => sum += parseInt(d));
-      while(sum > 9) { let t = 0; String(sum).split('').forEach(d => t += parseInt(d)); sum = t; }
-      let kua = (gender === 'nam') ? (11 - sum) : (4 + sum);
-      if (kua > 9) kua -= 9; if (kua === 5) kua = (gender === 'nam') ? 2 : 8;
-      const names = {1:"Khảm", 2:"Khôn", 3:"Chấn", 4:"Tốn", 6:"Càn", 7:"Đoài", 8:"Cấn", 9:"Ly"};
-      document.getElementById('result-panel').innerHTML = `<div class="consult-box" style="border-color:var(--good);"><div class="consult-title" style="color:var(--good)">KẾT QUẢ BÁT TRẠCH</div><p style="font-size:18px; font-weight:800;">Cung ${names[kua]}</p><p style='font-size:12px; margin-top:5px; color:#aaa;'>Khảo sát chi tiết hướng và màu sắc như bản v002.</p></div>`;
+    // --- LOGIC LỖ BAN TAM HỒNG CHUẨN ĐUÔI 0 VÀ 5 ---
+    const lb522 = [
+      {n: "Quý Nhân", g: true, d: "Gia cảnh hưng vượng, con cái thông minh."}, {n: "Hiểm Họa", g: false, d: "Dễ tán tài, gia đạo bất an."},
+      {n: "Thiên Tai", g: false, d: "Bệnh tật, tai nạn bất ngờ."}, {n: "Thiên Tài", g: true, d: "May mắn về tiền bạc, con cái hiếu thảo."},
+      {n: "Nhân Lộc", g: true, d: "Công việc thuận lợi, phúc lộc dồi dào."}, {n: "Cô Độc", g: false, d: "Ly tán, cô đơn, vất vả."},
+      {n: "Thiên Tặc", g: false, d: "Tai bay vạ gió, trộm cắp."}, {n: "Tể Tướng", g: true, d: "Gia đạo hạnh phúc, quyền quý."}
+    ];
+
+    const lb429 = [
+      {n: "Tài", g: true, d: "Đón tài lộc, vạn sự cát tường."}, {n: "Bệnh", g: false, d: "Ốm đau, tai ách liên miên."},
+      {n: "Ly", g: false, d: "Xa cách, hao tốn tiền của."}, {n: "Nghĩa", g: true, d: "Gia đạo yên ấm, nhân nghĩa."},
+      {n: "Quan", g: true, d: "Quan vận hanh thông, quý giá."}, {n: "Kiếp", g: false, d: "Tai nạn, mất mát tiền của."},
+      {n: "Hại", g: false, d: "Bị hại, tranh chấp kiện tụng."}, {n: "Bản", g: true, d: "Gia đình hưng vượng, đỗ đạt."}
+    ];
+
+    const lb388 = [
+      {n: "Đinh", g: true, d: "Thêm con trai, phúc lộc."}, {n: "Hại", g: false, d: "Họa hại, tai ương."},
+      {n: "Vượng", g: true, d: "Tiền bạc dồi dào."}, {n: "Khổ", g: false, d: "Khốn khó, vất vả."},
+      {n: "Nghĩa", g: true, d: "Phúc lộc thiên tạo."}, {n: "Quan", g: true, d: "Giàu sang, quyền quý."},
+      {n: "Tử", g: false, d: "Ly tán, chết chóc."}, {n: "Thất", g: false, d: "Thất thoát, nghèo khó."},
+      {n: "Cát", g: true, d: "Mọi việc như ý."}, {n: "Bản", g: true, d: "Gia sản hưng vượng."}
+    ];
+
+    function getCung(mm, size, data) {
+      let cm = mm / 10;
+      let idx = Math.floor((cm % (size * data.length)) / size);
+      if (idx >= data.length) idx = data.length - 1;
+      return data[idx];
+    }
+
+    function calculateLoBan() {
+      let val = document.getElementById('lobanInput').value;
+      if (!val) return;
+      let mm = parseFloat(val);
+
+      const updateUI = (id, size, data) => {
+        let res = getCung(mm, size, data);
+        let el = document.getElementById(id);
+        el.className = "ruler-card " + (res.g ? "is-good" : "is-bad");
+        el.querySelector('.cung-main').innerText = res.n + (res.g ? " (Tốt)" : " (Xấu)");
+        el.querySelector('.cung-sub').innerText = res.d;
+      };
+
+      updateUI('ruler-522', 6.525, lb522);
+      updateUI('ruler-429', 5.3625, lb429);
+      updateUI('ruler-388', 3.88, lb388);
+
+      // Thuật toán quét số 0 và 5
+      let tamHong = [];
+      let haiHong = [];
+      
+      let start = Math.floor(mm / 5) * 5 - 80; 
+      for (let i = 0; i <= 32; i++) {
+        let testMm = start + (i * 5);
+        if (testMm <= 0) continue;
+        
+        let g1 = getCung(testMm, 6.525, lb522).g;
+        let g2 = getCung(testMm, 5.3625, lb429).g;
+        let g3 = getCung(testMm, 3.88, lb388).g;
+        
+        let score = (g1?1:0) + (g2?1:0) + (g3?1:0);
+        if (score === 3) tamHong.push(testMm);
+        else if (score === 2) haiHong.push(testMm);
+      }
+
+      const consultPanel = document.getElementById('consult-panel');
+      const perfectDiv = document.getElementById('perfect-numbers');
+      
+      let htmlRender = '';
+      if (tamHong.length > 0) {
+        htmlRender += `<div style="margin-bottom:12px;"><span style="color:var(--gold); font-size:12px; display:block; margin-bottom:5px;">Tuyệt đẹp (Tam Hồng):</span>`;
+        htmlRender += tamHong.map(n => `<span class="perfect-num" style="background:var(--gold); color:#000;">${n}</span>`).join('');
+        htmlRender += `</div>`;
+      }
+      if (haiHong.length > 0) {
+        htmlRender += `<div><span style="color:var(--good); font-size:12px; display:block; margin-bottom:5px;">Khá tốt (2 Thước Đỏ):</span>`;
+        htmlRender += haiHong.map(n => `<span class="perfect-num" style="background:var(--good); color:#000;">${n}</span>`).join('');
+        htmlRender += `</div>`;
+      }
+
+      if(htmlRender !== '') {
+        consultPanel.style.display = 'block';
+        perfectDiv.innerHTML = htmlRender;
+      } else {
+        consultPanel.style.display = 'none';
+      }
     }
   </script>
 </body>
